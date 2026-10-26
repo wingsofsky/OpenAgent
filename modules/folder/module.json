@@ -1,0 +1,29 @@
+{
+  "name": "folder",
+  "summary": "Folder tasks: one agent CLI works through a folder of repositories unattended, with a brief saved once. Builds on delegate.",
+  "requires": [
+    "delegate"
+  ],
+  "needs": [
+    "node>=22.19.0",
+    "pnpm",
+    "git"
+  ],
+  "paths": [
+    "modules/folder",
+    "modules/delegate",
+    "packages/protocol",
+    "packages/common",
+    "packages/cli"
+  ],
+  "commands": {
+    "folder": {
+      "entry": "src/command.ts",
+      "export": "folderCommand",
+      "about": "run an agent CLI on a folder unattended with the saved brief (--executor <id> [--new-projects])"
+    }
+  },
+  "skills": {
+    "openagent-folder": "skills/openagent-folder"
+  }
+}

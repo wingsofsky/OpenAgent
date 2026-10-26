@@ -1,0 +1,80 @@
+{
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "workspaces": {
+    ".": {
+      "entry": [
+        "tests/**/*.test.ts"
+      ],
+      "project": [
+        "tests/**/*.ts"
+      ]
+    },
+    "packages/cli": {
+      "project": [
+        "src/**/*.ts"
+      ]
+    },
+    "packages/common": {
+      "entry": [
+        "test/**/*.test.ts"
+      ],
+      "project": [
+        "src/**/*.ts",
+        "test/**/*.ts"
+      ],
+      "ignoreDependencies": [
+        "chardetng-wasm"
+      ]
+    },
+    "packages/protocol": {
+      "entry": [
+        "src/**/*.test.ts"
+      ],
+      "project": [
+        "src/**/*.ts"
+      ]
+    },
+    "packages/testkit": {
+      "entry": [
+        "src/fake-executor.mjs"
+      ],
+      "project": [
+        "src/**/*.{ts,mjs}"
+      ]
+    },
+    "modules/delegate": {
+      "entry": [
+        "src/delegate/command.ts",
+        "src/executors/doctor.ts",
+        "src/commands/people.ts",
+        "src/mcp/server.ts",
+        "test/**/*.test.ts"
+      ],
+      "project": [
+        "src/**/*.ts",
+        "test/**/*.ts"
+      ]
+    },
+    "modules/folder": {
+      "entry": [
+        "src/command.ts",
+        "test/**/*.test.ts"
+      ],
+      "project": [
+        "src/**/*.ts",
+        "test/**/*.ts"
+      ]
+    },
+    "modules/sessions": {
+      "entry": [
+        "src/import.ts",
+        "test/**/*.test.ts"
+      ],
+      "project": [
+        "src/**/*.ts",
+        "test/**/*.ts"
+      ]
+    }
+  },
+  "ignoreExportsUsedInFile": true
+}

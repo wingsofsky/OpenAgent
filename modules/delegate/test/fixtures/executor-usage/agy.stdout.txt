@@ -1,0 +1,1 @@
+{"conversation_id":"00000000-0000-4000-8000-000000000001","status":"SUCCESS","response":"ok\n","duration_seconds":2.0,"num_turns":1,"usage":{"input_tokens":1000,"output_tokens":20,"thinking_tokens":10,"cache_read_tokens":0,"total_tokens":1030}}

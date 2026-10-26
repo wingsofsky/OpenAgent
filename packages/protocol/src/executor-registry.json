@@ -1,0 +1,218 @@
+{
+  "version": 1,
+  "roles": { "folderTask": "grok" },
+  "searchPath": [
+    { "os": ["darwin", "linux"], "path": "/opt/homebrew/bin" },
+    { "os": ["darwin", "linux"], "path": "/usr/local/bin" },
+    { "os": ["darwin", "linux"], "path": "/opt/local/bin" },
+    { "os": ["darwin", "linux"], "path": "~/.local/bin" },
+    { "os": ["darwin", "linux"], "path": "~/.cargo/bin" },
+    { "os": ["darwin", "linux"], "path": "~/.bun/bin" }
+  ],
+  "executors": [
+    {
+      "id": "codex",
+      "label": "Codex (GPT)",
+      "strengths": "Math reasoning, numerical code, calculations that need to be run to be verified",
+      "installHint": "codex not found: install the ChatGPT desktop app (it bundles codex) or run `npm i -g @openai/codex`, then `codex login`; or set OPENAGENT_CODEX_BIN to the executable",
+      "bin": {
+        "env": "OPENAGENT_CODEX_BIN",
+        "names": ["codex"],
+        "discover": [
+          { "os": ["win32"], "path": "%LOCALAPPDATA%/OpenAI/Codex/bin", "pick": "newest", "then": "codex.exe" },
+          { "os": ["win32"], "path": "~/.codex/.sandbox-bin/codex.exe" },
+          { "os": ["win32"], "path": "%LOCALAPPDATA%/Microsoft/WinGet/Links/codex.exe" },
+          { "os": ["win32"], "path": "%LOCALAPPDATA%/Microsoft/WinGet/Packages", "pick": "newest", "then": "codex.exe" },
+          { "os": ["win32"], "path": "%APPDATA%/npm/node_modules/@openai/codex/bin/codex.js" },
+          { "os": ["darwin", "linux"], "path": "~/.local/bin/codex" }
+        ]
+      },
+      "process": { "win32": ["codex.exe"], "darwin": ["codex"], "linux": ["codex"] },
+      "home": "~/.codex",
+      "args": {
+        "fresh": [
+          "exec", "--skip-git-repo-check", "-s", "{sandbox}", "-C", "{cwd}", "-o", "{outFile}",
+          { "if": "model", "args": ["-m", "{model}"] },
+          { "if": "effort", "args": ["-c", "model_reasoning_effort=\"{effort}\""] },
+          "{prompt}"
+        ],
+        "resume": [
+          "exec", "resume", "{resumeSession}", "--skip-git-repo-check", "-c", "sandbox_mode=\"{sandbox}\"", "-o", "{outFile}",
+          { "if": "model", "args": ["-m", "{model}"] },
+          { "if": "effort", "args": ["-c", "model_reasoning_effort=\"{effort}\""] },
+          "{prompt}"
+        ]
+      },
+      "answer": "outFile",
+      "session": "codex-header",
+      "usage": { "parser": "codex-tokens-used", "scope": "cumulative" },
+      "needsOutFile": true,
+      "canResume": true,
+      "autoApproveDefault": false,
+      "efforts": ["low", "medium", "high", "xhigh"],
+      "effortFlag": "-c model_reasoning_effort",
+      "sandbox": true,
+      "defaults": { "stallMs": 300000 },
+      "doctor": { "version": ["--version"], "login": [{ "command": ["login", "status"], "yes": "^Logged in", "no": "Not logged in" }] }
+    },
+    {
+      "id": "agy",
+      "label": "Antigravity (Gemini)",
+      "strengths": "Explaining, teaching, putting complex things in plain words, summarizing long texts",
+      "installHint": "agy not found: on Windows run `irm https://antigravity.google/cli/install.ps1 | iex`, on macOS/Linux `curl -fsSL https://antigravity.google/cli/install.sh | bash`, then run `agy` once interactively to sign in; or set OPENAGENT_AGY_BIN",
+      "bin": {
+        "env": "OPENAGENT_AGY_BIN",
+        "names": ["agy"],
+        "discover": [
+          { "os": ["win32"], "path": "%LOCALAPPDATA%/agy/bin/agy.exe" },
+          { "os": ["win32"], "path": "%LOCALAPPDATA%/Microsoft/WinGet/Links/agy.exe" },
+          { "os": ["win32"], "path": "%LOCALAPPDATA%/Microsoft/WinGet/Packages", "pick": "newest", "then": "agy.exe" },
+          { "path": "~/.local/bin/agy" }
+        ]
+      },
+      "process": { "win32": ["agy.exe"], "darwin": ["agy"], "linux": ["agy"] },
+      "home": "~/.gemini/antigravity",
+      "args": {
+        "fresh": [
+          "-p", "{prompt}", "--output-format", "json",
+          { "if": "resume", "args": ["--conversation", "{resumeSession}"] },
+          "--print-timeout", "{timeoutMin}m",
+          { "if": "model", "args": ["--model", "{model}"] },
+          { "if": "effort", "args": ["--effort", "{effort}"] },
+          { "if": "autoApprove", "args": ["--dangerously-skip-permissions"] }
+        ]
+      },
+      "answer": "json",
+      "session": "json",
+      "usage": { "parser": "json", "scope": "cumulative" },
+      "needsOutFile": false,
+      "canResume": true,
+      "autoApproveDefault": true,
+      "efforts": ["low", "medium", "high", "xhigh"],
+      "effortFlag": "--effort",
+      "defaults": { "stallMs": 0 },
+      "doctor": { "version": ["--version"] }
+    },
+    {
+      "id": "grok",
+      "label": "Grok Build (xAI)",
+      "strengths": "Web search, real-time information from X, checking time-sensitive facts (built-in search_web / search_x)",
+      "installHint": "grok not found: on Windows run `irm https://x.ai/cli/install.ps1 | iex`, on macOS/Linux `curl -fsSL https://x.ai/cli/install.sh | bash`, then `grok login` (SuperGrok / X Premium+) or set XAI_API_KEY; or set OPENAGENT_GROK_BIN",
+      "bin": {
+        "env": "OPENAGENT_GROK_BIN",
+        "names": ["grok"],
+        "discover": [
+          { "os": ["win32"], "path": "%LOCALAPPDATA%/grok/bin/grok.exe" },
+          { "os": ["win32"], "path": "%LOCALAPPDATA%/Programs/grok/grok.exe" },
+          { "os": ["win32"], "path": "%LOCALAPPDATA%/Microsoft/WinGet/Links/grok.exe" },
+          { "os": ["win32"], "path": "%LOCALAPPDATA%/Microsoft/WinGet/Packages", "pick": "newest", "then": "grok.exe" },
+          { "path": "~/.grok/bin/grok{exe}" },
+          { "path": "~/.local/bin/grok" }
+        ]
+      },
+      "process": { "win32": ["grok.exe"], "darwin": ["grok"], "linux": ["grok"] },
+      "home": "~/.grok",
+      "args": {
+        "fresh": [
+          "-p", "{prompt}", "--output-format", "json", "--no-auto-update", "--cwd", "{cwd}",
+          { "if": "resume", "args": ["--resume", "{resumeSession}"] },
+          { "if": "fresh", "args": ["-s", "{newSession}"] },
+          { "if": "model", "args": ["-m", "{model}"] },
+          { "if": "effort", "args": ["--reasoning-effort", "{effort}"] },
+          { "if": "autoApprove", "args": ["--always-approve"] }
+        ]
+      },
+      "answer": "json",
+      "session": "caller-named",
+      "usage": { "parser": "json", "scope": "round" },
+      "needsOutFile": false,
+      "canResume": true,
+      "autoApproveDefault": true,
+      "efforts": ["low", "medium", "high", "xhigh"],
+      "effortFlag": "--reasoning-effort",
+      "defaults": { "stallMs": 0 },
+      "doctor": { "version": ["--version"], "login": [{ "file": "~/.grok/auth.json" }] }
+    },
+    {
+      "id": "cursor",
+      "label": "Cursor Agent",
+      "strengths": "Multi-file implementation, refactoring, running tests until they pass (Composer models, on the Cursor subscription quota)",
+      "installHint": "cursor-agent not found: in Windows PowerShell run `irm 'https://cursor.com/install?win32=true' | iex`, on macOS/Linux `curl https://cursor.com/install -fsS | bash`, then `cursor-agent login`; or set OPENAGENT_CURSOR_BIN",
+      "bin": {
+        "env": "OPENAGENT_CURSOR_BIN",
+        "names": ["cursor-agent"],
+        "discover": [
+          { "path": "%LOCALAPPDATA%/cursor-agent/versions", "pick": "cursor-version", "then": "index.js" },
+          { "path": "%LOCALAPPDATA%/cursor-agent/cursor-agent.exe" },
+          { "path": "%LOCALAPPDATA%/cursor-agent/bin/cursor-agent.exe" },
+          { "path": "%LOCALAPPDATA%/Programs/cursor-agent/cursor-agent.exe" },
+          { "os": ["win32"], "path": "%LOCALAPPDATA%/Microsoft/WinGet/Links/cursor-agent.exe" },
+          { "os": ["win32"], "path": "%LOCALAPPDATA%/Microsoft/WinGet/Packages", "pick": "newest", "then": "cursor-agent.exe" },
+          { "path": "~/.cursor/bin/cursor-agent{exe}" },
+          { "path": "~/.local/bin/cursor-agent" }
+        ]
+      },
+      "process": { "win32": ["cursor-agent.exe"], "darwin": ["cursor-agent"], "linux": ["cursor-agent"] },
+      "home": "~/.cursor",
+      "args": {
+        "fresh": [
+          "-p", "{prompt}", "--output-format", "json", "--trust",
+          { "if": "resume", "args": ["--resume", "{resumeSession}"] },
+          { "if": "model", "args": ["--model", "{model}"] },
+          { "if": "autoApprove", "args": ["--force"] }
+        ]
+      },
+      "answer": "json",
+      "session": "json",
+      "usage": { "parser": "json", "scope": "round" },
+      "needsOutFile": false,
+      "canResume": true,
+      "autoApproveDefault": true,
+      "efforts": [],
+      "effortFlag": null,
+      "defaults": { "stallMs": 0 },
+      "doctor": { "version": ["--version"], "login": [{ "command": ["status"], "yes": "Logged in as", "no": "Not logged in" }] }
+    },
+    {
+      "id": "claude",
+      "label": "Claude Code",
+      "strengths": "Local code implementation and verification",
+      "installHint": "Claude Code not found: on Windows run `winget install Anthropic.ClaudeCode`, on macOS/Linux `curl -fsSL https://claude.ai/install.sh | bash`, then `claude auth login`; or set OPENAGENT_CLAUDE_BIN",
+      "bin": {
+        "env": "OPENAGENT_CLAUDE_BIN",
+        "names": ["claude"],
+        "discover": [
+          { "os": ["win32"], "path": "%APPDATA%/Claude/claude-code", "pick": "claude-version", "then": "claude.exe" },
+          { "os": ["win32"], "path": "%LOCALAPPDATA%/Claude-Data", "pick": "claude-data", "then": "claude.exe" },
+          { "os": ["win32"], "path": "%LOCALAPPDATA%/Microsoft/WinGet/Links/claude.exe" },
+          { "os": ["win32"], "path": "%LOCALAPPDATA%/Microsoft/WinGet/Packages", "pick": "newest", "then": "claude.exe" },
+          { "os": ["darwin"], "path": "~/Library/Application Support/Claude/claude-code", "pick": "claude-version", "then": "claude.app/Contents/MacOS/claude" },
+          { "path": "~/.local/bin/claude" },
+          { "path": "~/.local/bin/claude.exe" }
+        ]
+      },
+      "process": { "win32": ["claude.exe"], "darwin": ["claude"], "linux": ["claude"] },
+      "home": "~/.claude",
+      "args": {
+        "fresh": [
+          "-p", "{prompt}", "--output-format", "stream-json", "--verbose", "--strict-mcp-config",
+          { "if": "resume", "args": ["--resume", "{resumeSession}"] },
+          { "if": "fresh", "args": ["--session-id", "{newSession}"] },
+          { "if": "model", "args": ["--model", "{model}"] },
+          { "if": "effort", "args": ["--effort", "{effort}"] },
+          { "if": "autoApprove", "args": ["--dangerously-skip-permissions"] }
+        ]
+      },
+      "answer": "stream-json",
+      "session": "json-or-new",
+      "usage": { "parser": "stream-json", "scope": "round" },
+      "needsOutFile": false,
+      "canResume": true,
+      "autoApproveDefault": true,
+      "efforts": ["low", "medium", "high", "xhigh"],
+      "effortFlag": "--effort",
+      "defaults": { "stallMs": 0 },
+      "doctor": { "version": ["--version"], "login": [{ "command": ["auth", "status"], "yes": "\"loggedIn\":\\s*true", "no": "\"loggedIn\":\\s*false" }] }
+    }
+  ]
+}

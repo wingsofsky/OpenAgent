@@ -1,0 +1,47 @@
+{
+  "name": "delegate",
+  "summary": "Hand subtasks to other agent CLIs on this machine and keep every run as plain files a person can review; the shared agent handbook, project snapshots and a stdio MCP server for the main agent.",
+  "requires": [],
+  "needs": [
+    "node>=22.19.0",
+    "pnpm",
+    "git",
+    "an agent CLI you are signed in to"
+  ],
+  "paths": [
+    "modules/delegate",
+    "packages/protocol",
+    "packages/common",
+    "packages/cli"
+  ],
+  "commands": {
+    "delegate": {
+      "entry": "src/delegate/command.ts",
+      "export": "delegateCommand",
+      "about": "hand a task to another agent CLI and record it (--help for options)"
+    },
+    "doctor": {
+      "entry": "src/executors/doctor.ts",
+      "export": "doctorCommand",
+      "about": "check each agent CLI: installed, version, signed in; --probe asks each for one word"
+    },
+    "handbook": {
+      "entry": "src/commands/people.ts",
+      "export": "handbookCommand",
+      "about": "show where the agent handbook is, or create it (init)"
+    },
+    "mcp": {
+      "entry": "src/mcp/server.ts",
+      "export": "mcpCommand",
+      "about": "stdio MCP server with the delegation tools, for a main agent (--project <dir>)"
+    },
+    "snapshot": {
+      "entry": "src/commands/people.ts",
+      "export": "snapshotCommand",
+      "about": "take, list, changes, diff and restore snapshots of a project"
+    }
+  },
+  "skills": {
+    "openagent-delegate": "skills/openagent-delegate"
+  }
+}

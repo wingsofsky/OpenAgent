@@ -1,0 +1,43 @@
+{
+  "description": "Path attacks every scoped file access must survive. Shared data: the CLI tests run it, and any other implementation (the desktop reader) must pass the same table. Each case gives the expected result of three operations under the fixture root: read = resolve an existing entry, write = resolve a write target creating parents, contract = resolve a contract-file target that follows an inner link. A number is the refusal status (400 bad path, 403 escapes the root, 404 missing); \"ok\" is accepted; \"follows:<rel>\" is accepted and rewritten to <rel>. A refused write must leave no trace inside or outside the root.",
+  "fixture": {
+    "dirs": ["sub"],
+    "files": { "a.md": "inside" },
+    "outsideFiles": { "secret.md": "OUTSIDE" },
+    "links": [
+      { "path": "escape-link", "kind": "dir", "to": "outside:" },
+      { "path": "leak.md", "kind": "file", "to": "outside:secret.md" },
+      { "path": "inner-link.md", "kind": "file", "to": "a.md" }
+    ]
+  },
+  "cases": [
+    { "rel": "a.md", "os": "any", "read": "ok", "write": "ok", "contract": "ok" },
+    { "rel": "sub/new/x.md", "os": "any", "read": 404, "write": "ok", "contract": "ok" },
+    { "rel": "../x.md", "os": "any", "read": 400, "write": 400, "contract": 400 },
+    { "rel": "sub/../../x.md", "os": "any", "read": 400, "write": 400, "contract": 400 },
+    { "rel": "/etc/passwd", "os": "any", "read": 400, "write": 400, "contract": 400 },
+    { "rel": "a\u0000b.md", "os": "any", "read": 400, "write": 400, "contract": 400 },
+    { "rel": "escape-link/secret.md", "os": "any", "read": 403, "write": 403, "contract": 403 },
+    { "rel": "escape-link/new/x.md", "os": "any", "read": 404, "write": 403, "contract": 403 },
+    { "rel": "leak.md", "os": "any", "needs": "file-link", "read": 403, "write": "ok", "contract": 403, "note": "a write replaces the link itself with a plain file inside the root" },
+    { "rel": "inner-link.md", "os": "any", "needs": "file-link", "read": "ok", "write": "ok", "contract": "follows:a.md" },
+    { "rel": "..\\x.md", "os": "win32", "read": 400, "write": 400, "contract": 400 },
+    { "rel": "sub\\..\\..\\x.md", "os": "win32", "read": 400, "write": 400, "contract": 400 },
+    { "rel": "sub/..\\..\\made\\y.md", "os": "win32", "read": 400, "write": 400, "contract": 400 },
+    { "rel": "C:x", "os": "win32", "read": 400, "write": 400, "contract": 400 },
+    { "rel": "C:\\Windows", "os": "win32", "read": 400, "write": 400, "contract": 400 },
+    { "rel": "c:/x", "os": "win32", "read": 400, "write": 400, "contract": 400 },
+    { "rel": "a.md::$DATA", "os": "win32", "read": 400, "write": 400, "contract": 400 },
+    { "rel": "a.md:secret", "os": "win32", "read": 400, "write": 400, "contract": 400 },
+    { "rel": "sub/a.md:x", "os": "win32", "read": 400, "write": 400, "contract": 400 },
+    { "rel": "CON", "os": "win32", "read": 400, "write": 400, "contract": 400 },
+    { "rel": "nul.txt", "os": "win32", "read": 400, "write": 400, "contract": 400 },
+    { "rel": "sub/COM1/x.md", "os": "win32", "read": 400, "write": 400, "contract": 400 },
+    { "rel": "lpt9", "os": "win32", "read": 400, "write": 400, "contract": 400 },
+    { "rel": "conin$", "os": "win32", "read": 400, "write": 400, "contract": 400 },
+    { "rel": "a.md.", "os": "win32", "read": 400, "write": 400, "contract": 400 },
+    { "rel": "sub /x.md", "os": "win32", "read": 400, "write": 400, "contract": 400 },
+    { "rel": "a?.md", "os": "win32", "read": 400, "write": 400, "contract": 400 },
+    { "rel": "a|b.md", "os": "win32", "read": 400, "write": 400, "contract": 400 }
+  ]
+}

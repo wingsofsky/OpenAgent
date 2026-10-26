@@ -1,0 +1,26 @@
+{
+  "name": "@openagent/delegate",
+  "version": "0.3.0",
+  "private": true,
+  "type": "module",
+  "license": "Apache-2.0",
+  "description": "Delegation: hand subtasks to other agent CLIs on this machine and keep every run as plain files; the agent handbook, project snapshots and the stdio MCP server.",
+  "engines": {
+    "node": ">=22.19.0"
+  },
+  "exports": {
+    ".": "./src/delegate/index.ts",
+    "./launch-fallback": "./src/delegate/launch-fallback.ts",
+    "./process": "./src/delegate/process.ts",
+    "./snapshots": "./src/snapshots/shadow.ts"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.2",
+    "@openagent/common": "workspace:*",
+    "@openagent/protocol": "workspace:*",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@openagent/testkit": "workspace:*"
+  }
+}

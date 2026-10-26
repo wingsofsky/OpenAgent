@@ -1,0 +1,19 @@
+{
+  "name": "@openagent/folder",
+  "version": "0.3.0",
+  "private": true,
+  "type": "module",
+  "license": "Apache-2.0",
+  "description": "Folder tasks: one agent CLI works through a folder of repositories unattended, on top of delegation.",
+  "engines": {
+    "node": ">=22.19.0"
+  },
+  "dependencies": {
+    "@openagent/common": "workspace:*",
+    "@openagent/delegate": "workspace:*",
+    "@openagent/protocol": "workspace:*"
+  },
+  "devDependencies": {
+    "@openagent/testkit": "workspace:*"
+  }
+}

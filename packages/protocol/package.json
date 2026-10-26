@@ -1,0 +1,12 @@
+{
+  "name": "@openagent/protocol",
+  "version": "0.3.0",
+  "private": true,
+  "type": "module",
+  "description": "OpenAgent file formats: layout of the OpenAgent home folder, records, CriticMarkup suggestions, the agent handbook preset, executor defaults. Pure TypeScript, no IO, no dependencies.",
+  "license": "Apache-2.0",
+  "exports": {
+    "./*": "./src/*.ts",
+    "./path-attacks.json": "./src/path-attacks.json"
+  }
+}

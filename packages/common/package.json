@@ -1,0 +1,21 @@
+{
+  "name": "@openagent/common",
+  "version": "0.3.0",
+  "private": true,
+  "type": "module",
+  "license": "Apache-2.0",
+  "description": "Shared plumbing: the scoped path gate every file access goes through, the OpenAgent home folder, argument parsing, reading text with encoding detection.",
+  "engines": {
+    "node": ">=22.19.0"
+  },
+  "exports": {
+    "./*": "./src/*.ts"
+  },
+  "dependencies": {
+    "@openagent/protocol": "workspace:*",
+    "chardetng-wasm": "1.0.2"
+  },
+  "devDependencies": {
+    "@openagent/testkit": "workspace:*"
+  }
+}

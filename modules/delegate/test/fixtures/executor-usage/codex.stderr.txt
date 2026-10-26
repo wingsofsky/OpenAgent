@@ -1,0 +1,18 @@
+Reading additional input from stdin...
+OpenAI Codex v0.162.0-alpha.17.2
+--------
+workdir: C:\Users\example\AppData\Local\Temp\of-usage-XXXXXX
+model: gpt-6-luna
+provider: openai
+approval: never
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 00000000-0000-7000-8000-000000000004
+--------
+user
+Reply with the single word: ok
+codex
+ok
+tokens used
+1,200

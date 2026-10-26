@@ -1,0 +1,275 @@
+{
+  "comment": "Shared fixture of executable discovery (modules/delegate/test/executors-discovery.test.ts). Folder names follow each CLI's install layout as of 2026-10; versions and hashes are made up. All relative paths are relative to a temporary root that is also the home directory; values in env and path are relative to it too. files are created empty, mtimes are seconds. overrides = bin in executors.json; expect lists every registry entry with a bin: candidates are the files the discovery rules give that exist (in order), bin is the final result (null = not found).",
+  "cases": [
+    {
+      "name": "Windows install layout: the newest bundled codex wins, cursor version folders skip .previous / zip / dist-package, claude-code versions have a hash folder, PATH only counts .exe",
+      "platform": "win32",
+      "env": {
+        "LOCALAPPDATA": "AppData/Local",
+        "APPDATA": "AppData/Roaming"
+      },
+      "path": [
+        "bin"
+      ],
+      "files": [
+        "AppData/Local/OpenAI/Codex/bin/1111aaaa2222bbbb/codex.exe",
+        "AppData/Local/OpenAI/Codex/bin/3333cccc4444dddd/codex.exe",
+        "AppData/Local/OpenAI/Codex/bin/readme.txt",
+        ".codex/.sandbox-bin/codex.exe",
+        "AppData/Local/cursor-agent/versions/2026.09.02-1a2b3c4/index.js",
+        "AppData/Local/cursor-agent/versions/2026.10.01-2b3c4d5/index.js",
+        "AppData/Local/cursor-agent/versions/2026.10.16-3c4d5e6/index.js",
+        "AppData/Local/cursor-agent/versions/2026.10.16-3c4d5e6/node.exe",
+        "AppData/Local/cursor-agent/versions/2026.10.16-3c4d5e6.previous/index.js",
+        "AppData/Local/cursor-agent/versions/2026.10.14-4d5e6f7/index.js",
+        "AppData/Local/cursor-agent/versions/2026.9.30-aaaa111/index.js",
+        "AppData/Local/cursor-agent/versions/2026.10.16-3C4D5E6/index.js",
+        "AppData/Local/cursor-agent/versions/dist-package/index.js",
+        "AppData/Local/cursor-agent/versions/00000000-0000-4000-8000-0000000000aa.zip",
+        "AppData/Local/cursor-agent/cursor-agent.cmd",
+        "AppData/Local/cursor-agent/cursor-agent.ps1",
+        "AppData/Roaming/Claude/claude-code/2.1.295/5e6f7a8b9c0d/claude.exe",
+        "AppData/Roaming/Claude/claude-code/2.1.299/6f7a8b9c0d1e/claude.exe",
+        "AppData/Roaming/Claude/claude-code/2.1.9/claude.exe",
+        "AppData/Roaming/Claude/claude-code/backups/claude.exe",
+        "AppData/Local/agy/bin/agy.exe",
+        ".grok/bin/grok.exe",
+        ".grok/bin/agent.exe",
+        "bin/agy.exe",
+        "bin/codex",
+        "bin/codex.cmd",
+        "bin/cursor-agent.cmd"
+      ],
+      "mtimes": {
+        "AppData/Local/OpenAI/Codex/bin/1111aaaa2222bbbb/codex.exe": 1792000000,
+        "AppData/Local/OpenAI/Codex/bin/3333cccc4444dddd/codex.exe": 1790000000
+      },
+      "expect": {
+        "codex": {
+          "candidates": [
+            "AppData/Local/OpenAI/Codex/bin/1111aaaa2222bbbb/codex.exe",
+            "AppData/Local/OpenAI/Codex/bin/3333cccc4444dddd/codex.exe",
+            ".codex/.sandbox-bin/codex.exe"
+          ],
+          "bin": "AppData/Local/OpenAI/Codex/bin/1111aaaa2222bbbb/codex.exe"
+        },
+        "agy": {
+          "candidates": [
+            "AppData/Local/agy/bin/agy.exe"
+          ],
+          "bin": "bin/agy.exe"
+        },
+        "grok": {
+          "candidates": [
+            ".grok/bin/grok.exe"
+          ],
+          "bin": ".grok/bin/grok.exe"
+        },
+        "cursor": {
+          "candidates": [
+            "AppData/Local/cursor-agent/versions/2026.10.16-3c4d5e6/index.js",
+            "AppData/Local/cursor-agent/versions/2026.10.14-4d5e6f7/index.js",
+            "AppData/Local/cursor-agent/versions/2026.10.01-2b3c4d5/index.js",
+            "AppData/Local/cursor-agent/versions/2026.9.30-aaaa111/index.js",
+            "AppData/Local/cursor-agent/versions/2026.09.02-1a2b3c4/index.js"
+          ],
+          "bin": "AppData/Local/cursor-agent/versions/2026.10.16-3c4d5e6/index.js"
+        },
+        "claude": {
+          "candidates": [
+            "AppData/Roaming/Claude/claude-code/2.1.299/6f7a8b9c0d1e/claude.exe",
+            "AppData/Roaming/Claude/claude-code/2.1.295/5e6f7a8b9c0d/claude.exe",
+            "AppData/Roaming/Claude/claude-code/2.1.9/claude.exe"
+          ],
+          "bin": "AppData/Roaming/Claude/claude-code/2.1.299/6f7a8b9c0d1e/claude.exe"
+        }
+      }
+    },
+    {
+      "name": "Windows: environment override > bin in executors.json > PATH; overrides are used as given without checking; a cursor version folder with a build time sorts before the same day's older format",
+      "platform": "win32",
+      "env": {
+        "LOCALAPPDATA": "AppData/Local",
+        "APPDATA": "AppData/Roaming",
+        "OPENAGENT_GROK_BIN": "custom/grok.exe"
+      },
+      "path": [
+        "bin"
+      ],
+      "files": [
+        "bin/grok.exe",
+        "bin/codex.exe",
+        "AppData/Local/cursor-agent/versions/2026.10.16-3c4d5e6/index.js",
+        "AppData/Local/cursor-agent/versions/2026.10.16-09-30-00-abc1234/index.js",
+        "AppData/Local/cursor-agent/versions/2026.10.16-09-30-abc1234/index.js",
+        "AppData/Local/cursor-agent/cursor-agent.exe"
+      ],
+      "overrides": {
+        "grok": "json/grok.exe",
+        "codex": "json/codex.exe"
+      },
+      "expect": {
+        "codex": {
+          "candidates": [],
+          "bin": "json/codex.exe"
+        },
+        "agy": {
+          "candidates": [],
+          "bin": null
+        },
+        "grok": {
+          "candidates": [],
+          "bin": "custom/grok.exe"
+        },
+        "cursor": {
+          "candidates": [
+            "AppData/Local/cursor-agent/versions/2026.10.16-09-30-00-abc1234/index.js",
+            "AppData/Local/cursor-agent/versions/2026.10.16-3c4d5e6/index.js",
+            "AppData/Local/cursor-agent/cursor-agent.exe"
+          ],
+          "bin": "AppData/Local/cursor-agent/versions/2026.10.16-09-30-00-abc1234/index.js"
+        },
+        "claude": {
+          "candidates": [],
+          "bin": null
+        }
+      }
+    },
+    {
+      "name": "Windows: the Microsoft Store Claude app keeps claude-code under Claude-Data/<package>/, winget installs land in WinGet/Packages or WinGet/Links",
+      "platform": "win32",
+      "env": {
+        "LOCALAPPDATA": "AppData/Local",
+        "APPDATA": "AppData/Roaming"
+      },
+      "path": [
+        "bin"
+      ],
+      "files": [
+        "AppData/Local/Claude-Data/claude_abcd1234/claude-code/2.1.300/0a1b2c3d4e5f/claude.exe",
+        "AppData/Local/Claude-Data/claude_abcd1234/claude-code/2.1.304/aed62990b91e/claude.exe",
+        "AppData/Local/Claude-Data/claude_abcd1234/claude-code/backups/claude.exe",
+        "AppData/Local/Microsoft/WinGet/Packages/Anthropic.ClaudeCode_Microsoft.Winget.Source_8wekyb3d8bbwe/claude.exe",
+        "AppData/Local/Microsoft/WinGet/Packages/GitHub.cli_Microsoft.Winget.Source_8wekyb3d8bbwe/bin/gh.exe",
+        "AppData/Local/Microsoft/WinGet/Links/grok.exe"
+      ],
+      "expect": {
+        "codex": {
+          "candidates": [],
+          "bin": null
+        },
+        "agy": {
+          "candidates": [],
+          "bin": null
+        },
+        "grok": {
+          "candidates": [
+            "AppData/Local/Microsoft/WinGet/Links/grok.exe"
+          ],
+          "bin": "AppData/Local/Microsoft/WinGet/Links/grok.exe"
+        },
+        "cursor": {
+          "candidates": [],
+          "bin": null
+        },
+        "claude": {
+          "candidates": [
+            "AppData/Local/Claude-Data/claude_abcd1234/claude-code/2.1.304/aed62990b91e/claude.exe",
+            "AppData/Local/Claude-Data/claude_abcd1234/claude-code/2.1.300/0a1b2c3d4e5f/claude.exe",
+            "AppData/Local/Microsoft/WinGet/Packages/Anthropic.ClaudeCode_Microsoft.Winget.Source_8wekyb3d8bbwe/claude.exe"
+          ],
+          "bin": "AppData/Local/Claude-Data/claude_abcd1234/claude-code/2.1.304/aed62990b91e/claude.exe"
+        }
+      }
+    },
+    {
+      "name": "macOS: claude-code lives in Application Support (the executable inside claude.app), ~/.local/bin is both a discovery rule and in searchPath, no extension",
+      "platform": "darwin",
+      "env": {},
+      "path": [
+        "bin"
+      ],
+      "files": [
+        "Library/Application Support/Claude/claude-code/2.1.260/claude.app/Contents/MacOS/claude",
+        "Library/Application Support/Claude/claude-code/2.1.9/claude.app/Contents/MacOS/claude",
+        "Library/Application Support/Claude/claude-code/1.0.0/claude.app/Contents/MacOS/claude",
+        "Library/Application Support/Claude/claude-code/backups/claude.app/Contents/MacOS/claude",
+        ".local/bin/codex",
+        ".grok/bin/grok",
+        ".grok/bin/grok.exe",
+        "bin/cursor-agent",
+        "AppData/Local/agy/bin/agy.exe"
+      ],
+      "expect": {
+        "codex": {
+          "candidates": [
+            ".local/bin/codex"
+          ],
+          "bin": ".local/bin/codex"
+        },
+        "agy": {
+          "candidates": [],
+          "bin": null
+        },
+        "grok": {
+          "candidates": [
+            ".grok/bin/grok"
+          ],
+          "bin": ".grok/bin/grok"
+        },
+        "cursor": {
+          "candidates": [],
+          "bin": "bin/cursor-agent"
+        },
+        "claude": {
+          "candidates": [
+            "Library/Application Support/Claude/claude-code/2.1.260/claude.app/Contents/MacOS/claude",
+            "Library/Application Support/Claude/claude-code/2.1.9/claude.app/Contents/MacOS/claude",
+            "Library/Application Support/Claude/claude-code/1.0.0/claude.app/Contents/MacOS/claude"
+          ],
+          "bin": "Library/Application Support/Claude/claude-code/2.1.260/claude.app/Contents/MacOS/claude"
+        }
+      }
+    },
+    {
+      "name": "Windows: codex installed with npm i -g has only a .cmd shim on PATH; its .js entry point in the npm folder is found and run with node",
+      "platform": "win32",
+      "env": {
+        "LOCALAPPDATA": "AppData/Local",
+        "APPDATA": "AppData/Roaming"
+      },
+      "path": [
+        "AppData/Roaming/npm"
+      ],
+      "files": [
+        "AppData/Roaming/npm/codex.cmd",
+        "AppData/Roaming/npm/codex.ps1",
+        "AppData/Roaming/npm/node_modules/@openai/codex/bin/codex.js"
+      ],
+      "expect": {
+        "codex": {
+          "candidates": [
+            "AppData/Roaming/npm/node_modules/@openai/codex/bin/codex.js"
+          ],
+          "bin": "AppData/Roaming/npm/node_modules/@openai/codex/bin/codex.js"
+        },
+        "agy": {
+          "candidates": [],
+          "bin": null
+        },
+        "grok": {
+          "candidates": [],
+          "bin": null
+        },
+        "cursor": {
+          "candidates": [],
+          "bin": null
+        },
+        "claude": {
+          "candidates": [],
+          "bin": null
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "name": "@openagent/testkit",
+  "version": "0.3.0",
+  "private": true,
+  "type": "module",
+  "license": "Apache-2.0",
+  "description": "Test helpers shared by the modules: temporary folders, links that work on unprivileged Windows, fake secrets, a fake agent CLI.",
+  "exports": {
+    "./*": "./src/*.ts"
+  }
+}

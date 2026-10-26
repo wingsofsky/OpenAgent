@@ -1,0 +1,82 @@
+[
+  {
+    "path": ".env",
+    "sensitive": true
+  },
+  {
+    "path": "docs/.env.local",
+    "sensitive": true
+  },
+  {
+    "path": "DOCS/AUTH.JSON",
+    "sensitive": true
+  },
+  {
+    "path": "keys/secret.pem",
+    "sensitive": true
+  },
+  {
+    "path": "credentials/nested.txt",
+    "sensitive": true
+  },
+  {
+    "path": "client_secret_demo.json",
+    "sensitive": true
+  },
+  {
+    "path": ".aws/config",
+    "sensitive": true
+  },
+  {
+    "path": "infra/.aws/credentials",
+    "sensitive": true
+  },
+  {
+    "path": "deploy/.kube/config",
+    "sensitive": true
+  },
+  {
+    "path": "secret_key.txt",
+    "sensitive": true
+  },
+  {
+    "path": "config/credential-store.json",
+    "sensitive": true
+  },
+  {
+    "path": "docs/secretary-notes.md",
+    "sensitive": false
+  },
+  {
+    "path": ".openagent/executors.json",
+    "sensitive": false
+  },
+  {
+    "path": "memory/handbook-notes.md",
+    "sensitive": false
+  },
+  {
+    "path": "CLAUDE.md",
+    "sensitive": false
+  },
+  {
+    "path": "docs/authentication.md",
+    "sensitive": false
+  },
+  {
+    "path": "docs/credentials-guide.md",
+    "sensitive": true
+  },
+  {
+    "path": "docs/private.pem.txt",
+    "sensitive": false
+  },
+  {
+    "path": ".openagent/handbook.md",
+    "sensitive": false
+  },
+  {
+    "path": ".openagent/executors.json",
+    "sensitive": false
+  }
+]

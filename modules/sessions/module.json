@@ -1,0 +1,26 @@
+{
+  "name": "sessions",
+  "summary": "Import the local conversations of agent CLIs (Claude Code, Codex, Gemini CLI, Grok Build, Antigravity, Cursor Agent) as Markdown archives with indexes.",
+  "requires": [],
+  "needs": [
+    "node>=22.19.0",
+    "pnpm",
+    "git"
+  ],
+  "paths": [
+    "modules/sessions",
+    "packages/protocol",
+    "packages/common",
+    "packages/cli"
+  ],
+  "commands": {
+    "import-sessions": {
+      "entry": "src/import.ts",
+      "export": "importSessions",
+      "about": "import local agent CLI conversations as Markdown into ~/.openagent/sessions/imported (--help for options)"
+    }
+  },
+  "skills": {
+    "openagent-sessions": "skills/openagent-sessions"
+  }
+}

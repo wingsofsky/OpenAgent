@@ -1,0 +1,36 @@
+{
+  "comment": "Output shaped like each CLI's for one minimal delegation (prompt: Reply with the single word: ok); fixtures of the usage parsers. usage = the expected extractUsage(stdout + stderr). IDs, paths, amounts and settings are placeholders.",
+  "executors": {
+    "codex": {
+      "stdout": "codex.stdout.txt",
+      "stderr": "codex.stderr.txt",
+      "usage": 1200,
+      "source": "codex-cli 0.162 text output, -m gpt-6-luna; usage printed as tokens used at the end of stderr"
+    },
+    "agy": {
+      "stdout": "agy.stdout.txt",
+      "usage": 1030,
+      "source": "agy 1.4 JSON output; usage.total_tokens"
+    },
+    "grok": {
+      "stdout": "grok.stdout.txt",
+      "usage": 2450,
+      "source": "grok 1.0 JSON output; usage.total_tokens (includes cache_read)"
+    },
+    "cursor": {
+      "stdout": "cursor.stdout.txt",
+      "usage": 8,
+      "source": "cursor-agent 2026.10 JSON output; camelCase inputTokens + outputTokens, no total, cache not counted"
+    },
+    "claude": {
+      "stdout": "claude.stdout.txt",
+      "usage": 7,
+      "source": "constructed: the field structure of claude-error.stdout.txt filled with success values; no total, input + output, cache not counted"
+    },
+    "claude-error": {
+      "stdout": "claude-error.stdout.txt",
+      "usage": null,
+      "source": "claude 2.1 JSON output of a failed run (authentication error); all-zero usage counts as none"
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "name": "@openagent/cli",
+  "version": "0.3.0",
+  "private": true,
+  "type": "module",
+  "description": "The openagent command: runs the commands of the modules present in this checkout.",
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=22.19.0"
+  }
+}

@@ -1,0 +1,994 @@
+{
+ "args": {
+  "codex": {
+   "fresh/min": [
+    "exec",
+    "--skip-git-repo-check",
+    "-s",
+    "workspace-write",
+    "-C",
+    "/work/root dir",
+    "-o",
+    "/rec/.final-answer.txt",
+    "Task: first line\nsecond line {cwd}"
+   ],
+   "fresh/full/none": [
+    "exec",
+    "--skip-git-repo-check",
+    "-s",
+    "read-only",
+    "-C",
+    "/work/root dir",
+    "-o",
+    "/rec/.final-answer.txt",
+    "-m",
+    "model-x",
+    "Task: first line\nsecond line {cwd}"
+   ],
+   "fresh/full/minimal": [
+    "exec",
+    "--skip-git-repo-check",
+    "-s",
+    "read-only",
+    "-C",
+    "/work/root dir",
+    "-o",
+    "/rec/.final-answer.txt",
+    "-m",
+    "model-x",
+    "-c",
+    "model_reasoning_effort=\"low\"",
+    "Task: first line\nsecond line {cwd}"
+   ],
+   "fresh/full/high": [
+    "exec",
+    "--skip-git-repo-check",
+    "-s",
+    "read-only",
+    "-C",
+    "/work/root dir",
+    "-o",
+    "/rec/.final-answer.txt",
+    "-m",
+    "model-x",
+    "-c",
+    "model_reasoning_effort=\"high\"",
+    "Task: first line\nsecond line {cwd}"
+   ],
+   "fresh/full/xhigh": [
+    "exec",
+    "--skip-git-repo-check",
+    "-s",
+    "read-only",
+    "-C",
+    "/work/root dir",
+    "-o",
+    "/rec/.final-answer.txt",
+    "-m",
+    "model-x",
+    "-c",
+    "model_reasoning_effort=\"xhigh\"",
+    "Task: first line\nsecond line {cwd}"
+   ],
+   "resume/min": [
+    "exec",
+    "resume",
+    "sess-abc",
+    "--skip-git-repo-check",
+    "-c",
+    "sandbox_mode=\"workspace-write\"",
+    "-o",
+    "/rec/.final-answer.txt",
+    "Task: first line\nsecond line {cwd}"
+   ],
+   "resume/full/none": [
+    "exec",
+    "resume",
+    "sess-abc",
+    "--skip-git-repo-check",
+    "-c",
+    "sandbox_mode=\"read-only\"",
+    "-o",
+    "/rec/.final-answer.txt",
+    "-m",
+    "model-x",
+    "Task: first line\nsecond line {cwd}"
+   ],
+   "resume/full/minimal": [
+    "exec",
+    "resume",
+    "sess-abc",
+    "--skip-git-repo-check",
+    "-c",
+    "sandbox_mode=\"read-only\"",
+    "-o",
+    "/rec/.final-answer.txt",
+    "-m",
+    "model-x",
+    "-c",
+    "model_reasoning_effort=\"low\"",
+    "Task: first line\nsecond line {cwd}"
+   ],
+   "resume/full/high": [
+    "exec",
+    "resume",
+    "sess-abc",
+    "--skip-git-repo-check",
+    "-c",
+    "sandbox_mode=\"read-only\"",
+    "-o",
+    "/rec/.final-answer.txt",
+    "-m",
+    "model-x",
+    "-c",
+    "model_reasoning_effort=\"high\"",
+    "Task: first line\nsecond line {cwd}"
+   ],
+   "resume/full/xhigh": [
+    "exec",
+    "resume",
+    "sess-abc",
+    "--skip-git-repo-check",
+    "-c",
+    "sandbox_mode=\"read-only\"",
+    "-o",
+    "/rec/.final-answer.txt",
+    "-m",
+    "model-x",
+    "-c",
+    "model_reasoning_effort=\"xhigh\"",
+    "Task: first line\nsecond line {cwd}"
+   ]
+  },
+  "agy": {
+   "fresh/min": [
+    "-p",
+    "Task: first line\nsecond line {cwd}",
+    "--output-format",
+    "json",
+    "--print-timeout",
+    "10m"
+   ],
+   "fresh/full/none": [
+    "-p",
+    "Task: first line\nsecond line {cwd}",
+    "--output-format",
+    "json",
+    "--print-timeout",
+    "2m",
+    "--model",
+    "model-x",
+    "--dangerously-skip-permissions"
+   ],
+   "fresh/full/minimal": [
+    "-p",
+    "Task: first line\nsecond line {cwd}",
+    "--output-format",
+    "json",
+    "--print-timeout",
+    "2m",
+    "--model",
+    "model-x",
+    "--effort",
+    "low",
+    "--dangerously-skip-permissions"
+   ],
+   "fresh/full/high": [
+    "-p",
+    "Task: first line\nsecond line {cwd}",
+    "--output-format",
+    "json",
+    "--print-timeout",
+    "2m",
+    "--model",
+    "model-x",
+    "--effort",
+    "high",
+    "--dangerously-skip-permissions"
+   ],
+   "fresh/full/xhigh": [
+    "-p",
+    "Task: first line\nsecond line {cwd}",
+    "--output-format",
+    "json",
+    "--print-timeout",
+    "2m",
+    "--model",
+    "model-x",
+    "--effort",
+    "xhigh",
+    "--dangerously-skip-permissions"
+   ],
+   "resume/min": [
+    "-p",
+    "Task: first line\nsecond line {cwd}",
+    "--output-format",
+    "json",
+    "--conversation",
+    "sess-abc",
+    "--print-timeout",
+    "10m"
+   ],
+   "resume/full/none": [
+    "-p",
+    "Task: first line\nsecond line {cwd}",
+    "--output-format",
+    "json",
+    "--conversation",
+    "sess-abc",
+    "--print-timeout",
+    "2m",
+    "--model",
+    "model-x",
+    "--dangerously-skip-permissions"
+   ],
+   "resume/full/minimal": [
+    "-p",
+    "Task: first line\nsecond line {cwd}",
+    "--output-format",
+    "json",
+    "--conversation",
+    "sess-abc",
+    "--print-timeout",
+    "2m",
+    "--model",
+    "model-x",
+    "--effort",
+    "low",
+    "--dangerously-skip-permissions"
+   ],
+   "resume/full/high": [
+    "-p",
+    "Task: first line\nsecond line {cwd}",
+    "--output-format",
+    "json",
+    "--conversation",
+    "sess-abc",
+    "--print-timeout",
+    "2m",
+    "--model",
+    "model-x",
+    "--effort",
+    "high",
+    "--dangerously-skip-permissions"
+   ],
+   "resume/full/xhigh": [
+    "-p",
+    "Task: first line\nsecond line {cwd}",
+    "--output-format",
+    "json",
+    "--conversation",
+    "sess-abc",
+    "--print-timeout",
+    "2m",
+    "--model",
+    "model-x",
+    "--effort",
+    "xhigh",
+    "--dangerously-skip-permissions"
+   ]
+  },
+  "grok": {
+   "fresh/min": [
+    "-p",
+    "Task: first line\nsecond line {cwd}",
+    "--output-format",
+    "json",
+    "--no-auto-update",
+    "--cwd",
+    "/work/root dir",
+    "-s",
+    "11111111-2222-3333-4444-555555555555"
+   ],
+   "fresh/full/none": [
+    "-p",
+    "Task: first line\nsecond line {cwd}",
+    "--output-format",
+    "json",
+    "--no-auto-update",
+    "--cwd",
+    "/work/root dir",
+    "-s",
+    "11111111-2222-3333-4444-555555555555",
+    "-m",
+    "model-x",
+    "--always-approve"
+   ],
+   "fresh/full/minimal": [
+    "-p",
+    "Task: first line\nsecond line {cwd}",
+    "--output-format",
+    "json",
+    "--no-auto-update",
+    "--cwd",
+    "/work/root dir",
+    "-s",
+    "11111111-2222-3333-4444-555555555555",
+    "-m",
+    "model-x",
+    "--reasoning-effort",
+    "low",
+    "--always-approve"
+   ],
+   "fresh/full/high": [
+    "-p",
+    "Task: first line\nsecond line {cwd}",
+    "--output-format",
+    "json",
+    "--no-auto-update",
+    "--cwd",
+    "/work/root dir",
+    "-s",
+    "11111111-2222-3333-4444-555555555555",
+    "-m",
+    "model-x",
+    "--reasoning-effort",
+    "high",
+    "--always-approve"
+   ],
+   "fresh/full/xhigh": [
+    "-p",
+    "Task: first line\nsecond line {cwd}",
+    "--output-format",
+    "json",
+    "--no-auto-update",
+    "--cwd",
+    "/work/root dir",
+    "-s",
+    "11111111-2222-3333-4444-555555555555",
+    "-m",
+    "model-x",
+    "--reasoning-effort",
+    "xhigh",
+    "--always-approve"
+   ],
+   "resume/min": [
+    "-p",
+    "Task: first line\nsecond line {cwd}",
+    "--output-format",
+    "json",
+    "--no-auto-update",
+    "--cwd",
+    "/work/root dir",
+    "--resume",
+    "sess-abc"
+   ],
+   "resume/full/none": [
+    "-p",
+    "Task: first line\nsecond line {cwd}",
+    "--output-format",
+    "json",
+    "--no-auto-update",
+    "--cwd",
+    "/work/root dir",
+    "--resume",
+    "sess-abc",
+    "-m",
+    "model-x",
+    "--always-approve"
+   ],
+   "resume/full/minimal": [
+    "-p",
+    "Task: first line\nsecond line {cwd}",
+    "--output-format",
+    "json",
+    "--no-auto-update",
+    "--cwd",
+    "/work/root dir",
+    "--resume",
+    "sess-abc",
+    "-m",
+    "model-x",
+    "--reasoning-effort",
+    "low",
+    "--always-approve"
+   ],
+   "resume/full/high": [
+    "-p",
+    "Task: first line\nsecond line {cwd}",
+    "--output-format",
+    "json",
+    "--no-auto-update",
+    "--cwd",
+    "/work/root dir",
+    "--resume",
+    "sess-abc",
+    "-m",
+    "model-x",
+    "--reasoning-effort",
+    "high",
+    "--always-approve"
+   ],
+   "resume/full/xhigh": [
+    "-p",
+    "Task: first line\nsecond line {cwd}",
+    "--output-format",
+    "json",
+    "--no-auto-update",
+    "--cwd",
+    "/work/root dir",
+    "--resume",
+    "sess-abc",
+    "-m",
+    "model-x",
+    "--reasoning-effort",
+    "xhigh",
+    "--always-approve"
+   ]
+  },
+  "cursor": {
+   "fresh/min": [
+    "-p",
+    "Task: first line\nsecond line {cwd}",
+    "--output-format",
+    "json",
+    "--trust"
+   ],
+   "fresh/full/none": [
+    "-p",
+    "Task: first line\nsecond line {cwd}",
+    "--output-format",
+    "json",
+    "--trust",
+    "--model",
+    "model-x",
+    "--force"
+   ],
+   "fresh/full/minimal": [
+    "-p",
+    "Task: first line\nsecond line {cwd}",
+    "--output-format",
+    "json",
+    "--trust",
+    "--model",
+    "model-x",
+    "--force"
+   ],
+   "fresh/full/high": [
+    "-p",
+    "Task: first line\nsecond line {cwd}",
+    "--output-format",
+    "json",
+    "--trust",
+    "--model",
+    "model-x",
+    "--force"
+   ],
+   "fresh/full/xhigh": [
+    "-p",
+    "Task: first line\nsecond line {cwd}",
+    "--output-format",
+    "json",
+    "--trust",
+    "--model",
+    "model-x",
+    "--force"
+   ],
+   "resume/min": [
+    "-p",
+    "Task: first line\nsecond line {cwd}",
+    "--output-format",
+    "json",
+    "--trust",
+    "--resume",
+    "sess-abc"
+   ],
+   "resume/full/none": [
+    "-p",
+    "Task: first line\nsecond line {cwd}",
+    "--output-format",
+    "json",
+    "--trust",
+    "--resume",
+    "sess-abc",
+    "--model",
+    "model-x",
+    "--force"
+   ],
+   "resume/full/minimal": [
+    "-p",
+    "Task: first line\nsecond line {cwd}",
+    "--output-format",
+    "json",
+    "--trust",
+    "--resume",
+    "sess-abc",
+    "--model",
+    "model-x",
+    "--force"
+   ],
+   "resume/full/high": [
+    "-p",
+    "Task: first line\nsecond line {cwd}",
+    "--output-format",
+    "json",
+    "--trust",
+    "--resume",
+    "sess-abc",
+    "--model",
+    "model-x",
+    "--force"
+   ],
+   "resume/full/xhigh": [
+    "-p",
+    "Task: first line\nsecond line {cwd}",
+    "--output-format",
+    "json",
+    "--trust",
+    "--resume",
+    "sess-abc",
+    "--model",
+    "model-x",
+    "--force"
+   ]
+  },
+  "claude": {
+   "fresh/min": [
+    "-p",
+    "Task: first line\nsecond line {cwd}",
+    "--output-format",
+    "stream-json",
+    "--verbose",
+    "--strict-mcp-config",
+    "--session-id",
+    "11111111-2222-3333-4444-555555555555"
+   ],
+   "fresh/full/none": [
+    "-p",
+    "Task: first line\nsecond line {cwd}",
+    "--output-format",
+    "stream-json",
+    "--verbose",
+    "--strict-mcp-config",
+    "--session-id",
+    "11111111-2222-3333-4444-555555555555",
+    "--model",
+    "model-x",
+    "--dangerously-skip-permissions"
+   ],
+   "fresh/full/minimal": [
+    "-p",
+    "Task: first line\nsecond line {cwd}",
+    "--output-format",
+    "stream-json",
+    "--verbose",
+    "--strict-mcp-config",
+    "--session-id",
+    "11111111-2222-3333-4444-555555555555",
+    "--model",
+    "model-x",
+    "--effort",
+    "low",
+    "--dangerously-skip-permissions"
+   ],
+   "fresh/full/high": [
+    "-p",
+    "Task: first line\nsecond line {cwd}",
+    "--output-format",
+    "stream-json",
+    "--verbose",
+    "--strict-mcp-config",
+    "--session-id",
+    "11111111-2222-3333-4444-555555555555",
+    "--model",
+    "model-x",
+    "--effort",
+    "high",
+    "--dangerously-skip-permissions"
+   ],
+   "fresh/full/xhigh": [
+    "-p",
+    "Task: first line\nsecond line {cwd}",
+    "--output-format",
+    "stream-json",
+    "--verbose",
+    "--strict-mcp-config",
+    "--session-id",
+    "11111111-2222-3333-4444-555555555555",
+    "--model",
+    "model-x",
+    "--effort",
+    "xhigh",
+    "--dangerously-skip-permissions"
+   ],
+   "resume/min": [
+    "-p",
+    "Task: first line\nsecond line {cwd}",
+    "--output-format",
+    "stream-json",
+    "--verbose",
+    "--strict-mcp-config",
+    "--resume",
+    "sess-abc"
+   ],
+   "resume/full/none": [
+    "-p",
+    "Task: first line\nsecond line {cwd}",
+    "--output-format",
+    "stream-json",
+    "--verbose",
+    "--strict-mcp-config",
+    "--resume",
+    "sess-abc",
+    "--model",
+    "model-x",
+    "--dangerously-skip-permissions"
+   ],
+   "resume/full/minimal": [
+    "-p",
+    "Task: first line\nsecond line {cwd}",
+    "--output-format",
+    "stream-json",
+    "--verbose",
+    "--strict-mcp-config",
+    "--resume",
+    "sess-abc",
+    "--model",
+    "model-x",
+    "--effort",
+    "low",
+    "--dangerously-skip-permissions"
+   ],
+   "resume/full/high": [
+    "-p",
+    "Task: first line\nsecond line {cwd}",
+    "--output-format",
+    "stream-json",
+    "--verbose",
+    "--strict-mcp-config",
+    "--resume",
+    "sess-abc",
+    "--model",
+    "model-x",
+    "--effort",
+    "high",
+    "--dangerously-skip-permissions"
+   ],
+   "resume/full/xhigh": [
+    "-p",
+    "Task: first line\nsecond line {cwd}",
+    "--output-format",
+    "stream-json",
+    "--verbose",
+    "--strict-mcp-config",
+    "--resume",
+    "sess-abc",
+    "--model",
+    "model-x",
+    "--effort",
+    "xhigh",
+    "--dangerously-skip-permissions"
+   ]
+  },
+  "api-example": {
+   "fresh/min": [
+    "/absolute/path/to/api-executor.mjs",
+    "Task: first line\nsecond line {cwd}"
+   ],
+   "fresh/full/none": [
+    "/absolute/path/to/api-executor.mjs",
+    "Task: first line\nsecond line {cwd}",
+    "model-x"
+   ],
+   "fresh/full/minimal": [
+    "/absolute/path/to/api-executor.mjs",
+    "Task: first line\nsecond line {cwd}",
+    "model-x"
+   ],
+   "fresh/full/high": [
+    "/absolute/path/to/api-executor.mjs",
+    "Task: first line\nsecond line {cwd}",
+    "model-x"
+   ],
+   "fresh/full/xhigh": [
+    "/absolute/path/to/api-executor.mjs",
+    "Task: first line\nsecond line {cwd}",
+    "model-x"
+   ],
+   "resume/min": [
+    "/absolute/path/to/api-executor.mjs",
+    "Task: first line\nsecond line {cwd}"
+   ],
+   "resume/full/none": [
+    "/absolute/path/to/api-executor.mjs",
+    "Task: first line\nsecond line {cwd}",
+    "model-x"
+   ],
+   "resume/full/minimal": [
+    "/absolute/path/to/api-executor.mjs",
+    "Task: first line\nsecond line {cwd}",
+    "model-x"
+   ],
+   "resume/full/high": [
+    "/absolute/path/to/api-executor.mjs",
+    "Task: first line\nsecond line {cwd}",
+    "model-x"
+   ],
+   "resume/full/xhigh": [
+    "/absolute/path/to/api-executor.mjs",
+    "Task: first line\nsecond line {cwd}",
+    "model-x"
+   ]
+  },
+  "plain-stdout": {
+   "fresh/min": [
+    "run",
+    "Task: first line\nsecond line {cwd}"
+   ],
+   "fresh/full/none": [
+    "run",
+    "-m",
+    "model-x",
+    "Task: first line\nsecond line {cwd}"
+   ],
+   "fresh/full/minimal": [
+    "run",
+    "-m",
+    "model-x",
+    "--effort",
+    "minimal",
+    "Task: first line\nsecond line {cwd}"
+   ],
+   "fresh/full/high": [
+    "run",
+    "-m",
+    "model-x",
+    "--effort",
+    "high",
+    "Task: first line\nsecond line {cwd}"
+   ],
+   "fresh/full/xhigh": [
+    "run",
+    "-m",
+    "model-x",
+    "--effort",
+    "xhigh",
+    "Task: first line\nsecond line {cwd}"
+   ],
+   "resume/min": [
+    "run",
+    "Task: first line\nsecond line {cwd}"
+   ],
+   "resume/full/none": [
+    "run",
+    "-m",
+    "model-x",
+    "Task: first line\nsecond line {cwd}"
+   ],
+   "resume/full/minimal": [
+    "run",
+    "-m",
+    "model-x",
+    "--effort",
+    "minimal",
+    "Task: first line\nsecond line {cwd}"
+   ],
+   "resume/full/high": [
+    "run",
+    "-m",
+    "model-x",
+    "--effort",
+    "high",
+    "Task: first line\nsecond line {cwd}"
+   ],
+   "resume/full/xhigh": [
+    "run",
+    "-m",
+    "model-x",
+    "--effort",
+    "xhigh",
+    "Task: first line\nsecond line {cwd}"
+   ]
+  },
+  "wt-resume": {
+   "fresh/min": [
+    "-p",
+    "Task: first line\nsecond line {cwd}",
+    "--output-format",
+    "json",
+    "--trust",
+    "--workspace",
+    "D:\\work\\app"
+   ],
+   "fresh/full/none": [
+    "-p",
+    "Task: first line\nsecond line {cwd}",
+    "--output-format",
+    "json",
+    "--trust",
+    "--workspace",
+    "D:\\work\\app",
+    "--model",
+    "model-x"
+   ],
+   "fresh/full/minimal": [
+    "-p",
+    "Task: first line\nsecond line {cwd}",
+    "--output-format",
+    "json",
+    "--trust",
+    "--workspace",
+    "D:\\work\\app",
+    "--model",
+    "model-x"
+   ],
+   "fresh/full/high": [
+    "-p",
+    "Task: first line\nsecond line {cwd}",
+    "--output-format",
+    "json",
+    "--trust",
+    "--workspace",
+    "D:\\work\\app",
+    "--model",
+    "model-x"
+   ],
+   "fresh/full/xhigh": [
+    "-p",
+    "Task: first line\nsecond line {cwd}",
+    "--output-format",
+    "json",
+    "--trust",
+    "--workspace",
+    "D:\\work\\app",
+    "--model",
+    "model-x"
+   ],
+   "resume/min": [
+    "-p",
+    "Task: first line\nsecond line {cwd}",
+    "--output-format",
+    "json",
+    "--resume",
+    "sess-abc",
+    "--cwd=/work/root dir"
+   ],
+   "resume/full/none": [
+    "-p",
+    "Task: first line\nsecond line {cwd}",
+    "--output-format",
+    "json",
+    "--resume",
+    "sess-abc",
+    "--cwd=/work/root dir"
+   ],
+   "resume/full/minimal": [
+    "-p",
+    "Task: first line\nsecond line {cwd}",
+    "--output-format",
+    "json",
+    "--resume",
+    "sess-abc",
+    "--cwd=/work/root dir"
+   ],
+   "resume/full/high": [
+    "-p",
+    "Task: first line\nsecond line {cwd}",
+    "--output-format",
+    "json",
+    "--resume",
+    "sess-abc",
+    "--cwd=/work/root dir"
+   ],
+   "resume/full/xhigh": [
+    "-p",
+    "Task: first line\nsecond line {cwd}",
+    "--output-format",
+    "json",
+    "--resume",
+    "sess-abc",
+    "--cwd=/work/root dir"
+   ]
+  },
+  "codex-out": {
+   "fresh/min": [
+    "exec",
+    "-C",
+    "/work/root dir",
+    "-o",
+    "/rec/.final-answer.txt",
+    "-c",
+    "model_reasoning_effort=\"\"",
+    "Task: first line\nsecond line {cwd}"
+   ],
+   "fresh/full/none": [
+    "exec",
+    "-C",
+    "/work/root dir",
+    "-o",
+    "/rec/.final-answer.txt",
+    "-c",
+    "model_reasoning_effort=\"\"",
+    "Task: first line\nsecond line {cwd}"
+   ],
+   "fresh/full/minimal": [
+    "exec",
+    "-C",
+    "/work/root dir",
+    "-o",
+    "/rec/.final-answer.txt",
+    "-c",
+    "model_reasoning_effort=\"minimal\"",
+    "Task: first line\nsecond line {cwd}"
+   ],
+   "fresh/full/high": [
+    "exec",
+    "-C",
+    "/work/root dir",
+    "-o",
+    "/rec/.final-answer.txt",
+    "-c",
+    "model_reasoning_effort=\"high\"",
+    "Task: first line\nsecond line {cwd}"
+   ],
+   "fresh/full/xhigh": [
+    "exec",
+    "-C",
+    "/work/root dir",
+    "-o",
+    "/rec/.final-answer.txt",
+    "-c",
+    "model_reasoning_effort=\"xhigh\"",
+    "Task: first line\nsecond line {cwd}"
+   ],
+   "resume/min": [
+    "exec",
+    "-C",
+    "/work/root dir",
+    "-o",
+    "/rec/.final-answer.txt",
+    "-c",
+    "model_reasoning_effort=\"\"",
+    "Task: first line\nsecond line {cwd}"
+   ],
+   "resume/full/none": [
+    "exec",
+    "-C",
+    "/work/root dir",
+    "-o",
+    "/rec/.final-answer.txt",
+    "-c",
+    "model_reasoning_effort=\"\"",
+    "Task: first line\nsecond line {cwd}"
+   ],
+   "resume/full/minimal": [
+    "exec",
+    "-C",
+    "/work/root dir",
+    "-o",
+    "/rec/.final-answer.txt",
+    "-c",
+    "model_reasoning_effort=\"minimal\"",
+    "Task: first line\nsecond line {cwd}"
+   ],
+   "resume/full/high": [
+    "exec",
+    "-C",
+    "/work/root dir",
+    "-o",
+    "/rec/.final-answer.txt",
+    "-c",
+    "model_reasoning_effort=\"high\"",
+    "Task: first line\nsecond line {cwd}"
+   ],
+   "resume/full/xhigh": [
+    "exec",
+    "-C",
+    "/work/root dir",
+    "-o",
+    "/rec/.final-answer.txt",
+    "-c",
+    "model_reasoning_effort=\"xhigh\"",
+    "Task: first line\nsecond line {cwd}"
+   ]
+  }
+ },
+ "prompts": {
+  "scratch": "You are working on a task delegated through OpenAgent.\nExecutor: Codex (GPT).\nWorking folder: /rec/work. Create or change files only inside this folder; do not change anything elsewhere.\nWhen you are done, give your final answer in the language of the task; if you cite sources, include links or references.\n\nTask:\ndo X",
+  "scratch-target": "You are working on a task delegated through OpenAgent.\nExecutor: Codex (GPT).\nWorking folder: /rec/work. Create or change files only inside this folder; do not change anything elsewhere.\nTarget document (read only; a/b.md in the project): /project/a/b.md\nWhen you are done, give your final answer in the language of the task; if you cite sources, include links or references.\n\nTask:\ndo X",
+  "declared-root": "You are working on a task delegated through OpenAgent.\nExecutor: Codex (GPT).\nWorking folder: /wt. Change code, build and run tests here; do not change files outside this folder.\nRecord folder for this run: /rec. OpenAgent writes the transcript and output log there; a report you want to keep separately goes there too, not into the working folder.\nWhen you are done, give your final answer in the language of the task; if you cite sources, include links or references.\n\nTask:\ndo X",
+  "folder": "You are working on a task delegated through OpenAgent.\nExecutor: Codex (GPT).\nWorking folder: /proj. Source changes stay inside this folder; records and build output may only be written to the record folder below.\nRecord and build output folder for this run: /home/rec. Every development record, test report, temporary build product and project cache must go to this folder, never into a sub-project. Do not change project configuration to redirect these paths; use the build tools' command-line options or a temporary configuration kept in this record folder.\nWhen you are done, give your final answer in the language of the task; if you cite sources, include links or references.\n\nTask:\ndo X",
+  "round3-native": "You are working on a task delegated through OpenAgent.\nExecutor: Codex (GPT).\nWorking folder: /wt. Change code, build and run tests here; do not change files outside this folder.\nRecord folder for this run: /rec. OpenAgent writes the transcript and output log there; a report you want to keep separately goes there too, not into the working folder.\nWhen you are done, give your final answer in the language of the task; if you cite sources, include links or references.\nThis is round 3 of the same task: the original brief and the rulings of earlier rounds still apply; where they conflict with this round's task, this round wins. The full record of earlier rounds is in /rec/transcript.md.\n\nOriginal brief:\nfirst brief\n\nRuling of round 2:\nruling two\n\nTask for this round (continues the previous one):\ncontinue",
+  "round2-replay": "You are working on a task delegated through OpenAgent.\nExecutor: Codex (GPT).\nWorking folder: /rec/work. Create or change files only inside this folder; do not change anything elsewhere.\nWhen you are done, give your final answer in the language of the task; if you cite sources, include links or references.\nThis is round 2 of the same task: the original brief and the rulings of earlier rounds still apply; where they conflict with this round's task, this round wins. The full record of earlier rounds is in /rec/transcript.md.\n\nOriginal brief:\nfirst brief\n\nYour previous answer:\n(none)\n\nTask for this round (continues the previous one):\ncontinue"
+ }
+}
