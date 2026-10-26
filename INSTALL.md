@@ -17,7 +17,7 @@ Each module's own description is `modules/<name>/module.json`: `summary`, `requi
 
 - **Ask before acting.** For anything that changes the user's machine (cloning, `pnpm install`, installing a CLI, registering MCP, copying a skill), say in one sentence what you are about to do and get consent first.
 - **Handle installs and sign-ins, never credentials.** You may install missing CLIs after the user agrees and open sign-ins in a visible terminal window; the CLI opens the browser and the user authorizes there. Never read, write or relay API keys or tokens, never accept passwords in chat, never click consent for the user.
-- **Don't touch the user's contract files.** `CLAUDE.md` / `AGENTS.md` belong to the user; setup changes nothing in them.
+- **Don't touch the user's contract files.** `CLAUDE.md` / `AGENTS.md` belong to the user; setup changes nothing in them. The optional checkup after setup (end of step 7) drafts changes and writes only what the user approves.
 - **Tell it like it is.** If something is not installed or not verified, say so. Don't invent configuration syntax for other vendors' CLIs: each CLI's own `--help` is the authority.
 - Close stdin whenever you launch a CLI yourself (`< /dev/null`); codex waits on stdin otherwise.
 
@@ -27,7 +27,7 @@ Ask these at once:
 
 1. **Which modules?** Explain each in one sentence from the table above. `context` is the usual start; `delegate` is worth it with two or more agent subscriptions, or to have a second session review the first one's work. Modules can be added later.
 2. **For `context`: English or Chinese?** The skill's language is the language the agent tends to answer in.
-3. **Where should the repository go, and which folder is the project?** The project is the folder the user runs the main agent in. Modules with code keep their records and configuration in `~/.openagent`, not in the project. Which OS is this?
+3. **Where should the repository go, and which folder is the project?** The project is the folder the user runs the main agent in. Modules with code keep their records and configuration in `~/.openagent`, not in the project. Which OS is this? If they usually start the main agent in their home folder: skills can be installed for every project, but the delegation MCP server refuses the home folder, so delegation tools will not appear in a session started there. Suggest a project folder for delegation.
 4. Only with `delegate`: **which services do they pay for** (Claude, ChatGPT, Google AI Pro or Ultra, SuperGrok, Cursor, or only API keys), and **which window do they usually direct agents from?** That one is the **main agent**. OpenAgent does not start another agent; it plugs into this one.
 
 ## 2. Detect what is on this machine
@@ -40,7 +40,16 @@ command -v claude codex agy grok cursor-agent   # only with delegate
 
 Node or pnpm missing: with Homebrew, ask and then `brew install node pnpm`; on Windows with winget, ask and then `winget install OpenJS.NodeJS.LTS`, then `corepack enable pnpm`; otherwise point the user to https://nodejs.org (it needs an admin password, which you never handle).
 
-Repeat what you were told and what you found in one sentence: "You want context (Chinese) and delegate; you pay for A and B, this machine has a and b installed, the main agent is X, the project is Y." Continue once they confirm.
+Look at the project too, read-only, to judge whether `context` helps:
+
+- explanatory documents (plans, reports, notes): in one `docs/` tree, or scattered across the root and code folders (`git ls-files '*.md'`)
+- `CLAUDE.md` / `AGENTS.md`: present? how many lines? is `AGENTS.md` a copy of `CLAUDE.md` that has drifted?
+- a decision log: `DECISIONS.md`, an `adr/` or `docs/adr/` folder, or none
+- commit conventions: `git log --oneline -20`, a `CONTRIBUTING.md`, a commitlint or similar config
+
+A project with scattered documents, no contract or a contract of hundreds of lines, and no decision log gains most from `context`; one that already has all three in order gains little.
+
+Repeat what you were told and what you found in one or two sentences: "You want context (Chinese) and delegate; you pay for A and B, this machine has a and b installed, the main agent is X, the project is Y. Its documents are scattered over N folders, there is no decision log, and CLAUDE.md has 400 lines, so context is worth it." Continue once they confirm; they may change the module choice now.
 
 ## 3. Download only the chosen modules
 
@@ -102,6 +111,8 @@ Compare the subscriptions with what `doctor` found, list "paid for but not insta
 On Windows, the install hints `openagent delegate --list` prints for missing CLIs give the PowerShell commands. Each vendor's own site is the authority; if a command fails, show the raw output and don't switch to unofficial sources. A CLI installed into `~/.local/bin` or similar may not be on the current shell's PATH yet: OpenAgent looks there anyway, and a new terminal will find it.
 
 ### 4.3 Sign-in (terminal, then browser)
+
+Run `openagent doctor` first. For every CLI of a service the user pays for whose sign-in is not `signed in` (`signed out`, or `unknown`, which agy always shows), offer to open its sign-in window. Do this before going on to 4.4, and before any probe or delegation; don't just report the state and move on.
 
 Signing in needs a TTY, which your shell does not have, so open a visible terminal window for the sign-in command. On macOS:
 
@@ -213,6 +224,15 @@ If everything passes, tell them how to phrase things from now on; they don't nee
 
 If something fails, show the raw error; don't guess.
 
+### Then, with context: a checkup of the project's documents
+
+Offer this once setup has passed; it is optional and runs as its own step:
+
+1. **File documents the OpenAgent way?** From now on the skill files new documents under `docs/` by itself. Ask whether to also move the scattered existing ones there.
+2. **A guided rewrite of `CLAUDE.md` / `AGENTS.md`?** Built from the current contract, the user's past conversations (with `sessions`: `openagent import-sessions --prompts` collects what they keep repeating) and their own experience, which you ask about.
+
+For either one, follow "Checking up a project" in the context skill: a report first, then drafts. Nothing is moved or written before the user approves it.
+
 ## 8. Updating and adding modules
 
 - Update: `git -C <repo> pull`, then `pnpm install --prod --frozen-lockfile` if a module has code, then copy the skills again (a copy does not follow the repository).
@@ -221,6 +241,6 @@ If something fails, show the raw error; don't guess.
 ## Don'ts
 
 - Don't install anything or open sign-in windows before the user agrees; don't click authorize for them, don't touch keys or tokens, don't use `sudo`.
-- Don't touch `CLAUDE.md` / `AGENTS.md` during setup.
+- Don't touch `CLAUDE.md` / `AGENTS.md` during setup; the checkup after it writes only what the user approved.
 - Don't import conversations with `--all-projects` without asking.
 - Don't download modules the user did not choose.

@@ -1,6 +1,6 @@
 ---
 name: openagent-context
-description: Keep a project's context in documents that every agent session reads. Use whenever you are about to write an explanatory document (plan, report, research, guide, review, notes) or need an earlier one, since it says where documents go under docs/ and how to find them. Also when setting up or tidying a project's contract (CLAUDE.md / AGENTS.md), its decision log (DECISIONS.md) or the agent's memory index (MEMORY.md), and when the user asks how to keep a long project on track with AI agents (review, context isolation, parallel subagents, reasoning effort, where personal habits go). Use when the user says "write up a plan", "where did we put the report on X", "what did we decide about Y", "set up CLAUDE.md for this project", "start a decision log".
+description: Keep a project's context in documents that every agent session reads. Use whenever you are about to write an explanatory document (plan, report, research, guide, review, notes) or need an earlier one, since it says where documents go under docs/ and how to find them. Also when checking up a project's documents, and when setting up or tidying a project's contract (CLAUDE.md / AGENTS.md), its decision log (DECISIONS.md) or the agent's memory index (MEMORY.md), and when the user asks how to keep a long project on track with AI agents (review, context isolation, parallel subagents, reasoning effort, where personal habits go). Use when the user says "write up a plan", "where did we put the report on X", "what did we decide about Y", "set up CLAUDE.md for this project", "start a decision log", "check up this project's documents".
 ---
 
 # Project context in documents
@@ -51,6 +51,22 @@ When the user asks to set up or tidy these files, or a project has none and the 
 - **Every rule carries its source**: `[owner]` for the user's own words, `[agreed]` for a suggestion they approved, `[incident]` for a lesson from rework, `[D0xx]` for a decision log entry.
 
 How these habits came about, and the working practices that go with them (review, context isolation, parallel subagents, reasoning effort, where personal habits go): [references/working-with-ai-agents.md](references/working-with-ai-agents.md). Read it first when the user asks about any of these.
+
+## Checking up a project
+
+When the user asks for a checkup of the project's documents, or agrees to the one offered after setup. A report comes first; nothing is moved or written before the user approves it.
+
+1. **Look.** Where explanatory documents are now (`git ls-files '*.md'`); `CLAUDE.md` / `AGENTS.md`: their length, progress or status lines in them, statements the code no longer bears out, an `AGENTS.md` that is a drifted copy; a decision log (`DECISIONS.md`, `adr/`, `docs/adr/`) or none; commit conventions (`git log --oneline -30`, `CONTRIBUTING.md`, commitlint and the like).
+2. **Report**, with evidence for each finding (a path, a command's output), and ask which of the two steps below the user wants.
+3. **Moving documents.** List each file with its target under `docs/` and its new date-first name; existing conventions in the contract win. After approval, move them with `git mv` and fix the links that pointed at them.
+4. **Rewriting the contract.** Gather material:
+   - the current contract, each line checked against the repository;
+   - what the user keeps repeating: if the OpenAgent sessions module is installed, importing with `--prompts` writes `USER_PROMPTS.md` and `USER_RULES.md` under `_prompts/` in the archive. A rule needs two or more places where the user said it, quoted as written;
+   - the user's own experience: ask what they keep correcting and what went wrong before;
+   - the commit conventions found in step 1.
+
+   Decide each item: keep it in the contract (it changes what an agent does, cannot be read from the code, and is costly to get wrong); delete it (the model does it anyway, the code shows it, or it is outdated); or move it (decisions to `DECISIONS.md`, progress to `docs/plans/`, preferences that are not settled yet to memory). Draft from the [contract template](references/contract-template.md), under 150 lines, every rule with its source. List the rules you inferred yourself separately and ask about each one.
+5. **Deliver.** Show the whole draft in the chat, with what was removed and why. Replace the file only after the user approves; if `AGENTS.md` is a link or a one-line pointer to `CLAUDE.md`, keep it that way.
 
 ## Don'ts
 

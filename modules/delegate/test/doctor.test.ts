@@ -1,7 +1,7 @@
 /**
  * `openagent doctor`: all five executors point at one fake CLI (.cjs, launched with the current Node like in
  * delegation). Pins where the binary was found, the version, the sign-in rules (status command / credentials file /
- * unrecognised = unknown) and the parsing of the minimal probe. Never touches installed CLIs.
+ * API key variable / unrecognised = unknown) and the parsing of the minimal probe. Never touches installed CLIs.
  */
 import fs from "node:fs";
 import os from "node:os";
@@ -55,7 +55,7 @@ describe("openagent doctor", () => {
     OPENAGENT_CLAUDE_BIN: fake,
   });
 
-  it("binary source, version and sign-in: a recognised status command says yes / no, a missing credentials file or no rule says unknown", async () => {
+  it("binary source, version and sign-in: a recognised status command says yes / no; a missing credentials file says no, or unknown while an API key is set; no rule says unknown", async () => {
     const r = await runDoctor({ env: env() });
     const row = (id: string) => r.executors.find((x) => x.id === id)!;
     expect(r.executors.map((x) => x.id)).toEqual(["codex", "agy", "grok", "cursor", "claude"]);
@@ -63,9 +63,11 @@ describe("openagent doctor", () => {
     expect(row("cursor").binSource).toBe("config");
     expect(row("cursor").login).toEqual({ state: "yes", detail: `cursor-agent status: ${CHECK} Logged in as someone` });
     expect(row("claude").login).toEqual({ state: "no", detail: 'claude auth status: "loggedIn": false' });
-    expect(row("grok").login.state).toBe("unknown");
+    expect(row("grok").login).toEqual({ state: "no", detail: "no credentials file ~/.grok/auth.json, and XAI_API_KEY is not set" });
     expect(row("agy").login.state).toBe("unknown");
     expect(r.probed).toBe(false);
+    const withKey = (await runDoctor({ env: { ...env(), XAI_API_KEY: "xai-test" } })).executors.find((x) => x.id === "grok")!;
+    expect(withKey.login).toMatchObject({ state: "unknown", detail: expect.stringMatching(/XAI_API_KEY is set/) });
     fs.mkdirSync(path.join(base, ".grok"), { recursive: true });
     fs.writeFileSync(path.join(base, ".grok", "auth.json"), "{}");
     expect((await runDoctor({ env: env() })).executors.find((x) => x.id === "grok")!.login.state).toBe("yes");

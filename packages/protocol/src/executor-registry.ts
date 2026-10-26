@@ -101,8 +101,8 @@ export type ProcessNames = Record<Platform, string[]>;
 /**
  * Health check (`openagent doctor`): the version arguments and how to tell the sign-in state. What cannot be decided is
  * "unknown", never a guess:
- *   - `{ file }`: the credentials file (starting with `~/`) exists = signed in (expiry not checked); missing = unknown
- *     (an API key environment variable may be in use)
+ *   - `{ file, env? }`: the credentials file (starting with `~/`) exists = signed in (expiry not checked). Missing:
+ *     signed out when none of the API key variables in `env` is set, unknown when one is (or when `env` is not given)
  *   - `{ command, yes?, no? }`: run these arguments (stdin closed, short timeout); output matching the yes regex = signed
  *     in, matching the no regex = signed out, anything else = unknown
  * Tried in order; the first rule that says signed in / signed out wins. Only the minimal real call of `--probe` can tell
@@ -110,7 +110,7 @@ export type ProcessNames = Record<Platform, string[]>;
  */
 export interface DoctorSpec {
   version?: string[];
-  login?: Array<{ file: string } | { command: string[]; yes?: string; no?: string }>;
+  login?: Array<{ file: string; env?: string[] } | { command: string[]; yes?: string; no?: string }>;
 }
 
 export interface RegistryEntry {
@@ -215,9 +215,9 @@ function validateEntry(e: unknown): RegistryEntry {
     const d = e.doctor;
     if (!isObj(d) || (d.version !== undefined && !isStrArr(d.version))) throw new Error(`${w}.doctor.version must be an array of strings`);
     for (const [i, r] of ((d.login as unknown[]) ?? []).entries()) {
-      const okFile = isObj(r) && isStr(r.file);
+      const okFile = isObj(r) && isStr(r.file) && (r.env === undefined || isStrArr(r.env));
       const okCmd = isObj(r) && isStrArr(r.command) && [r.yes, r.no].every((x) => x === undefined || isStr(x));
-      if (!okFile && !okCmd) throw new Error(`${w}.doctor.login[${i}] must be {file} or {command, yes?, no?}`);
+      if (!okFile && !okCmd) throw new Error(`${w}.doctor.login[${i}] must be {file, env?} or {command, yes?, no?}`);
       for (const k of ["yes", "no"] as const) if (okCmd && isStr(r[k])) new RegExp(r[k] as string);
     }
   }

@@ -131,7 +131,7 @@
       "efforts": ["low", "medium", "high", "xhigh"],
       "effortFlag": "--reasoning-effort",
       "defaults": { "stallMs": 0 },
-      "doctor": { "version": ["--version"], "login": [{ "file": "~/.grok/auth.json" }] }
+      "doctor": { "version": ["--version"], "login": [{ "file": "~/.grok/auth.json", "env": ["XAI_API_KEY"] }] }
     },
     {
       "id": "cursor",

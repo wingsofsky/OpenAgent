@@ -9,6 +9,7 @@ What you get:
 - Fixed places under `docs/` for plans, reports, research and guides, and a way to find earlier ones, so every session files and finds documents the same way.
 - A contract template for `CLAUDE.md` / `AGENTS.md`: the rules every session reads first, each with its source, under 150 lines.
 - A decision log template for `DECISIONS.md` in the ADR (architecture decision record) style: each design choice with its evidence and who made it.
+- A checkup for an existing project: where its documents are, its contract, its decision log and commit conventions; then, if the user wants, documents moved under `docs/` and a guided rewrite of the contract from past conversations. Nothing is written before the user approves.
 - Lessons from working with AI agents: where the rules in the templates came from, plus review, context isolation, parallel subagents, reasoning effort and where personal habits go.
 
 The skill comes in English and Chinese. The language of the skill is the language your agent tends to answer in, so pick the one you want replies in.

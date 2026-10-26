@@ -133,7 +133,13 @@ async function checkLogin(entry: RegistryEntry, bin: string, opt: { quickTimeout
   for (const rule of rules) {
     if ("file" in rule) {
       if (fs.existsSync(expandPath(rule.file))) return { state: "yes", detail: `credentials file ${rule.file} exists (expiry not checked)` };
-      notes.push(`no credentials file ${rule.file} (an API key environment variable may be in use)`);
+      if (!rule.env) {
+        notes.push(`no credentials file ${rule.file} (an API key environment variable may be in use)`);
+        continue;
+      }
+      const set = rule.env.filter((name) => opt.env[name]);
+      if (!set.length) return { state: "no", detail: `no credentials file ${rule.file}, and ${rule.env.join(" / ")} is not set` };
+      notes.push(`no credentials file ${rule.file}; ${set.join(", ")} is set (only --probe tells whether the key works)`);
       continue;
     }
     const cmd = [entry.bin?.names[0] ?? path.basename(bin), ...rule.command].join(" ");

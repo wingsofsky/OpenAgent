@@ -1,6 +1,6 @@
 ---
 name: openagent-context
-description: 把项目的上下文放进每个 agent 会话都会读的文档里。要写说明性文档（计划、报告、调研、指南、审阅、笔记）或要找以前的文档时使用：它规定文档放在 docs/ 下哪里、怎么找。也用于搭建或整理项目契约（CLAUDE.md / AGENTS.md）、决策日志（DECISIONS.md）和 agent 的记忆索引（MEMORY.md），以及用户问长项目怎么和 AI agent 一起做不走样（审查、上下文隔离、并行子 agent、思考强度、个人习惯放哪）。用户说「写个计划」「X 的报告放哪了」「Y 当时怎么定的」「给这个项目建 CLAUDE.md」「开个决策日志」时使用。Keep project context in documents; where docs go under docs/ and how to find them; CLAUDE.md, DECISIONS.md, MEMORY.md.
+description: 把项目的上下文放进每个 agent 会话都会读的文档里。要写说明性文档（计划、报告、调研、指南、审阅、笔记）或要找以前的文档时使用：它规定文档放在 docs/ 下哪里、怎么找。也用于给项目的文档做体检，搭建或整理项目契约（CLAUDE.md / AGENTS.md）、决策日志（DECISIONS.md）和 agent 的记忆索引（MEMORY.md），以及用户问长项目怎么和 AI agent 一起做不走样（审查、上下文隔离、并行子 agent、思考强度、个人习惯放哪）。用户说「写个计划」「X 的报告放哪了」「Y 当时怎么定的」「给这个项目建 CLAUDE.md」「开个决策日志」「给项目的文档做个体检」时使用。Keep project context in documents; where docs go under docs/ and how to find them; CLAUDE.md, DECISIONS.md, MEMORY.md; project checkup.
 ---
 
 # 用文档保存项目上下文
@@ -53,6 +53,22 @@ description: 把项目的上下文放进每个 agent 会话都会读的文档里
 - **每条规则都标出处**：`[owner]` 是用户的原话，`[agreed]` 是用户同意了的建议，`[incident]` 是返工得来的教训，`[D0xx]` 是决策日志条目。
 
 这些习惯怎么来的，以及配套的协作做法（审查、上下文隔离、并行子 agent、思考强度、个人习惯放哪）：[references/working-with-ai-agents.md](references/working-with-ai-agents.md)。用户问到这些时先读它。
+
+## 给项目做体检
+
+用户要给项目的文档做体检，或者同意了安装后提议的体检时使用。先交报告；用户点头前，不移动、不写入任何文件。
+
+1. **看现状。** 说明性文档现在放在哪（`git ls-files '*.md'`）；`CLAUDE.md` / `AGENTS.md`：有多长，里面有没有进度和状态行，有没有代码里已经对不上的说法，`AGENTS.md` 是不是一份走了样的副本；有没有决策日志（`DECISIONS.md`、`adr/`、`docs/adr/`）；提交规范是什么（`git log --oneline -30`、`CONTRIBUTING.md`、commitlint 之类）。
+2. **交报告**，每条发现附证据（路径或命令输出），问用户下面两步要做哪一步。
+3. **整理文档。** 逐个列出文件、它在 `docs/` 下的目标位置和以日期开头的新名字；契约里已有的约定优先。用户同意后用 `git mv` 移动，并修好指向它们的链接。
+4. **重写契约。** 先收集素材：
+   - 现有契约，每一行对照仓库核一遍；
+   - 用户反复说过的话：装了 OpenAgent 的 sessions 模块的话，导入时加 `--prompts` 会在档案的 `_prompts/` 下写出 `USER_PROMPTS.md` 和 `USER_RULES.md`。一条规则要有两处以上用户说过的原话，按原样引用；
+   - 用户自己的经验：问他们经常纠正什么、以前出过什么问题；
+   - 第 1 步查到的提交规范。
+
+   逐条判定：留在契约里（会改变 agent 的做法、从代码里看不出来、写错了代价高）；删掉（模型本来就会做、代码里看得出来、已经过时）；或者搬走（决策进 `DECISIONS.md`，进度进 `docs/plans/`，还没定下来的偏好进记忆）。按[契约模板](references/contract-template.md)起草，150 行以内，每条规则标出处。你自己推断出来的规则单独列出，逐条问用户要不要。
+5. **交付。** 在聊天里贴出完整草稿，附上删了什么、为什么删。用户同意后才替换文件；`AGENTS.md` 如果是指向 `CLAUDE.md` 的链接或一行指引，保持原样。
 
 ## 不要做的事
 
