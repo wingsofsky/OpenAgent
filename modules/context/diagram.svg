@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 600" width="880" height="600" role="img" aria-label="Before the context module a project has only code. After it, your user folder holds your habits, skills and the agent's memory index, and the project holds CLAUDE.md, AGENTS.md, DECISIONS.md and docs folders. The module brings a skill, three templates and a guide of lessons from working with AI agents.">
+  <style>
+    .panel { fill: #f6f8fa; stroke: #d1d9e0; } .chip { fill: #ffffff; stroke: #d1d9e0; }
+    .ink { fill: #1f2328; } .muted { fill: #59636e; } .accent { fill: #bc4c00; }
+    .line { stroke: #59636e; } .arrowhead { fill: #59636e; }
+    .sans { font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace; }
+    @media (prefers-color-scheme: dark) {
+      .panel { fill: #161b22; stroke: #3d444d; } .chip { fill: #0d1117; stroke: #3d444d; }
+      .ink { fill: #e6edf3; } .muted { fill: #9198a1; } .accent { fill: #f0883e; }
+      .line { stroke: #9198a1; } .arrowhead { fill: #9198a1; }
+    }
+  </style>
+
+  <!-- before -->
+  <rect class="panel" x="1" y="1" width="278" height="474" rx="10"/>
+  <text class="ink sans" x="22" y="36" font-size="18" font-weight="600">Before</text>
+  <text class="muted sans" x="22" y="58" font-size="13">code, and nothing every session reads</text>
+  <g class="ink mono" font-size="14">
+    <text x="22" y="100">my-app/</text>
+    <text x="22" y="124">├── src/</text>
+    <text x="22" y="148">├── package.json</text>
+    <text x="22" y="172">└── README.md</text>
+  </g>
+  <g class="muted sans" font-size="13">
+    <text x="22" y="226">Each new session starts from zero:</text>
+    <text x="22" y="246">your habits, the project's rules,</text>
+    <text x="22" y="266">its decisions and its plans are in</text>
+    <text x="22" y="286">old chats nobody can find.</text>
+  </g>
+
+  <line class="line" x1="288" y1="238" x2="344" y2="238" stroke-width="1.5"/>
+  <path class="arrowhead" d="M 352 238 L 342 232 L 342 244 Z"/>
+  <text class="muted sans" x="320" y="224" font-size="12" text-anchor="middle">install</text>
+  <text class="muted sans" x="320" y="260" font-size="12" text-anchor="middle">checkup</text>
+
+  <!-- after -->
+  <rect class="panel" x="361" y="1" width="518" height="474" rx="10"/>
+  <text class="ink sans" x="382" y="36" font-size="18" font-weight="600">After</text>
+  <text class="muted sans" x="382" y="58" font-size="13">each kind of context in its own file, read at the start of every session</text>
+
+  <text class="ink mono" x="382" y="92" font-size="13.5">~/</text>
+  <text class="muted sans" x="406" y="92" font-size="12.5">your user folder: follows you into every project</text>
+  <g class="accent mono" font-size="13.5">
+    <text x="382" y="116">├── .claude/CLAUDE.md</text>
+    <text x="382" y="156">├── .claude/skills/</text>
+    <text x="382" y="196">└── .claude/projects/…/MEMORY.md</text>
+  </g>
+  <g class="muted sans" font-size="12">
+    <text x="414" y="133">your habits: reply language, report format (Codex: ~/.codex/AGENTS.md)</text>
+    <text x="414" y="173">the context skill, and procedures that have settled into skills</text>
+    <text x="414" y="213">the agent's memory index: lasting facts, one line each</text>
+  </g>
+
+  <text class="ink mono" x="382" y="250" font-size="13.5">my-app/</text>
+  <text class="muted sans" x="448" y="250" font-size="12.5">this project only; where the two disagree, the project wins</text>
+  <g class="accent mono" font-size="13.5">
+    <text x="382" y="274">├── CLAUDE.md</text>
+    <text x="382" y="314">├── AGENTS.md</text>
+    <text x="382" y="354">├── DECISIONS.md</text>
+    <text x="382" y="394">├── docs/</text>
+  </g>
+  <g class="muted sans" font-size="12">
+    <text x="414" y="291">this project's rules, each with its source, under 150 lines</text>
+    <text x="414" y="331">the same rules, for Codex and others</text>
+    <text x="414" y="371">each decision, its evidence and who made it; entries are only added</text>
+    <text x="414" y="411">plans/ reports/ research/ guides/ notes/, file names start with the date</text>
+  </g>
+  <text class="ink mono" x="382" y="440" font-size="13.5">└── src/  package.json  README.md</text>
+  <text class="muted sans" x="414" y="457" font-size="12">unchanged</text>
+
+  <!-- what the module brings -->
+  <rect class="panel" x="1" y="489" width="878" height="110" rx="10"/>
+  <text class="ink sans" x="22" y="520" font-size="16" font-weight="600">What the module brings</text>
+  <g class="sans">
+    <rect class="chip" x="22" y="536" width="160" height="46" rx="6"/>
+    <text class="ink" x="34" y="556" font-size="12.5">The skill</text><text class="muted" x="34" y="573" font-size="11">where docs go, a checkup</text>
+    <rect class="chip" x="191" y="536" width="160" height="46" rx="6"/>
+    <text class="ink" x="203" y="556" font-size="12.5">User-level template</text><text class="muted" x="203" y="573" font-size="11">your habits, every project</text>
+    <rect class="chip" x="360" y="536" width="160" height="46" rx="6"/>
+    <text class="ink" x="372" y="556" font-size="12.5">CLAUDE.md template</text><text class="muted" x="372" y="573" font-size="11">project rules, sourced</text>
+    <rect class="chip" x="529" y="536" width="160" height="46" rx="6"/>
+    <text class="ink" x="541" y="556" font-size="12.5">DECISIONS.md template</text><text class="muted" x="541" y="573" font-size="11">ADR style, who decided</text>
+    <rect class="chip" x="698" y="536" width="160" height="46" rx="6"/>
+    <text class="ink" x="710" y="556" font-size="12.5">Working with AI agents</text><text class="muted" x="710" y="573" font-size="11">the lessons behind it</text>
+  </g>
+</svg>

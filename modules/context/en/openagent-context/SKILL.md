@@ -47,6 +47,7 @@ When the user asks to set up or tidy these files, or a project has none and the 
 
 - **Contract**: start from [references/contract-template.md](references/contract-template.md). Show the user a draft filled in from what you know of the project and of them; write `CLAUDE.md` only after they approve it. If the project also needs `AGENTS.md` (Codex and others read that name), make it a link to `CLAUDE.md` or a one-line pointer, never a second copy.
 - **Decision log**: start from [references/decision-log-template.md](references/decision-log-template.md). One entry per architecture-level choice, newest first, append-only, and every entry says who decided. A recommendation the user accepted is recorded as such, never as the user's own decision.
+- **The user's own habits**: start from [references/user-template.md](references/user-template.md). They go into the user-level file (`~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md`), never into a project's contract. Show the draft and write it only after the user approves.
 - **Memory**: `MEMORY.md` is an index, one line per fact, details in separate files. A preference that keeps coming back is proposed for the contract.
 - **Every rule carries its source**: `[owner]` for the user's own words, `[agreed]` for a suggestion they approved, `[incident]` for a lesson from rework, `[D0xx]` for a decision log entry.
 

@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 330" width="880" height="330" role="img" aria-label="A brief saved once, and one agent CLI that works through a folder of repositories one at a time, unattended, with a snapshot and a record for each">
+  <style>
+    .panel { fill: #f6f8fa; stroke: #d1d9e0; } .chip { fill: #ffffff; stroke: #d1d9e0; }
+    .ink { fill: #1f2328; } .muted { fill: #59636e; } .accent { fill: #bc4c00; }
+    .done { fill: #1a7f37; } .line { stroke: #59636e; fill: none; } .arrowhead { fill: #59636e; }
+    .sans { font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace; }
+    @media (prefers-color-scheme: dark) {
+      .panel { fill: #161b22; stroke: #3d444d; } .chip { fill: #0d1117; stroke: #3d444d; }
+      .ink { fill: #e6edf3; } .muted { fill: #9198a1; } .accent { fill: #f0883e; }
+      .done { fill: #3fb950; } .line { stroke: #9198a1; } .arrowhead { fill: #9198a1; }
+    }
+  </style>
+
+  <!-- brief -->
+  <rect class="panel" x="1" y="40" width="240" height="200" rx="10"/>
+  <text class="ink sans" x="20" y="72" font-size="16" font-weight="600">A brief, saved once</text>
+  <text class="ink mono" x="20" y="98" font-size="12">~/.openagent/folder/brief/</text>
+  <text class="accent mono" x="20" y="132" font-size="13.5">task.md</text>
+  <text class="muted sans" x="20" y="150" font-size="12.5">what to do in each repository</text>
+  <text class="accent mono" x="20" y="184" font-size="13.5">rules.md</text>
+  <text class="muted sans" x="20" y="202" font-size="12.5">the rules while doing it</text>
+
+  <path class="line" d="M 242 140 L 300 140" stroke-width="1.5"/>
+  <path class="arrowhead" d="M 308 140 L 298 134 L 298 146 Z"/>
+
+  <!-- runner -->
+  <rect class="panel" x="314" y="80" width="200" height="120" rx="10"/>
+  <text class="ink sans" x="332" y="112" font-size="16" font-weight="600">One agent CLI</text>
+  <text class="muted sans" x="332" y="134" font-size="12.5">unattended, one repository</text>
+  <text class="muted sans" x="332" y="152" font-size="12.5">at a time, a snapshot first</text>
+  <text class="ink mono" x="332" y="182" font-size="11.5">openagent folder &lt;dir&gt;</text>
+
+  <path class="line" d="M 515 140 L 572 140" stroke-width="1.5"/>
+  <path class="arrowhead" d="M 580 140 L 570 134 L 570 146 Z"/>
+
+  <!-- repositories -->
+  <rect class="panel" x="586" y="1" width="293" height="328" rx="10"/>
+  <text class="ink mono" x="606" y="34" font-size="13.5">projects/</text>
+  <g class="sans" font-size="13">
+    <rect class="chip" x="606" y="52" width="253" height="46" rx="8"/>
+    <text class="ink mono" x="622" y="80" font-size="13.5">api-server/</text><text class="done" x="843" y="80" text-anchor="end">done</text>
+    <rect class="chip" x="606" y="108" width="253" height="46" rx="8"/>
+    <text class="ink mono" x="622" y="136" font-size="13.5">web-client/</text><text class="done" x="843" y="136" text-anchor="end">done</text>
+    <rect class="chip" x="606" y="164" width="253" height="46" rx="8"/>
+    <text class="ink mono" x="622" y="192" font-size="13.5">mobile-app/</text><text class="accent" x="843" y="192" text-anchor="end">working</text>
+    <rect class="chip" x="606" y="220" width="253" height="46" rx="8"/>
+    <text class="ink mono" x="622" y="248" font-size="13.5">docs-site/</text><text class="muted" x="843" y="248" text-anchor="end">next</text>
+  </g>
+  <text class="muted sans" x="606" y="300" font-size="12.5">a record and transcript for each,</text>
+  <text class="muted sans" x="606" y="317" font-size="12.5">kept outside the folder</text>
+</svg>

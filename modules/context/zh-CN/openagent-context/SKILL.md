@@ -49,6 +49,7 @@ description: 把项目的上下文放进每个 agent 会话都会读的文档里
 
 - **契约**：从 [references/contract-template.md](references/contract-template.md) 起步。按你对项目和用户的了解填一份草稿给用户看；用户点头后再写 `CLAUDE.md`。项目还需要 `AGENTS.md`（Codex 等读这个名字）时，做成指向 `CLAUDE.md` 的链接或一行指引，绝不复制第二份。
 - **决策日志**：从 [references/decision-log-template.md](references/decision-log-template.md) 起步。每个架构级选择一条，新的在前，只追加，每条写明谁拍的板。用户采纳的推荐就记成「推荐、用户同意」，绝不记成用户自己的决定。
+- **用户自己的习惯**：从 [references/user-template.md](references/user-template.md) 起步。写进用户级文件（`~/.claude/CLAUDE.md`、`~/.codex/AGENTS.md`），绝不写进项目契约。先给用户看草稿，用户点头后再写。
 - **记忆**：`MEMORY.md` 是索引，每条一行，细节放单独的文件。反复出现的偏好，提议升进契约。
 - **每条规则都标出处**：`[owner]` 是用户的原话，`[agreed]` 是用户同意了的建议，`[incident]` 是返工得来的教训，`[D0xx]` 是决策日志条目。
 

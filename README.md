@@ -6,7 +6,7 @@ OpenAgent keeps the context of a long project in a complete set of documents, no
 
 [中文说明](README.zh-CN.md)
 
-## Why you would install it
+## What each module solves
 
 A new agent session knows only the files it reads. On a long project that causes four problems, and each module answers one of them:
 
@@ -17,24 +17,31 @@ A new agent session knows only the files it reads. On a long project that causes
 | You pay for several agent services, and each is good at something different, but they never work on the same task | delegate |
 | A folder of repositories needs the same kind of work, unattended | folder |
 
-If your project already has an `AGENTS.md` and a decision log, the context module adds little beyond rules for where documents go; sessions may be the only module you need.
+A project that already has an `AGENTS.md` and a decision log still gets the checkup: the context module looks at where its documents are, its contract, its decision log and its commit conventions, and moves or rewrites only what you approve.
 
 ## What it looks like
 
-```text
-You:          Write up a plan for the search redesign
-Claude Code:  saved docs/plans/2026-10-26-search-redesign.md      (context)
+**context**: your habits, the project's rules, its decisions and its documents, each in the file every session reads first.
 
-You:          Have grok find this year's changes to the MCP spec, with sources
-Claude Code:  reads the handbook, hands the task to grok, checks the answer
-              grok found four changes; sources below. Record: ~/.openagent/runs/<project>/<task-id>/   (delegate)
-```
+![A project before and after the context module](modules/context/diagram.svg)
+
+**sessions**: past conversations from six agent CLIs, searchable as Markdown.
+
+![Transcripts from six agent CLIs imported as searchable Markdown](modules/sessions/diagram.svg)
+
+**delegate**: your main agent hands a task to another agent CLI, keeps the record and checks the result. A real delegation, as it looked in Claude Code, is in the [delegate README](modules/delegate/README.md).
+
+![The main agent hands a brief to an executor, keeps the record and records a verdict](modules/delegate/diagram.svg)
+
+**folder**: one agent CLI works through a folder of repositories with a brief you saved once.
+
+![One agent CLI works through a folder of repositories, unattended](modules/folder/diagram.svg)
 
 ## Modules
 
 | Module | What you get | Needs |
 |---|---|---|
-| [context](modules/context/README.md) | fixed places under `docs/` for plans, reports, research and guides, and a way to find them; a template for `CLAUDE.md` / `AGENTS.md`; a decision log in the ADR (architecture decision record) style that also records who made each call; lessons learned from working with AI agents. English or Chinese | git |
+| [context](modules/context/README.md) | fixed places under `docs/` for plans, reports, research and guides, and a way to find them; templates for a project's `CLAUDE.md` / `AGENTS.md` and for your own habits in every project; a decision log in the ADR (architecture decision record) style that also records who made each call; lessons learned from working with AI agents. English or Chinese | git |
 | [sessions](modules/sessions/README.md) | your past Claude Code, Codex, Gemini CLI, Grok Build, Antigravity and Cursor Agent conversations as searchable Markdown in `~/.openagent`, whichever account they came from | Node 22.19+, pnpm, git |
 | [delegate](modules/delegate/README.md) | each agent does what it is best at: from the chat, your main agent hands grok the web search, codex the math, cursor the multi-file code change, agy the explanation or the front end. Every task is kept as a folder with the brief, the transcript, what changed and your verdict; a snapshot is taken before an executor touches the project; one shared handbook records what each CLI is good at | Node 22.19+, pnpm, git, and at least one other agent CLI you are signed in to |
 | [folder](modules/folder/README.md) | one agent CLI works through a folder of repositories unattended, with a brief you saved once; builds on delegate | as delegate |

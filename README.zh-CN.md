@@ -6,7 +6,7 @@
 
 [English](README.md)
 
-## 为什么要装
+## 每个模块解决什么
 
 新开的 agent 会话只知道它读到的文件。长项目因此会遇到四个问题，每个模块解决其中一个：
 
@@ -17,24 +17,33 @@
 | 付费用了几家 agent，各有所长，却从来没在同一件事上配合过 | delegate |
 | 一整个文件夹的仓库要做同一类活，没人盯着 | folder |
 
-如果你的项目已经有 `AGENTS.md` 和决策日志，context 模块能多给你的只有「文档放哪、怎么找」的规矩，可以只装 sessions。
+已经有 `AGENTS.md` 和决策日志的项目，照样能用 context 做体检：它会看文档放在哪、契约、决策日志和提交规范，要搬要改都等你点头。
 
 ## 用起来是什么样
 
-```text
-你：          给搜索改版写个计划
-Claude Code： 已存 docs/plans/2026-10-26-search-redesign.md                       （context）
+**context**：你的习惯、项目的规则、决策和文档，各放进每个会话一开工就读的文件里。
 
-你：          让 grok 查一下今年 MCP 规范的变化，附来源
-Claude Code： 先读手册，把任务交给 grok，再核对它的回答
-              grok 找到四处变化，来源如下。记录：~/.openagent/runs/<project>/<task-id>/   （delegate）
-```
+![装 context 模块前后的项目](modules/context/diagram.svg)
+
+**sessions**：六个 agent CLI 的历史对话，变成能搜的 Markdown。
+
+![六个 agent CLI 的对话记录导入成能搜的 Markdown](modules/sessions/diagram.svg)
+
+**delegate**：主 agent 把任务交给别家 agent CLI，留下记录，自己核对结果。一次真实委派在 Claude Code 里的样子，见 [delegate 的 README](modules/delegate/README.md)（英文）。
+
+![主 agent 把任务书交给执行者，留下记录，记下验收结论](modules/delegate/diagram.svg)
+
+**folder**：一个 agent CLI 按一份只写一次的任务书，挨个处理文件夹里的仓库。
+
+![一个 agent CLI 无人值守地挨个处理文件夹里的仓库](modules/folder/diagram.svg)
+
+（图里的文字是英文。）
 
 ## 模块
 
 | 模块 | 你会得到 | 需要 |
 |---|---|---|
-| [context](modules/context/README.zh-CN.md) | `docs/` 下给计划、报告、调研、指南定好的位置和找旧文档的办法；`CLAUDE.md` / `AGENTS.md` 模板；ADR（架构决策记录）格式的决策日志，每条还写明谁拍的板；和 AI agent 一起干活踩过的坑。中文或英文 | git |
+| [context](modules/context/README.zh-CN.md) | `docs/` 下给计划、报告、调研、指南定好的位置和找旧文档的办法；项目 `CLAUDE.md` / `AGENTS.md` 的模板，以及每个项目都用的个人习惯模板；ADR（架构决策记录）格式的决策日志，每条还写明谁拍的板；和 AI agent 一起干活踩过的坑。中文或英文 | git |
 | [sessions](modules/sessions/README.md) | 你过去在 Claude Code、Codex、Gemini CLI、Grok Build、Antigravity、Cursor Agent 里的对话，不管来自哪个账号，都变成 `~/.openagent` 里能搜的 Markdown | Node 22.19+、pnpm、git |
 | [delegate](modules/delegate/README.md) | 让每家 agent 做它最擅长的事：在聊天里让主 agent 把查资料交给 grok、算数交给 codex、多文件改代码交给 cursor、讲解和前端交给 agy。每个任务存成一个文件夹，有任务书、完整对话、改了什么和你的验收结论；执行者动项目之前先拍快照；一份共享手册记着每家 CLI 擅长什么 | Node 22.19+、pnpm、git，外加至少一个已登录的 agent CLI |
 | [folder](modules/folder/README.md) | 一家 agent CLI 按你存好的任务书，无人值守地处理一整个文件夹的仓库；建在 delegate 之上 | 同 delegate |

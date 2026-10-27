@@ -2,12 +2,15 @@
 
 本模块把项目的上下文放进每个 agent 会话都会读的文档里。它包含一个 skill 和装这些上下文的文件模板。模块没有代码：下载只要 git，任何会读 skill 的 agent 都能用（Claude Code、Codex 等）。
 
+![装 context 模块前后的项目（图里的文字是英文）](diagram.svg)
+
 [English](README.md)
 
 你会得到：
 
 - `docs/` 下给计划、报告、调研、指南定好的位置，以及找旧文档的办法，每个会话都按同一套规矩存、按同一套规矩找。
 - `CLAUDE.md` / `AGENTS.md` 的契约模板：每个会话先读的规则，每条标出处，150 行以内。
+- 个人习惯的模板：用户级的 `~/.claude/CLAUDE.md` / `~/.codex/AGENTS.md`，每个项目都生效，比如回复语言、汇报格式、哪些事要先问你。
 - `DECISIONS.md` 的决策日志模板，ADR（架构决策记录）格式：每个设计选择，附证据和拍板人。
 - 给已有项目做体检：文档放在哪、契约、决策日志和提交规范；用户愿意的话，再把文档挪进 `docs/`，并参考以往对话引导重写契约。用户点头前什么都不写。
 - 和 AI agent 一起干活踩过的坑：模板里的规则是从哪来的，以及审查、上下文隔离、并行子 agent、思考强度、个人习惯放哪。
@@ -19,7 +22,7 @@ skill 有英文和中文两版。skill 用什么语言写，agent 往往就用�
 | 英文 | [en/openagent-context](en/openagent-context/SKILL.md) |
 | 中文 | [zh-CN/openagent-context](zh-CN/openagent-context/SKILL.md) |
 
-每个文件夹里有 `SKILL.md` 和 `references/`：[契约模板](zh-CN/openagent-context/references/contract-template.md)、[决策日志模板](zh-CN/openagent-context/references/decision-log-template.md)、[和 AI agent 一起干活](zh-CN/openagent-context/references/working-with-ai-agents.md)。
+每个文件夹里有 `SKILL.md` 和 `references/`：[契约模板](zh-CN/openagent-context/references/contract-template.md)、[用户级模板](zh-CN/openagent-context/references/user-template.md)、[决策日志模板](zh-CN/openagent-context/references/decision-log-template.md)、[和 AI agent 一起干活](zh-CN/openagent-context/references/working-with-ai-agents.md)。
 
 ## 安装
 

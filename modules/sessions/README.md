@@ -2,6 +2,8 @@
 
 This module turns the local transcripts of Claude Code, Codex, Gemini CLI, Grok Build, Antigravity and Cursor Agent into Markdown archives with an index, kept in `~/.openagent` rather than in your project, so a later session can search them for what was decided and why. Its command is `openagent import-sessions`; it runs no model and needs no network.
 
+![Transcripts from six agent CLIs imported as searchable Markdown](diagram.svg)
+
 ## Install
 
 Send this to your main agent:

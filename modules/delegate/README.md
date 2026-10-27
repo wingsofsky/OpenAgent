@@ -9,11 +9,9 @@ Words used below:
 - **Project**: the folder the main agent works in. OpenAgent writes nothing into it unless you ask.
 - **Home folder**: `~/.openagent` (or `OPENAGENT_HOME`), where every record and all configuration live. Nothing in a project configures OpenAgent.
 
-```text
-You:          Have grok find this year's changes to the MCP spec, with sources
-Claude Code:  reads the handbook, then delegate_task({ executor: "grok", ... })
-Claude Code:  grok found four changes; sources below. Record: ~/.openagent/runs/<project-key>/<task-id>/
-```
+A real delegation in Claude Code: the main agent handed a web search to grok and a page rewrite to Codex, checked each answer against the sources and its own tests, and recorded a verdict before it reported back.
+
+![A delegation in Claude Code: the brief to grok, two checks with their verdicts, and the conclusion](example.png)
 
 Your agent could call `grok -p` in a shell instead. Here is what OpenAgent adds:
 

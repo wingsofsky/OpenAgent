@@ -2,6 +2,8 @@
 
 This module runs one agent CLI on a folder, unattended, with a brief you saved once; each such run is a folder task. Typical use: a parent folder of several repositories, and a brief that says "look at each project, pick well-founded unfinished work, do it, and verify it". OpenAgent snapshots the working folder first and keeps the record, transcript and log in its home folder, so the only changes in the folder are the agent's own work.
 
+![One agent CLI works through a folder of repositories, unattended](diagram.svg)
+
 This module builds on the [delegation module](../delegate/README.md): it uses the same executors, defaults, records and snapshots, and installing it installs delegation too.
 
 ```bash
