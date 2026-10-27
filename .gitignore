@@ -6,3 +6,10 @@ dist
 
 # OpenAgent state of this checkout used as a project
 .openagent/
+
+# Maintainer's working notes, kept out of the repository
+/docs/plans/
+/docs/reports/
+/docs/research/
+/docs/zh-CN/
+/CLAUDE.local.md

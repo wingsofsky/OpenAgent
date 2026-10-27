@@ -1,7 +1,7 @@
 /**
  * Shared pieces of the MCP server: tool annotations, the instructions text, and result helpers.
  *
- * The server registers the delegation tools. Every registered tool has an entry in ANNOTATIONS (tests/mcp.test.ts checks this).
+ * The server registers the delegation tools. Every registered tool has an entry in ANNOTATIONS (modules/delegate/test/mcp.test.ts checks this).
  */
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import type { ToolAnnotations } from "@modelcontextprotocol/sdk/types.js";

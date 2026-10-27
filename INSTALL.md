@@ -231,7 +231,16 @@ Offer this once setup has passed; it is optional and runs as its own step:
 1. **File documents the OpenAgent way?** From now on the skill files new documents under `docs/` by itself. Ask whether to also move the scattered existing ones there.
 2. **A guided rewrite of `CLAUDE.md` / `AGENTS.md`?** Built from the current contract, the user's past conversations (with `sessions`: `openagent import-sessions --prompts` collects what they keep repeating) and their own experience, which you ask about.
 
-For either one, follow "Checking up a project" in the context skill: a report first, then drafts. Nothing is moved or written before the user approves it.
+3. **Pin the skill into every session?** A skill loads when its description matches the request, which can be missed. Three lines in the user's global contract make every session use it: `~/.claude/CLAUDE.md` for Claude Code, `~/.codex/AGENTS.md` for Codex (add them to each agent the user works with, in the language they work in). Skip any line their global contract already covers.
+
+   ```markdown
+   ## Project context
+   - Before writing an explanatory document (plan, report, research, guide, notes), use the openagent-context skill to decide where it goes and to find earlier ones.
+   - When starting substantial work in a project that has no CLAUDE.md or AGENTS.md, ask me whether to set up a contract and a decision log with openagent-context; don't create them before I agree.
+   - When the project settles an architecture-level choice, propose a DECISIONS.md entry that says who decided.
+   ```
+
+For the first two, follow "Checking up a project" in the context skill: a report first, then drafts. For all three, nothing is moved or written before the user approves it; the global contract is the user's file, so show the full text you will add.
 
 ## 8. Updating and adding modules
 

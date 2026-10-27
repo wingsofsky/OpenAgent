@@ -19,6 +19,8 @@ function trackedMarkdown(): string[] {
 }
 
 const DOCS = trackedMarkdown();
+/** The decision log is history: it names commands and tools that were removed since, so it describes no current one. */
+const CURRENT_DOCS = DOCS.filter((f) => f !== "DECISIONS.md");
 const read = (file: string): string => fs.readFileSync(file, "utf8");
 
 /** Commands as `openagent --help` lists them: two spaces, the name, two or more spaces, the description. */
@@ -60,7 +62,7 @@ describe("docs", () => {
     const commands = registeredCommands();
     expect(commands.size).toBeGreaterThan(5);
     const bad: string[] = [];
-    for (const file of DOCS) {
+    for (const file of CURRENT_DOCS) {
       read(file).split("\n").forEach((line, i) => {
         for (const m of line.matchAll(/(?<![\w.@/-])openagent ([a-z][a-z-]*)/g)) {
           if (!commands.has(m[1])) bad.push(`${file}:${i + 1}: openagent ${m[1]}`);
@@ -74,7 +76,7 @@ describe("docs", () => {
     for (const name of Object.keys(NOT_TOOLS)) expect(TOOLS.has(name), `${name} is an MCP tool; remove it from NOT_TOOLS`).toBe(false);
     const known = new Set([...TOOLS, ...mcpFieldNames(), ...FORMAT_VALUES, ...Object.keys(NOT_TOOLS)]);
     const bad: string[] = [];
-    for (const file of DOCS) {
+    for (const file of CURRENT_DOCS) {
       read(file).split("\n").forEach((line, i) => {
         for (const m of line.matchAll(/`([a-z][a-z0-9]*(?:_[a-z0-9]+)+)(?:\([^`]*\))?`/g)) {
           if (!known.has(m[1])) bad.push(`${file}:${i + 1}: ${m[1]}`);

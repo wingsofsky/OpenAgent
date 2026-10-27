@@ -14,7 +14,7 @@ Each entry has two parts: **What went wrong** is what happened, **Now** is what 
 
 - **The brief described a state that no longer existed.** What went wrong: the brief's account of the code did not match HEAD, the executor followed it literally, stopped with zero changes, and a round was wasted. Now: before sending, check every statement about the current state against HEAD, and say for each existing test the task will break how it should be handled.
 - **The executor did not know the red lines.** What went wrong: an executor cannot read the project's contract, so it did not know which files are off limits or that it must not write to git. Now: the brief states the relevant red lines (no git writes, which files may change); the main agent commits by exact path and names the executor and model at the end of the commit message.
-- **Reasoning effort follows the task.** Design and review tasks get a high level, implementation tasks get high: the hard calls belong in the design task.
+- **Reasoning effort follows the task.** Design and review tasks get the highest level the CLI offers, implementation tasks get high: the hard calls belong in the design task.
 
 ## 3. Taking the work back
 

@@ -32,7 +32,7 @@ export async function mcpCommand(argv: string[]): Promise<number> {
     const a = argv[i];
     if (a === "--project") projectArg = argv[++i] ?? "";
     else if (a === "--help" || a === "-h") {
-      console.error("openagent mcp [--project <dir>]\nstdio MCP server for a main agent: the delegation tools; see the CLI guide.");
+      console.error("openagent mcp [--project <dir>]\nstdio MCP server for a main agent: the delegation tools; see modules/delegate/README.md.");
       return 0;
     } else {
       console.error(`openagent mcp: unknown option ${a}`);

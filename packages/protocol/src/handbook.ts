@@ -6,7 +6,7 @@
  * page, and newer dated evidence wins over it.
  * Sources: hands-on use of each CLI, its --help and model list, and each vendor's official docs (listed after the
  * tables); every section carries the date it was checked.
- * Only general guidance (routing and each CLI's quirks), never anyone's personal conventions, accounts or machine setup.
+ * Only general guidance (routing, each CLI's quirks, how to report back), never anyone's accounts or machine setup.
  * The preset is versioned here: when it changes, update the "Preset version" line at the top. Companion skills only describe the workflow and read the handbook before delegating; they keep no
  * experience of their own.
  */
