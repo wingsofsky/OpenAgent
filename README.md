@@ -6,6 +6,8 @@
 
 OpenAgent keeps the context of a long project in a complete set of documents, not in any one account, agent or environment. The documents are the contract: every agent session reads them before it starts and follows the same rules, so you can switch accounts, agents or machines and carry on where the last session stopped. The repository contains four modules: context, sessions, delegate and folder. Each module installs on its own, so you choose the ones you need and download only those.
 
+With the delegate module, your main agent hands a subtask to another agent CLI on your machine, and gets three things that running `grok -p` by hand does not give you: a full record of every task (the brief, the transcript and what changed), a snapshot taken before the executor touches your project, so you can roll back, and a check, since the result stays unaccepted until you or your agent read the diff and the test output and record a verdict.
+
 The repository also records what one maintainer learned running long projects with AI agents: keeping the contract short, what counts as done, reviewing with a fresh session or another vendor's model, keeping your own leanings out of a subagent's brief, when subagents can run in parallel, and how to brief a headless agent and check what it hands back. The details are in [working with AI agents](modules/context/en/openagent-context/references/working-with-ai-agents.md) and [delegation practices](modules/delegate/skills/openagent-delegate/references/delegation-practices.md).
 
 [中文说明](README.zh-CN.md)

@@ -6,6 +6,8 @@
 
 本仓库把长项目的上下文写进一套完整的文档，不绑定特定账号、agent 或环境。文档就是契约：每个 agent 会话开工前都读它，按同一套规则干活，所以换账号、换 agent、换机器都能从上一个会话停下的地方接着做。仓库包含 context、sessions、delegate、folder 四个模块。各模块分开安装，按需选择，只下载选中的部分。
 
+装上 delegate 模块，主 agent 就能把子任务交给本机别家 agent CLI，而且比你自己跑 `grok -p` 多三样：每个任务都有完整记录（任务书、完整对话、改了什么）；执行者动你的项目之前先拍快照，随时能回滚；要验收，你或主 agent 看过改动和测试输出、记下验收结论之前，结果都不算接受。
+
 仓库里还记着一个维护者用 AI agent 做长项目踩过的坑：契约怎么保持短，什么算做完，审查要换新会话或别家模型，派子 agent 时别把自己的倾向写进任务书，哪些子 agent 能并行，无头 agent 的任务书怎么写、交回来的东西怎么核。详见[和 AI agent 一起干活](modules/context/zh-CN/openagent-context/references/working-with-ai-agents.md)和[委派经验](modules/delegate/skills/openagent-delegate/references/delegation-practices.md)（英文）。
 
 [English](README.md)
