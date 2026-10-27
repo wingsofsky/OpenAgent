@@ -4,6 +4,8 @@
 
 OpenAgent keeps the context of a long project in a complete set of documents, not in any one account, agent or environment. The documents are the contract: every agent session reads them before it starts and follows the same rules, so you can switch accounts, agents or machines and carry on where the last session stopped. The repository contains four modules: context, sessions, delegate and folder. Each module installs on its own, so you choose the ones you need and download only those.
 
+The repository also records what one maintainer learned running long projects with AI agents: keeping the contract short, what counts as done, reviewing with a fresh session or another vendor's model, keeping your own leanings out of a subagent's brief, when subagents can run in parallel, and how to brief a headless agent and check what it hands back. The details are in [working with AI agents](modules/context/en/openagent-context/references/working-with-ai-agents.md) and [delegation practices](modules/delegate/skills/openagent-delegate/references/delegation-practices.md).
+
 [中文说明](README.zh-CN.md)
 
 ## What each module solves
@@ -83,6 +85,7 @@ Details: [SECURITY.md](SECURITY.md).
 
 - [INSTALL.md](INSTALL.md): what the agent does during install, module by module
 - Each module's README: [context](modules/context/README.md), [sessions](modules/sessions/README.md), [delegate](modules/delegate/README.md) (every delegation command and MCP tool), [folder](modules/folder/README.md)
+- [Working with AI agents](modules/context/en/openagent-context/references/working-with-ai-agents.md) and [delegation practices](modules/delegate/skills/openagent-delegate/references/delegation-practices.md): what went wrong on long projects, and what is done now
 - [How this repository is built](docs/design/how-this-repository-is-built.md): the checks that keep agent-written code honest
 
 ## License

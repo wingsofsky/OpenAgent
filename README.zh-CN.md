@@ -4,6 +4,8 @@
 
 本仓库把长项目的上下文写进一套完整的文档，不绑定特定账号、agent 或环境。文档就是契约：每个 agent 会话开工前都读它，按同一套规则干活，所以换账号、换 agent、换机器都能从上一个会话停下的地方接着做。仓库包含 context、sessions、delegate、folder 四个模块。各模块分开安装，按需选择，只下载选中的部分。
 
+仓库里还记着一个维护者用 AI agent 做长项目踩过的坑：契约怎么保持短，什么算做完，审查要换新会话或别家模型，派子 agent 时别把自己的倾向写进任务书，哪些子 agent 能并行，无头 agent 的任务书怎么写、交回来的东西怎么核。详见[和 AI agent 一起干活](modules/context/zh-CN/openagent-context/references/working-with-ai-agents.md)和[委派经验](modules/delegate/skills/openagent-delegate/references/delegation-practices.md)（英文）。
+
 [English](README.md)
 
 ## 每个模块解决什么
@@ -85,6 +87,7 @@ packages/          共享代码：文件格式、路径检查、命令入口
 
 - [INSTALL.md](INSTALL.md)：安装时 agent 按模块做了什么
 - 各模块的 README：[context](modules/context/README.zh-CN.md)、[sessions](modules/sessions/README.md)、[delegate](modules/delegate/README.md)（全部委派命令和 MCP 工具）、[folder](modules/folder/README.md)
+- [和 AI agent 一起干活](modules/context/zh-CN/openagent-context/references/working-with-ai-agents.md)、[委派经验](modules/delegate/skills/openagent-delegate/references/delegation-practices.md)（英文）：长项目里踩过的坑，和现在的做法
 - [这个仓库是怎么做出来的](docs/design/how-this-repository-is-built.md)：让 agent 写的代码说实话的那些检查
 
 ## 许可证
