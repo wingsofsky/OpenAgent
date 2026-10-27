@@ -2,9 +2,9 @@
 
 All notable changes to this project are recorded here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and versions follow [Semantic Versioning](https://semver.org/).
 
-## [Unreleased]
+## [0.3.0] - 2026-10-27
 
-Planned as 0.3.0, the first public version. Not tagged and not published to npm.
+The first public version. Not published to npm: install from the repository ([INSTALL.md](INSTALL.md)).
 
 OpenAgent was ported module by module, with its tests, from an earlier codebase that also had a desktop app, web access and a task inbox. This version keeps only what is used from a main agent's own window; why, and what was dropped, is in [DECISIONS.md](DECISIONS.md) (D042 to D046).
 
