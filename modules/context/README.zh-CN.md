@@ -1,4 +1,4 @@
-# OpenAgent 上下文模块
+# OpenAgents 上下文模块
 
 本模块把项目的上下文放进每个 agent 会话都会读的文档里。它包含一个 skill 和装这些上下文的文件模板。模块没有代码：下载只要 git，任何会读 skill 的 agent 都能用（Claude Code、Codex 等）。
 
@@ -29,13 +29,13 @@ skill 有英文和中文两版。skill 用什么语言写，agent 往往就用�
 把这句话发给你的主 agent：
 
 ```text
-Install the context module of OpenAgent from https://github.com/wingsofsky/OpenAgent in Chinese: follow INSTALL.md in that repository
+Install the context module of OpenAgents from https://github.com/wingsofsky/OpenAgents in Chinese: follow INSTALL.md in that repository
 ```
 
 手动安装，只下载这个模块：
 
 ```bash
-git clone --filter=blob:none --sparse https://github.com/wingsofsky/OpenAgent.git <repo>
+git clone --filter=blob:none --sparse https://github.com/wingsofsky/OpenAgents.git <repo>
 cd <repo> && git sparse-checkout set modules/context
 ```
 

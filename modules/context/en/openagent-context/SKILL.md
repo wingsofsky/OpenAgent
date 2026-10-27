@@ -62,7 +62,7 @@ When the user asks for a checkup of the project's documents, or agrees to the on
 3. **Moving documents.** List each file with its target under `docs/` and its new date-first name; existing conventions in the contract win. After approval, move them with `git mv` and fix the links that pointed at them.
 4. **Rewriting the contract.** Gather material:
    - the current contract, each line checked against the repository;
-   - what the user keeps repeating: if the OpenAgent sessions module is installed, importing with `--prompts` writes `USER_PROMPTS.md` and `USER_RULES.md` under `_prompts/` in the archive. A rule needs two or more places where the user said it, quoted as written;
+   - what the user keeps repeating: if the OpenAgents sessions module is installed, importing with `--prompts` writes `USER_PROMPTS.md` and `USER_RULES.md` under `_prompts/` in the archive. A rule needs two or more places where the user said it, quoted as written;
    - the user's own experience: ask what they keep correcting and what went wrong before;
    - the commit conventions found in step 1.
 

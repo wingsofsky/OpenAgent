@@ -1,10 +1,10 @@
-# OpenAgent
+# OpenAgents
 
 **Work with AI coding agents on long projects.**
 
-[![CI](https://github.com/wingsofsky/OpenAgent/actions/workflows/ci.yml/badge.svg)](https://github.com/wingsofsky/OpenAgent/actions/workflows/ci.yml)
+[![CI](https://github.com/wingsofsky/OpenAgents/actions/workflows/ci.yml/badge.svg)](https://github.com/wingsofsky/OpenAgents/actions/workflows/ci.yml)
 
-OpenAgent keeps the context of a long project in a complete set of documents, not in any one account, agent or environment. The documents are the contract: every agent session reads them before it starts and follows the same rules, so you can switch accounts, agents or machines and carry on where the last session stopped. The repository contains four modules: context, sessions, delegate and folder. Each module installs on its own, so you choose the ones you need and download only those.
+OpenAgents keeps the context of a long project in a complete set of documents, not in any one account, agent or environment. The documents are the contract: every agent session reads them before it starts and follows the same rules, so you can switch accounts, agents or machines and carry on where the last session stopped. The repository contains four modules: context, sessions, delegate and folder. Each module installs on its own, so you choose the ones you need and download only those.
 
 With the delegate module, your main agent hands a subtask to another agent CLI on your machine, and gets three things that running `grok -p` by hand does not give you: a full record of every task (the brief, the transcript and what changed), a snapshot taken before the executor touches your project, so you can roll back, and a check, since the result stays unaccepted until you or your agent read the diff and the test output and record a verdict.
 
@@ -52,14 +52,14 @@ A project that already has an `AGENTS.md` and a decision log still gets the chec
 | [delegate](modules/delegate/README.md) | each agent does what it is best at: from the chat, your main agent hands grok the web search, codex the math, cursor the multi-file code change, agy the explanation or the front end. Every task is kept as a folder with the brief, the transcript, what changed and your verdict; a snapshot is taken before an executor touches the project; one shared handbook records what each CLI is good at | Node 22.19+, pnpm, git, and at least one other agent CLI you are signed in to |
 | [folder](modules/folder/README.md) | one agent CLI works through a folder of repositories unattended, with a brief you saved once; builds on delegate | as delegate |
 
-Every module works on Linux, macOS and Windows, and CI tests all three. On Windows, `~/.openagent` is `%USERPROFILE%\.openagent`. OpenAgent is not on npm: the modules with code run from the downloaded repository with Node.
+Every module works on Linux, macOS and Windows, and CI tests all three. On Windows, `~/.openagent` is `%USERPROFILE%\.openagent`. OpenAgents is not on npm: the modules with code run from the downloaded repository with Node.
 
 ## Install
 
 Send this to your main agent:
 
 ```text
-Install the context module of OpenAgent from https://github.com/wingsofsky/OpenAgent: follow INSTALL.md in that repository
+Install the context module of OpenAgents from https://github.com/wingsofsky/OpenAgents: follow INSTALL.md in that repository
 ```
 
 To install more, name them: `(modules: context, sessions)`. The agent explains the modules, downloads only the ones you chose with a sparse clone, checks what is already installed, and asks before each step that changes your machine. It never asks for a password or an API key: each CLI's sign-in opens in your browser, and you sign in there yourself. Each step is described in [INSTALL.md](INSTALL.md). Each module's README also shows how to install it by hand.
@@ -74,7 +74,7 @@ modules/folder     ┘  (folder needs delegate)
 packages/          shared code: file formats, the path gate, the command entry
 ```
 
-The command lists only the commands of the modules present in your checkout. Records and settings live in `~/.openagent` (set `OPENAGENT_HOME` to move it). OpenAgent writes into your project only when you ask, and reads no configuration from it, so a repository you clone cannot change what a delegation runs.
+The command lists only the commands of the modules present in your checkout. Records and settings live in `~/.openagent` (set `OPENAGENT_HOME` to move it). OpenAgents writes into your project only when you ask, and reads no configuration from it, so a repository you clone cannot change what a delegation runs.
 
 ## Security
 

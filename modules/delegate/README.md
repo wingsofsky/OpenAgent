@@ -1,27 +1,27 @@
-# OpenAgent delegation
+# OpenAgents delegation
 
-This module lets a main agent (Claude Code, Codex, …) hand work to other agent CLIs on the same machine. It contains commands and a stdio MCP server. OpenAgent runs the executor headless, keeps each task as plain files in `~/.openagent`, reports what actually changed, and records the verdict.
+This module lets a main agent (Claude Code, Codex, …) hand work to other agent CLIs on the same machine. It contains commands and a stdio MCP server. OpenAgents runs the executor headless, keeps each task as plain files in `~/.openagent`, reports what actually changed, and records the verdict.
 
 Words used below:
 
-- **Main agent**: the agent window you drive. OpenAgent does not start one; it plugs into yours over MCP.
+- **Main agent**: the agent window you drive. OpenAgents does not start one; it plugs into yours over MCP.
 - **Executor**: another agent CLI that the main agent hands work to: `codex`, `agy` (Antigravity), `grok`, `cursor` (Cursor Agent), `claude` (Claude Code), or a custom one declared in `executors.json`.
-- **Project**: the folder the main agent works in. OpenAgent writes nothing into it unless you ask.
-- **Home folder**: `~/.openagent` (or `OPENAGENT_HOME`), where every record and all configuration live. Nothing in a project configures OpenAgent.
+- **Project**: the folder the main agent works in. OpenAgents writes nothing into it unless you ask.
+- **Home folder**: `~/.openagent` (or `OPENAGENT_HOME`), where every record and all configuration live. Nothing in a project configures OpenAgents.
 
 A real delegation in Claude Code: the main agent handed market research to grok and a page redesign to Codex, checked grok's claims on the vendors' pages and Codex's work with its own scripts, sent one round back, and said what it had not verified.
 
 ![A delegation in Claude Code: the briefs to grok and Codex, and the main agent's conclusion](example.png)
 
-Your agent could call `grok -p` in a shell instead. Here is what OpenAgent adds:
+Your agent could call `grok -p` in a shell instead. Here is what OpenAgents adds:
 
-| Calling the CLI directly | Through OpenAgent |
+| Calling the CLI directly | Through OpenAgents |
 |---|---|
 | Each CLI needs its own headless flags: cursor stops at a workspace-trust prompt without `--trust`, codex waits for input on stdin | The flags are set per CLI; your agent only names the executor |
 | The answer scrolls away in the chat | Each task is a record folder with the brief, the full transcript and the changes |
-| The executor reports "done" | OpenAgent compares the working folder before and after. The round stays unaccepted until you or your agent read the diff and the real test output and record a verdict |
+| The executor reports "done" | OpenAgents compares the working folder before and after. The round stays unaccepted until you or your agent read the diff and the real test output and record a verdict |
 | A follow-up starts from nothing | A follow-up round continues the same task and session |
-| The executor works in your project | It works in a scratch folder. If you let it into the project, OpenAgent first takes a snapshot, a copy you can restore. Files your `.gitignore` ignores are not in it |
+| The executor works in your project | It works in a scratch folder. If you let it into the project, OpenAgents first takes a snapshot, a copy you can restore. Files your `.gitignore` ignores are not in it |
 
 The agent handbook, `~/.openagent/handbook.md`, records what each CLI is good at, its quirks, and which models and effort levels work, each entry with the date it was checked. Your main agent reads it before delegating. An executor's answer can be written back to it (`writeback: "handbook"`) as a suggestion tagged with the executor's name, which you keep or delete; until you decide, your agent treats it as unchecked text.
 
@@ -30,13 +30,13 @@ The agent handbook, `~/.openagent/handbook.md`, records what each CLI is good at
 Send this to your main agent:
 
 ```text
-Install the delegate module of OpenAgent from https://github.com/wingsofsky/OpenAgent: follow INSTALL.md in that repository
+Install the delegate module of OpenAgents from https://github.com/wingsofsky/OpenAgents: follow INSTALL.md in that repository
 ```
 
 By hand. Requires Node 22.19 or later, pnpm, and git (git is only needed for snapshots and change detection in git work trees). Not on npm yet, so download this module from the repository:
 
 ```bash
-git clone --filter=blob:none --sparse https://github.com/wingsofsky/OpenAgent.git <repo>
+git clone --filter=blob:none --sparse https://github.com/wingsofsky/OpenAgents.git <repo>
 cd <repo>
 git sparse-checkout set modules/delegate packages/protocol packages/common packages/cli
 pnpm install --prod --frozen-lockfile
@@ -183,7 +183,7 @@ Seven tools, all about delegation.
 
 1. The main agent calls `list_executors` and reads the handbook from the path it gives.
 2. `delegate_task` creates `~/.openagent/runs/<project-key>/<task-id>/`, decides the working folder (scratch, the project, or a declared `workRoot`), snapshots it when it is not scratch, and runs the CLI with stdin closed, a timeout and a stall watchdog.
-3. The working folder is fingerprinted before and after. OpenAgent sets `outcome` from those fingerprints, not from the executor's report: `changed`, `no_changes`, `unchecked` (no fingerprint), or a failure class. `status: done` only means the round ended; `acceptance: pending` waits for someone to check.
+3. The working folder is fingerprinted before and after. OpenAgents sets `outcome` from those fingerprints, not from the executor's report: `changed`, `no_changes`, `unchecked` (no fingerprint), or a failure class. `status: done` only means the round ended; `acceptance: pending` waits for someone to check.
 4. The main agent reads the diff and the real test output, then calls `review_task`. `needs_rework` continues with `continue_task`. Rounds that may write are not retried automatically, so a failed attempt never repeats on a half-edited tree.
 
 A failed round goes back to `status: pending` with an "Execution failed" section in `task.md`.
@@ -205,7 +205,7 @@ A failed round goes back to `status: pending` with an "Execution failed" section
 
 `<project-key>` is the project folder's name plus a short hash of its canonical path. While a round runs, its record folder also holds `claim.lock`.
 
-**Nothing in a project configures OpenAgent.** Executors and the handbook come only from the home folder, so a cloned repository cannot change which command a delegation runs or what the handbook tells your main agent. A `.openagent/` folder inside a project is ignored.
+**Nothing in a project configures OpenAgents.** Executors and the handbook come only from the home folder, so a cloned repository cannot change which command a delegation runs or what the handbook tells your main agent. A `.openagent/` folder inside a project is ignored.
 
 ### executors.json
 
@@ -225,9 +225,9 @@ A failed round goes back to `status: pending` with an "Execution failed" section
 
 ## Default permissions
 
-A headless CLI cannot answer a permission prompt: it hangs or refuses every tool. So by default OpenAgent starts most executors with their prompts skipped. From `packages/protocol/src/executor-registry.json`:
+A headless CLI cannot answer a permission prompt: it hangs or refuses every tool. So by default OpenAgents starts most executors with their prompts skipped. From `packages/protocol/src/executor-registry.json`:
 
-| Executor | Default | Flag OpenAgent adds |
+| Executor | Default | Flag OpenAgents adds |
 |---|---|---|
 | `codex` | prompts not skipped; runs in Codex's own sandbox, `workspace-write` unless you pass another `sandbox` | `-s <sandbox>` |
 | `agy` | prompts skipped | `--dangerously-skip-permissions` |
@@ -245,11 +245,11 @@ With prompts on, some CLIs (agy in particular) return empty answers headless. Mo
 
 ### Setting permissions yourself
 
-OpenAgent has no permission settings of its own beyond `autoApprove` and codex's `sandbox`. To limit what an executor may do, set `autoApprove: false` for it and write the rules in that CLI's own settings file; it reads them in every delegated round, as it does when you run it by hand. Allow what the work needs, or headless rounds fail on the first refused tool.
+OpenAgents has no permission settings of its own beyond `autoApprove` and codex's `sandbox`. To limit what an executor may do, set `autoApprove: false` for it and write the rules in that CLI's own settings file; it reads them in every delegated round, as it does when you run it by hand. Allow what the work needs, or headless rounds fail on the first refused tool.
 
 | Executor | Settings file | What to set there | Sandbox |
 |---|---|---|---|
-| `codex` | `~/.codex/config.toml` | nothing for OpenAgent: it passes `-s` from the `sandbox` setting (`read-only`, `workspace-write`, `danger-full-access`) | its own, on macOS, Linux and Windows |
+| `codex` | `~/.codex/config.toml` | nothing for OpenAgents: it passes `-s` from the `sandbox` setting (`read-only`, `workspace-write`, `danger-full-access`) | its own, on macOS, Linux and Windows |
 | `claude` | `~/.claude/settings.json` | `permissions.allow`, `ask`, `deny` (for example `Bash(git *)`), `permissions.defaultMode` | shell commands only; none on native Windows |
 | `grok` | `~/.grok/config.toml` (`GROK_HOME` moves it); sandbox profiles in `~/.grok/sandbox.toml` | permission rules and mode; see `grok --help` | `read-only`, `workspace`, `strict` profiles; none on native Windows |
 | `cursor` | `~/.cursor/cli-config.json`; sandbox in `~/.cursor/sandbox.json` | `permissions.allow` and `deny` with `Shell(…)`, `Read(…)`, `Write(…)` | `workspace_readwrite`, `workspace_readonly`; none on native Windows (WSL2 only) |
@@ -267,7 +267,7 @@ OpenAgent has no permission settings of its own beyond `autoApprove` and codex's
 | `OPENAGENT_HOME` | moves the home folder (default `~/.openagent`) |
 | `OPENAGENT_SEARCH_PATH` | folders searched for executor binaries in addition to PATH, separated like PATH; replaces the built-in list (`/opt/homebrew/bin`, `/usr/local/bin`, `~/.local/bin`, …). Set to an empty string to drop that list; each CLI's own install folder is still checked |
 | `OPENAGENT_CODEX_BIN`, `OPENAGENT_AGY_BIN`, `OPENAGENT_GROK_BIN`, `OPENAGENT_CURSOR_BIN`, `OPENAGENT_CLAUDE_BIN` | the executable of that CLI, used as given; wins over everything else |
-| `OPENAGENT_GIT` | the git executable OpenAgent uses for snapshots and fingerprints (default `git` from PATH) |
+| `OPENAGENT_GIT` | the git executable OpenAgents uses for snapshots and fingerprints (default `git` from PATH) |
 | `OPENAGENT_DELEGATE_DEBUG` | `1` prints every step of the runner to stderr |
 | `MCP_TOOL_TIMEOUT` | Claude Code's own setting, in milliseconds: how long it waits for a tool. Raise it (for example `1800000`) in the shell that starts Claude Code if you call `delegate_task` with `wait: true` for long runs |
 

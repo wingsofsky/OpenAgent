@@ -1,8 +1,8 @@
-# OpenAgent
+# OpenAgents
 
 **和 AI 编程 agent 一起做长项目。**
 
-[![CI](https://github.com/wingsofsky/OpenAgent/actions/workflows/ci.yml/badge.svg)](https://github.com/wingsofsky/OpenAgent/actions/workflows/ci.yml)
+[![CI](https://github.com/wingsofsky/OpenAgents/actions/workflows/ci.yml/badge.svg)](https://github.com/wingsofsky/OpenAgents/actions/workflows/ci.yml)
 
 本仓库把长项目的上下文写进一套完整的文档，不绑定特定账号、agent 或环境。文档就是契约：每个 agent 会话开工前都读它，按同一套规则干活，所以换账号、换 agent、换机器都能从上一个会话停下的地方接着做。仓库包含 context、sessions、delegate、folder 四个模块。各模块分开安装，按需选择，只下载选中的部分。
 
@@ -54,14 +54,14 @@
 | [delegate](modules/delegate/README.md) | 让每家 agent 做它最擅长的事：在聊天里让主 agent 把查资料交给 grok、算数交给 codex、多文件改代码交给 cursor、讲解和前端交给 agy。每个任务存成一个文件夹，有任务书、完整对话、改了什么和你的验收结论；执行者动项目之前先拍快照；一份共享手册记着每家 CLI 擅长什么 | Node 22.19+、pnpm、git，外加至少一个已登录的 agent CLI |
 | [folder](modules/folder/README.md) | 一家 agent CLI 按你存好的任务书，无人值守地处理一整个文件夹的仓库；建在 delegate 之上 | 同 delegate |
 
-所有模块在 Linux、macOS、Windows 三端都能用，CI 在三个系统上都跑测试。Windows 上的 `~/.openagent` 指 `%USERPROFILE%\.openagent`。OpenAgent 没有发布到 npm：有代码的模块用 Node 直接从下载的仓库里运行。
+所有模块在 Linux、macOS、Windows 三端都能用，CI 在三个系统上都跑测试。Windows 上的 `~/.openagent` 指 `%USERPROFILE%\.openagent`。OpenAgents 没有发布到 npm：有代码的模块用 Node 直接从下载的仓库里运行。
 
 ## 安装
 
 把这句话发给你的主 agent：
 
 ```text
-从 https://github.com/wingsofsky/OpenAgent 安装 OpenAgent 的 context 模块（中文版）：按仓库里的 INSTALL.md 做
+从 https://github.com/wingsofsky/OpenAgents 安装 OpenAgents 的 context 模块（中文版）：按仓库里的 INSTALL.md 做
 ```
 
 要装更多模块，就把名字写上，比如「安装 context 和 sessions 模块」。agent 会先讲清各模块是什么，用稀疏克隆只下载你选的，查好本机已经装了什么，每一步改动你的机器之前都会先问。它从不问密码或 API key：每家 CLI 的登录在你的浏览器里打开，你自己登。每一步做什么，见 [INSTALL.md](INSTALL.md)。每个模块的 README 里也有手动安装的步骤。
@@ -76,7 +76,7 @@ modules/folder     ┘  （folder 需要 delegate）
 packages/          共享代码：文件格式、路径检查、命令入口
 ```
 
-这个命令只列出你检出了的模块的命令。记录和设置放在 `~/.openagent`（设 `OPENAGENT_HOME` 可以挪走）。OpenAgent 只在你要求时才往项目里写，也不从项目里读任何配置，所以你克隆下来的仓库改变不了委派跑什么。
+这个命令只列出你检出了的模块的命令。记录和设置放在 `~/.openagent`（设 `OPENAGENT_HOME` 可以挪走）。OpenAgents 只在你要求时才往项目里写，也不从项目里读任何配置，所以你克隆下来的仓库改变不了委派跑什么。
 
 ## 安全
 

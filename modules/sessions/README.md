@@ -1,4 +1,4 @@
-# OpenAgent conversations
+# OpenAgents conversations
 
 This module turns the local transcripts of Claude Code, Codex, Gemini CLI, Grok Build, Antigravity and Cursor Agent into Markdown archives with an index, kept in `~/.openagent` rather than in your project, so a later session can search them for what was decided and why. Its command is `openagent import-sessions`; it runs no model and needs no network.
 
@@ -9,13 +9,13 @@ This module turns the local transcripts of Claude Code, Codex, Gemini CLI, Grok 
 Send this to your main agent:
 
 ```text
-Install the sessions module of OpenAgent from https://github.com/wingsofsky/OpenAgent: follow INSTALL.md in that repository
+Install the sessions module of OpenAgents from https://github.com/wingsofsky/OpenAgents: follow INSTALL.md in that repository
 ```
 
 By hand. Requires Node 22.19 or later, pnpm and git. Download only this module:
 
 ```bash
-git clone --filter=blob:none --sparse https://github.com/wingsofsky/OpenAgent.git <repo>
+git clone --filter=blob:none --sparse https://github.com/wingsofsky/OpenAgents.git <repo>
 cd <repo>
 git sparse-checkout set modules/sessions packages/protocol packages/common packages/cli
 pnpm install --prod --frozen-lockfile
@@ -53,7 +53,7 @@ openagent import-sessions --project <project> --list    # preview
 openagent import-sessions --project <project>           # import
 ```
 
-Re-running is safe: an archive is matched to its transcript, a session that continued is refreshed in place, and an archive a person edited is left alone and listed. A session that an agent CLI ran for a task delegated through OpenAgent is filed under `_delegated`, titled by its brief. Run `openagent import-sessions --help` for where each CLI keeps its transcripts and how archives are filed. Exit codes: 0 fine, 1 the work failed, 2 bad usage.
+Re-running is safe: an archive is matched to its transcript, a session that continued is refreshed in place, and an archive a person edited is left alone and listed. A session that an agent CLI ran for a task delegated through OpenAgents is filed under `_delegated`, titled by its brief. Run `openagent import-sessions --help` for where each CLI keeps its transcripts and how archives are filed. Exit codes: 0 fine, 1 the work failed, 2 bad usage.
 
 ## Privacy
 

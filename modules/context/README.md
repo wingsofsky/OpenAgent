@@ -1,4 +1,4 @@
-# OpenAgent context
+# OpenAgents context
 
 This module keeps a project's context in documents that every agent session reads. It contains one skill and templates for the files that hold that context. It has no code: downloading it needs only git, and any agent that reads skills can use it (Claude Code, Codex and others).
 
@@ -29,13 +29,13 @@ Each folder holds `SKILL.md` and `references/`: [contract template](en/openagent
 Send this to your main agent:
 
 ```text
-Install the context module of OpenAgent from https://github.com/wingsofsky/OpenAgent: follow INSTALL.md in that repository
+Install the context module of OpenAgents from https://github.com/wingsofsky/OpenAgents: follow INSTALL.md in that repository
 ```
 
 By hand, download only this module:
 
 ```bash
-git clone --filter=blob:none --sparse https://github.com/wingsofsky/OpenAgent.git <repo>
+git clone --filter=blob:none --sparse https://github.com/wingsofsky/OpenAgents.git <repo>
 cd <repo> && git sparse-checkout set modules/context
 ```
 

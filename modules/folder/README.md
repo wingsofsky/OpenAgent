@@ -1,6 +1,6 @@
-# OpenAgent folder tasks
+# OpenAgents folder tasks
 
-This module runs one agent CLI on a folder, unattended, with a brief you saved once; each such run is a folder task. Typical use: a parent folder of several repositories, and a brief that says "look at each project, pick well-founded unfinished work, do it, and verify it". OpenAgent snapshots the working folder first and keeps the record, transcript and log in its home folder, so the only changes in the folder are the agent's own work.
+This module runs one agent CLI on a folder, unattended, with a brief you saved once; each such run is a folder task. Typical use: a parent folder of several repositories, and a brief that says "look at each project, pick well-founded unfinished work, do it, and verify it". OpenAgents snapshots the working folder first and keeps the record, transcript and log in its home folder, so the only changes in the folder are the agent's own work.
 
 ![One agent CLI works through a folder of repositories, unattended](diagram.svg)
 
@@ -19,13 +19,13 @@ The command streams the executor's output, prints where each record is, and exit
 Send this to your main agent:
 
 ```text
-Install the folder module of OpenAgent from https://github.com/wingsofsky/OpenAgent: follow INSTALL.md in that repository
+Install the folder module of OpenAgents from https://github.com/wingsofsky/OpenAgents: follow INSTALL.md in that repository
 ```
 
 By hand, download this module and the delegation module it needs:
 
 ```bash
-git clone --filter=blob:none --sparse https://github.com/wingsofsky/OpenAgent.git <repo>
+git clone --filter=blob:none --sparse https://github.com/wingsofsky/OpenAgents.git <repo>
 cd <repo>
 git sparse-checkout set modules/folder modules/delegate packages/protocol packages/common packages/cli
 pnpm install --prod --frozen-lockfile
@@ -48,15 +48,15 @@ The first run creates both from defaults (`packages/protocol/src/folder-brief.ts
 
 A brief that still contains that line is refused, so nobody runs a brief they never read. Read both files, adapt them to your folders, delete the first line, and run again. A brief that is empty or larger than 32 KiB is refused too. Every run sends the current full text of both files to the executor.
 
-The default rules ask the agent to read each project's contract and README first, keep uncommitted changes, never touch a sub-project's `.git` or run git write commands, write nothing but source, tests and necessary configuration into the projects, and not commit, push, publish or buy anything. These are instructions to the agent. OpenAgent itself enforces only what is listed under [Guards](#guards).
+The default rules ask the agent to read each project's contract and README first, keep uncommitted changes, never touch a sub-project's `.git` or run git write commands, write nothing but source, tests and necessary configuration into the projects, and not commit, push, publish or buy anything. These are instructions to the agent. OpenAgents itself enforces only what is listed under [Guards](#guards).
 
 ## Guards
 
-- **Folder check**: the folder may not be the filesystem root, your home directory, the OpenAgent home folder or anything inside it, or a folder that contains it.
+- **Folder check**: the folder may not be the filesystem root, your home directory, the OpenAgents home folder or anything inside it, or a folder that contains it.
 - **Draft check**: the brief must have been edited (see above).
 - **One task per folder**: while a folder task runs, `~/.openagent/runs/<project-key>/folder.lock` holds the folder and a second one is refused. A lock whose process is gone is taken over.
 - **Snapshot first**: the working folder (the folder, or one repository with `--new-projects`) is snapshotted into `~/.openagent/snapshots/<project-key>/` before the task. Restore with `openagent snapshot restore <id> --project <dir>`, or one file with `openagent snapshot restore <id> <path> --project <dir>`. With `--new-projects` each repository has snapshots of its own: `openagent snapshot list --project <dir>/<repo>`, and restore with that `--project`. Without git the run goes ahead without a snapshot, and the transcript says so.
-- **Records outside the folder**: `~/.openagent/runs/<project-key>/<task-id>/` holds `task.md`, `transcript.md`, `run.json` and `output.log`, one record per task, all under the folder's key. OpenAgent writes nothing into the folder.
+- **Records outside the folder**: `~/.openagent/runs/<project-key>/<task-id>/` holds `task.md`, `transcript.md`, `run.json` and `output.log`, one record per task, all under the folder's key. OpenAgents writes nothing into the folder.
 - **Time limit**: 30 minutes per task, unless the executor sets `timeoutMs` in `executors.json`.
 - **No follow-up rounds**: each repository gets a fresh task.
 
@@ -75,10 +75,10 @@ Off by default. With `"yieldToIde": true` on the executor in `~/.openagent/execu
 ```
 
 - A repository open in the IDE (or one inside or around an open project) waits; the next free one runs instead.
-- Every 10 seconds OpenAgent looks again. When you open the repository that is running, its executor is stopped and the repository goes back into the queue. When it runs again, the prompt says it is a new run after yielding, points at the earlier transcript as reference, and tells the agent to read the code and the git status again before going on. One look that cannot tell what the IDE has open does not stop a running repository; two in a row do.
-- A task that finished while the IDE had the repository open is not marked completed. If OpenAgent cannot tell whether the IDE had it open when the task ended, it waits until it can, so a finished repository never runs a second time.
-- Detection works on macOS with IntelliJ IDEA 2026.2 (Ultimate or Community) only: OpenAgent reads which project folders the IDE holds open, through `ps` and `lsof`, and writes nothing to the IDE. Any other version, or a failed check, counts as "cannot tell", and the task waits. On other platforms `yieldToIde` is ignored with a notice.
-- To find a project opened inside a repository, OpenAgent searches level by level, so the top levels, where projects are usually opened, come first. It skips dependency, build and cache folders (`node_modules`, `target`, `dist`, …), goes four levels deep and stops after 20,000 folders; a repository too large to search completely gets one notice. A folder it cannot read counts as "nothing open there", so one large repository cannot stall the queue. While a repository runs, only that one is searched.
+- Every 10 seconds OpenAgents looks again. When you open the repository that is running, its executor is stopped and the repository goes back into the queue. When it runs again, the prompt says it is a new run after yielding, points at the earlier transcript as reference, and tells the agent to read the code and the git status again before going on. One look that cannot tell what the IDE has open does not stop a running repository; two in a row do.
+- A task that finished while the IDE had the repository open is not marked completed. If OpenAgents cannot tell whether the IDE had it open when the task ended, it waits until it can, so a finished repository never runs a second time.
+- Detection works on macOS with IntelliJ IDEA 2026.2 (Ultimate or Community) only: OpenAgents reads which project folders the IDE holds open, through `ps` and `lsof`, and writes nothing to the IDE. Any other version, or a failed check, counts as "cannot tell", and the task waits. On other platforms `yieldToIde` is ignored with a notice.
+- To find a project opened inside a repository, OpenAgents searches level by level, so the top levels, where projects are usually opened, come first. It skips dependency, build and cache folders (`node_modules`, `target`, `dist`, …), goes four levels deep and stops after 20,000 folders; a repository too large to search completely gets one notice. A folder it cannot read counts as "nothing open there", so one large repository cannot stall the queue. While a repository runs, only that one is searched.
 
 ## Launch fallback
 
@@ -92,7 +92,7 @@ Only an operating-system error before a process existed counts as "never started
 
 ## Running it on a schedule
 
-OpenAgent has no scheduler or hotkey of its own. Start the command from cron, launchd, Task Scheduler or a launcher, with the same environment you use in a terminal (PATH must find the executor, and `OPENAGENT_HOME` if you moved the home folder).
+OpenAgents has no scheduler or hotkey of its own. Start the command from cron, launchd, Task Scheduler or a launcher, with the same environment you use in a terminal (PATH must find the executor, and `OPENAGENT_HOME` if you moved the home folder).
 
 ## License
 

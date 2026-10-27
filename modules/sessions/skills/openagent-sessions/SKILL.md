@@ -3,11 +3,11 @@ name: openagent-sessions
 description: Import, refresh, organize and search past agent CLI conversations (Claude Code, Codex, Gemini CLI, Grok Build, Antigravity, Cursor Agent) as Markdown archives with indexes, and distill the user's own prompts and rules from them. Use when the user says "import this project's past conversations", "export my conversations", "what did we decide about X in an earlier session", "collect the rules I keep repeating", or asks to install the sessions module.
 ---
 
-# OpenAgent conversations
+# OpenAgents conversations
 
 `openagent import-sessions` turns the local transcripts of Claude Code, Codex, Gemini CLI, Grok Build, Antigravity and Cursor Agent into Markdown archives in `~/.openagent/sessions/imported/<project>/`, with an `index.md` for all of them and one per project. No model, no network. `OPENAGENT_HOME` moves `~/.openagent`.
 
-`openagent` below means `node <repo>/packages/cli/src/cli.ts` until the package is published. Not installed yet, or the user asks to install: follow INSTALL.md in the OpenAgent repository (https://github.com/wingsofsky/OpenAgent/blob/main/INSTALL.md).
+`openagent` below means `node <repo>/packages/cli/src/cli.ts` until the package is published. Not installed yet, or the user asks to install: follow INSTALL.md in the OpenAgents repository (https://github.com/wingsofsky/OpenAgents/blob/main/INSTALL.md).
 
 ```bash
 openagent import-sessions --project <project> --list     # preview, writes nothing

@@ -1,6 +1,6 @@
-# CLAUDE.md — OpenAgent
+# CLAUDE.md — OpenAgents
 
-OpenAgent keeps a long project's context in documents any agent session reads, delegates work to other local agent CLIs (codex, grok, cursor, agy, claude) with every run kept as plain files a person can review, archives agent CLI conversations and runs folder tasks. Everything is used from a main agent's own window: no desktop app, no UI. Node and TypeScript only. Apache-2.0.
+OpenAgents keeps a long project's context in documents any agent session reads, delegates work to other local agent CLIs (codex, grok, cursor, agy, claude) with every run kept as plain files a person can review, archives agent CLI conversations and runs folder tasks. Everything is used from a main agent's own window: no desktop app, no UI. Node and TypeScript only. Apache-2.0.
 It is one repository of independently installable modules (`modules/context`, `sessions`, `delegate`, `folder`) over shared packages (`packages/protocol`, `common`, `cli`, `testkit`); a user downloads only the modules they want with a sparse checkout. [owner]
 This file holds only the rules every agent session must follow. `AGENTS.md` is a symlink to it; edit only this file. A maintainer may keep personal additions in an untracked `CLAUDE.local.md`.
 
@@ -22,7 +22,7 @@ This file holds only the rules every agent session must follow. `AGENTS.md` is a
 
 ### Four rules that cannot be broken
 1. **Path safety**: every file access under a root (the home folder, a project, a record) goes through the scoped path module. A new command or tool starts with attack tests: `..`, absolute paths, symlink escape, NUL, zero side effects when creating directories through a link; on Windows also `:`, device names, 8.3 short names, case variants. The attack cases live in one shared fixture file. [D042]
-2. **The project is not a configuration source, and nothing is written into it unless the user asks**: records and all configuration (executors, the handbook) live in the OpenAgent home folder (`~/.openagent`, or `OPENAGENT_HOME`); OpenAgent never reads `<project>/.openagent/`. A cloned repository must not be able to change what runs. Never touch a project's `.git`. [D042] [D043]
+2. **The project is not a configuration source, and nothing is written into it unless the user asks**: records and all configuration (executors, the handbook) live in the OpenAgents home folder (`~/.openagent`, or `OPENAGENT_HOME`); OpenAgents never reads `<project>/.openagent/`. A cloned repository must not be able to change what runs. Never touch a project's `.git`. [D042] [D043]
 3. **Plain-text formats**: delegation records, conversation archives and review suggestions (CriticMarkup) are files a person can read with `cat`. Every format is defined once, in `packages/protocol`, whose header comments are the contract; that package has no dependencies and imports only its own siblings. [D006] [D033]
 4. **People confirm**: an agent proposes (a verdict, a suggestion written back into the handbook); a person decides, and every decision stays a plain edit to a file they can see. [D042] [D043]
 
@@ -33,7 +33,7 @@ This file holds only the rules every agent session must follow. `AGENTS.md` is a
 
 ### Trust boundaries
 - Executor permission defaults are part of the security model. Changing a default updates `SECURITY.md` and the delegate module's README in the same change. [D012]
-- Anything that widens what one project can see of another (the home folder, the handbook, imported sessions) or lets a project influence OpenAgent updates `SECURITY.md` in the same change. [D042] [D043]
+- Anything that widens what one project can see of another (the home folder, the handbook, imported sessions) or lets a project influence OpenAgents updates `SECURITY.md` in the same change. [D042] [D043]
 - The MCP server speaks stdio only. [D042]
 
 ### Platforms

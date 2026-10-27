@@ -1,8 +1,8 @@
-# Installing OpenAgent
+# Installing OpenAgents
 
 You (the agent reading this) are the setup wizard. The user handed this to you, often as nothing more than the repository link, because they do not want to read a manual. Ask first, then detect, then act, and explain every step in plain language.
 
-OpenAgent is a set of modules in one repository. The user installs only the ones they want, and only those are downloaded:
+OpenAgents is a set of modules in one repository. The user installs only the ones they want, and only those are downloaded:
 
 | Module | What the user gets | Needs |
 |---|---|---|
@@ -28,7 +28,7 @@ Ask these at once:
 1. **Which modules?** Explain each in one sentence from the table above. `context` is the usual start; `delegate` is worth it with two or more agent subscriptions, or to have a second session review the first one's work. Modules can be added later.
 2. **For `context`: English or Chinese?** The skill's language is the language the agent tends to answer in.
 3. **Where should the repository go, and which folder is the project?** The project is the folder the user runs the main agent in. Modules with code keep their records and configuration in `~/.openagent`, not in the project. Which OS is this? If they usually start the main agent in their home folder: skills can be installed for every project, but the delegation MCP server refuses the home folder, so delegation tools will not appear in a session started there. Suggest a project folder for delegation.
-4. Only with `delegate`: **which services do they pay for** (Claude, ChatGPT, Google AI Pro or Ultra, SuperGrok, Cursor, or only API keys), and **which window do they usually direct agents from?** That one is the **main agent**. OpenAgent does not start another agent; it plugs into this one.
+4. Only with `delegate`: **which services do they pay for** (Claude, ChatGPT, Google AI Pro or Ultra, SuperGrok, Cursor, or only API keys), and **which window do they usually direct agents from?** That one is the **main agent**. OpenAgents does not start another agent; it plugs into this one.
 
 ## 2. Detect what is on this machine
 
@@ -53,10 +53,10 @@ Repeat what you were told and what you found in one or two sentences: "You want 
 
 ## 3. Download only the chosen modules
 
-OpenAgent is not on npm; it runs from a clone on macOS, Linux and Windows alike. A sparse clone downloads only what the chosen modules need. First the modules' own folders:
+OpenAgents is not on npm; it runs from a clone on macOS, Linux and Windows alike. A sparse clone downloads only what the chosen modules need. First the modules' own folders:
 
 ```bash
-git clone --filter=blob:none --sparse https://github.com/wingsofsky/OpenAgent.git <repo>
+git clone --filter=blob:none --sparse https://github.com/wingsofsky/OpenAgents.git <repo>
 cd <repo>
 git sparse-checkout set modules/<name> [modules/<name> …]
 ```
@@ -86,7 +86,7 @@ Skip this section unless the user chose `delegate` (or `folder`, which needs it)
 node <repo>/packages/cli/src/cli.ts doctor
 ```
 
-`doctor` lists the five built-in executors (codex, agy, grok, cursor, claude): where each was found, its version, and whether it is signed in. A CLI missing from PATH may still be found: OpenAgent checks each CLI's usual install folders by itself (the copy the Claude desktop app manages, winget's folders on Windows, `~/.local/bin` and similar).
+`doctor` lists the five built-in executors (codex, agy, grok, cursor, claude): where each was found, its version, and whether it is signed in. A CLI missing from PATH may still be found: OpenAgents checks each CLI's usual install folders by itself (the copy the Claude desktop app manages, winget's folders on Windows, `~/.local/bin` and similar).
 
 When `doctor` says "not installed" for a CLI the user says they have, look for it yourself:
 
@@ -108,7 +108,7 @@ Compare the subscriptions with what `doctor` found, list "paid for but not insta
 | Antigravity (`agy`) | `curl -fsSL https://antigravity.google/cli/install.sh \| bash` |
 | Cursor Agent | `curl https://cursor.com/install -fsS \| bash` |
 
-On Windows, the install hints `openagent delegate --list` prints for missing CLIs give the PowerShell commands. Each vendor's own site is the authority; if a command fails, show the raw output and don't switch to unofficial sources. A CLI installed into `~/.local/bin` or similar may not be on the current shell's PATH yet: OpenAgent looks there anyway, and a new terminal will find it.
+On Windows, the install hints `openagent delegate --list` prints for missing CLIs give the PowerShell commands. Each vendor's own site is the authority; if a command fails, show the raw output and don't switch to unofficial sources. A CLI installed into `~/.local/bin` or similar may not be on the current shell's PATH yet: OpenAgents looks there anyway, and a new terminal will find it.
 
 ### 4.3 Sign-in (terminal, then browser)
 
@@ -148,7 +148,7 @@ node <repo>/packages/cli/src/cli.ts mcp --project <project>
 
 If `claude` is not on PATH (on Windows, the copy the Claude desktop app manages often is not), run `mcp add` with the full path `doctor` printed for claude. If the user set `OPENAGENT_HOME`, pass it when registering too, after the name: `claude mcp add openagent -e OPENAGENT_HOME=<path> -- <S>`, `codex mcp add openagent --env OPENAGENT_HOME=<path> -- <S>`. Otherwise a main agent started without that variable uses `~/.openagent`. Run `claude mcp list` first: if a server of the same name exists in another scope, only one of them is used, so pick another name, such as `openagent-notes`.
 
-Without `--project`, the server uses the folder it is started in. It refuses the filesystem root, the user's home directory, the OpenAgent home folder and any folder that contains it. Snapshots and folder tasks are commands the main agent runs in its shell; no registration needed.
+Without `--project`, the server uses the folder it is started in. It refuses the filesystem root, the user's home directory, the OpenAgents home folder and any folder that contains it. Snapshots and folder tasks are commands the main agent runs in its shell; no registration needed.
 
 ### 4.5 The agent handbook
 
@@ -164,7 +164,7 @@ It writes `~/.openagent/handbook.md` from the preset in this repository and neve
 
 - **Only one subscription.** Delegation still gives records, snapshots and folder tasks, and the main agent can delegate to the same vendor's CLI with a cheaper model (`delegate_task({ executor: "codex", model: "<cheaper model>", effort: "low" })`). What is missing is other vendors' models.
 - **Two or more.** Pick the one whose judgment they trust most as the main agent; the others are executors. `list_executors` shows who is available; the routing table and quirks are in the handbook.
-- **Only API keys.** OpenAgent does not manage keys. Prefer a CLI that uses the key, since only a CLI has a tool loop and file access; a custom executor in `~/.openagent/executors.json` can wrap any command that prints an answer.
+- **Only API keys.** OpenAgents does not manage keys. Prefer a CLI that uses the key, since only a CLI has a tool loop and file access; a custom executor in `~/.openagent/executors.json` can wrap any command that prints an answer.
 
 Desktop and web apps (Claude desktop, ChatGPT, IDEs) cannot be delegated to: they have no headless entry point. Only command-line agents can.
 
@@ -204,7 +204,7 @@ Only modules with code write here. All plain text, readable with `cat`. `OPENAGE
 | `folder/brief/` | the brief of folder tasks | folder |
 | `sessions/imported/<project>/` | conversation archives, with `index.md` files | sessions |
 
-Nothing in a project configures OpenAgent: a `.openagent/` folder in a project is ignored. Don't put `~/.openagent` into a synced or shared folder without telling the user what it contains.
+Nothing in a project configures OpenAgents: a `.openagent/` folder in a project is ignored. Don't put `~/.openagent` into a synced or shared folder without telling the user what it contains.
 
 ## 7. Self-test, then hand over
 
@@ -228,7 +228,7 @@ If something fails, show the raw error; don't guess.
 
 Offer this once setup has passed; it is optional and runs as its own step:
 
-1. **File documents the OpenAgent way?** From now on the skill files new documents under `docs/` by itself. Ask whether to also move the scattered existing ones there.
+1. **File documents the OpenAgents way?** From now on the skill files new documents under `docs/` by itself. Ask whether to also move the scattered existing ones there.
 2. **A guided rewrite of `CLAUDE.md` / `AGENTS.md`?** Built from the current contract, the user's past conversations (with `sessions`: `openagent import-sessions --prompts` collects what they keep repeating) and their own experience, which you ask about.
 
 3. **Pin the skill into every session?** A skill loads when its description matches the request, which can be missed. Three lines in the user's global contract make every session use it: `~/.claude/CLAUDE.md` for Claude Code, `~/.codex/AGENTS.md` for Codex (add them to each agent the user works with, in the language they work in). Skip any line their global contract already covers.
