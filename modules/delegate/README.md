@@ -9,9 +9,9 @@ Words used below:
 - **Project**: the folder the main agent works in. OpenAgent writes nothing into it unless you ask.
 - **Home folder**: `~/.openagent` (or `OPENAGENT_HOME`), where every record and all configuration live. Nothing in a project configures OpenAgent.
 
-A real delegation in Claude Code: the main agent handed a web search to grok and a page rewrite to Codex, checked each answer against the sources and its own tests, and recorded a verdict before it reported back.
+A real delegation in Claude Code: the main agent handed market research to grok and a page redesign to Codex, checked grok's claims on the vendors' pages and Codex's work with its own scripts, sent one round back, and said what it had not verified.
 
-![A delegation in Claude Code: the brief to grok, two checks with their verdicts, and the conclusion](example.png)
+![A delegation in Claude Code: the briefs to grok and Codex, and the main agent's conclusion](example.png)
 
 Your agent could call `grok -p` in a shell instead. Here is what OpenAgent adds:
 
