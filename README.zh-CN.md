@@ -1,5 +1,7 @@
 # OpenAgent
 
+**和 AI 编程 agent 一起做长项目。**
+
 [![CI](https://github.com/wingsofsky/OpenAgent/actions/workflows/ci.yml/badge.svg)](https://github.com/wingsofsky/OpenAgent/actions/workflows/ci.yml)
 
 本仓库把长项目的上下文写进一套完整的文档，不绑定特定账号、agent 或环境。文档就是契约：每个 agent 会话开工前都读它，按同一套规则干活，所以换账号、换 agent、换机器都能从上一个会话停下的地方接着做。仓库包含 context、sessions、delegate、folder 四个模块。各模块分开安装，按需选择，只下载选中的部分。

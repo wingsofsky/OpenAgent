@@ -1,5 +1,7 @@
 # OpenAgent
 
+**Work with AI coding agents on long projects.**
+
 [![CI](https://github.com/wingsofsky/OpenAgent/actions/workflows/ci.yml/badge.svg)](https://github.com/wingsofsky/OpenAgent/actions/workflows/ci.yml)
 
 OpenAgent keeps the context of a long project in a complete set of documents, not in any one account, agent or environment. The documents are the contract: every agent session reads them before it starts and follows the same rules, so you can switch accounts, agents or machines and carry on where the last session stopped. The repository contains four modules: context, sessions, delegate and folder. Each module installs on its own, so you choose the ones you need and download only those.
