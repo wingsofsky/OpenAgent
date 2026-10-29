@@ -1,4 +1,4 @@
-// The public docs claim only what exists: every `openagent <command>` they name is a registered command, every
+// The public docs claim only what exists: every `longkeep <command>` they name is a registered command, every
 // snake_case name in backticks that is not a known parameter or value is an MCP tool in ANNOTATIONS, and every relative
 // Markdown link resolves to a file.
 // A module's docs describe only what that module can do, and work in a sparse checkout of it: they name only the
@@ -23,7 +23,7 @@ const DOCS = trackedMarkdown();
 const CURRENT_DOCS = DOCS.filter((f) => f !== "DECISIONS.md");
 const read = (file: string): string => fs.readFileSync(file, "utf8");
 
-/** Commands as `openagent --help` lists them: two spaces, the name, two or more spaces, the description. */
+/** Commands as `longkeep --help` lists them: two spaces, the name, two or more spaces, the description. */
 function registeredCommands(): Set<string> {
   const r = spawnSync(process.execPath, ["packages/cli/src/cli.ts", "--help"], { encoding: "utf8" });
   expect(r.status, r.stderr).toBe(0);
@@ -58,14 +58,14 @@ describe("docs", () => {
     expect(DOCS.some((d) => d.endsWith("/SKILL.md"))).toBe(true);
   });
 
-  it("name only registered openagent commands", () => {
+  it("name only registered longkeep commands", () => {
     const commands = registeredCommands();
     expect(commands.size).toBeGreaterThan(5);
     const bad: string[] = [];
     for (const file of CURRENT_DOCS) {
       read(file).split("\n").forEach((line, i) => {
-        for (const m of line.matchAll(/(?<![\w.@/-])openagent ([a-z][a-z-]*)/g)) {
-          if (!commands.has(m[1])) bad.push(`${file}:${i + 1}: openagent ${m[1]}`);
+        for (const m of line.matchAll(/(?<![\w.@/-])longkeep ([a-z][a-z-]*)/g)) {
+          if (!commands.has(m[1])) bad.push(`${file}:${i + 1}: longkeep ${m[1]}`);
         }
       });
     }
@@ -116,9 +116,9 @@ describe("docs", () => {
         const bad: string[] = [];
         for (const file of docs) {
           read(file).split("\n").forEach((line, i) => {
-            for (const m of line.matchAll(/(?<![\w.@/-])openagent ([a-z][a-z-]*)/g)) {
+            for (const m of line.matchAll(/(?<![\w.@/-])longkeep ([a-z][a-z-]*)/g)) {
               const owner = ownerOf.get(m[1]);
-              if (owner && !allowed.has(owner)) bad.push(`${file}:${i + 1}: openagent ${m[1]} (module ${owner})`);
+              if (owner && !allowed.has(owner)) bad.push(`${file}:${i + 1}: longkeep ${m[1]} (module ${owner})`);
             }
             for (const m of line.matchAll(/`([a-z][a-z0-9]*(?:_[a-z0-9]+)+)(?:\([^`]*\))?`/g)) {
               if (TOOLS.has(m[1]) && !allowed.has("delegate")) bad.push(`${file}:${i + 1}: ${m[1]} (an MCP tool of delegate)`);

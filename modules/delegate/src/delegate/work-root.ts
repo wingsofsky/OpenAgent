@@ -3,10 +3,10 @@
  *
  * checkWorkRoot validates a working folder that is not the record's scratch folder (the project, a `workRoot`
  * declared in executors.json, a folder task's folder): it must pass common/home resolveProject, which refuses the
- * filesystem root, the user's home directory, the OpenAgent home folder and anything inside it, and any folder that
- * contains the OpenAgent home folder (records are written there; an executor never works on them).
+ * filesystem root, the user's home directory, the Longkeep home folder and anything inside it, and any folder that
+ * contains the Longkeep home folder (records are written there; an executor never works on them).
  *
- * rootFingerprint is taken before and after each round; different = changed (the outcome is set by OpenAgent, not what
+ * rootFingerprint is taken before and after each round; different = changed (the outcome is set by Longkeep, not what
  * the model says):
  *  - git work tree: HEAD + `git status --porcelain -uall` (untracked files included) + size and mtime of those files;
  *    GIT_OPTIONAL_LOCKS=0, the index is not refreshed
@@ -20,7 +20,7 @@ import { createHash } from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { gitBinary } from "../lib/git.ts";
-import { resolveProject } from "@openagent/common/home";
+import { resolveProject } from "@longkeep/common/home";
 
 /** A canonical working folder, or an error that names it */
 export function checkWorkRoot(dir: string, env: NodeJS.ProcessEnv = process.env): string {

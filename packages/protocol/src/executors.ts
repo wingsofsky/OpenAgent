@@ -1,7 +1,7 @@
 /**
  * Executor defaults: parsing, merging and serializing `executors.json`.
  *
- * The file lives in the OpenAgent home folder (`~/.openagent/executors.json`), the only place executors are configured
+ * The file lives in the Longkeep home folder (`~/.longkeep/executors.json`), the only place executors are configured
  * (a project cannot override it). Plain JSON, readable with cat and editable by hand. The CLI and the MCP server
  * share this module, so parsing and validation exist exactly once.
  *
@@ -52,7 +52,7 @@ export const EXECUTORS_FILE = HOME_LAYOUT.executors;
 export const EFFORT_LABEL: Record<Effort, string> = { minimal: "minimal", low: "low", medium: "medium", high: "high", xhigh: "extra high" };
 
 /**
- * Each registry entry's efforts lists what OpenAgent passes to that CLI (low…xhigh). No built-in CLI takes minimal, so
+ * Each registry entry's efforts lists what Longkeep passes to that CLI (low…xhigh). No built-in CLI takes minimal, so
  * it is raised to low; a level above the list is lowered to its highest; higher CLI levels such as max go in the CLI's
  * own config. cursor's efforts are empty because the effort is part of the model id, so it returns undefined.
  * Custom executors not in the registry get the value as is (only useful when their template contains {effort}).

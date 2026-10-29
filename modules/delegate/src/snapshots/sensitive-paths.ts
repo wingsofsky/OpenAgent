@@ -6,7 +6,7 @@
  */
 import path from "node:path";
 import patterns from "./sensitive-paths.json" with { type: "json" };
-import { canonicalRoot, insideVcsMetadata, resolveScoped } from "@openagent/common/scoped";
+import { canonicalRoot, insideVcsMetadata, resolveScoped } from "@longkeep/common/scoped";
 
 export const SENSITIVE_PATH_PATTERNS: readonly string[] = Object.freeze([...patterns]);
 
@@ -48,7 +48,7 @@ export function assertSafeRestore(root: string, rel: string): void {
     }
     const target = path.join(abs, ...suffix);
     if (isSensitivePath(path.relative(canonicalRoot(root), target))) refuse();
-    if (insideVcsMetadata(root, target)) throw new Error("OpenAgent never writes into version-control metadata (.git and the like)");
+    if (insideVcsMetadata(root, target)) throw new Error("Longkeep never writes into version-control metadata (.git and the like)");
     return;
   }
 }

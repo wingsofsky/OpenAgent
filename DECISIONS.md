@@ -1,6 +1,6 @@
 # Decision log (selected entries)
 
-OpenAgent has kept an architecture decision log from its first day, written as the project went. This file is a curated selection that shows the format and how decisions were made. Entries are shortened; IDs and dates are the original ones.
+Longkeep has kept an architecture decision log from its first day, written as the project went. This file is a curated selection that shows the format and how decisions were made. Entries are shortened; IDs and dates are the original ones.
 
 Entries up to D040 were made in the earlier codebase this repository was ported from, which also had a desktop app, web access and a task inbox; they describe that codebase. D041 onward explain how this repository came about, what it was narrowed to, and how it has changed since.
 
@@ -28,6 +28,24 @@ Decision:
 Consequences:
 - Costs and limits; what to watch for later; what is not verified yet.
 ```
+
+---
+
+## D048 — Rename the project Longkeep, in full
+
+Date: 2026-10-29 · Status: implemented
+
+Context:
+- On 2026-10-28 the display name became OpenAgents. Only the docs changed: the `openagent` command, the `@openagent/*` packages, the home folder `~/.openagent`, the `OPENAGENT_*` variables, the MCP server name and the skill names kept the earlier name.
+- A check on 2026-10-29 found three actively maintained GitHub projects with the same name and 4,000 to 5,000 stars each (darrenhinde/OpenAgentsControl, xlang-ai/OpenAgents, openagents-org/openagents). The bare npm name `openagents` would likely be refused as too close to the existing `open-agents`. `longkeep`, `long-keep` and `longkeep-cli` were all free on npm, and the three GitHub repositories named longkeep had at most 2 stars.
+
+Decision (agent recommended, maintainer approved):
+1. The project is called Longkeep everywhere, not only in the docs: the `longkeep` command, the `@longkeep/*` workspace packages, the home folder `~/.longkeep`, the `LONGKEEP_*` variables, the MCP server `longkeep`, the `longkeep-*` skills, the `longkeep:draft` and `<longkeep-cwd>` markers, and the GitHub repository `wingsofsky/longkeep`.
+2. Released as 0.4.0, a breaking change. Earlier entries in this log and in the changelog keep the names they were written with, and git history is not rewritten.
+
+Consequences:
+- An existing install has to move its home folder, rename its variables and register the MCP server and skills again under the new names; the changelog lists the steps. Nothing reads the old names any more.
+- A saved folder-task brief that still starts with the old draft marker is no longer recognised as a draft, so it would run. The migration steps say to review such a brief and delete the line.
 
 ---
 

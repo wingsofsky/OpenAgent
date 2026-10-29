@@ -1,21 +1,21 @@
-// Ctrl+C on `openagent delegate` stops the executor too. On macOS and Linux the executor runs in its own process
+// Ctrl+C on `longkeep delegate` stops the executor too. On macOS and Linux the executor runs in its own process
 // group, so without the handler it would outlive the command. Windows has no SIGINT to send to another process.
 import { spawn } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import { afterAll, expect, it } from "vitest";
-import { CLI_ENTRY, FAKE_EXECUTOR, tempDir } from "@openagent/testkit/paths";
+import { CLI_ENTRY, FAKE_EXECUTOR, tempDir } from "@longkeep/testkit/paths";
 
 const CLI = CLI_ENTRY;
 const FAKE = FAKE_EXECUTOR;
-const base = tempDir("openagent-signal-");
+const base = tempDir("longkeep-signal-");
 afterAll(() => fs.rmSync(base, { recursive: true, force: true, maxRetries: 5, retryDelay: 50 }));
 
 it.skipIf(process.platform === "win32")("SIGINT stops the executor and records the round as stopped", async () => {
   const project = path.join(base, "project");
   fs.mkdirSync(project);
   const child = spawn(process.execPath, [CLI, "delegate", "--to", "grok", "--project", project, "--work", "project", "--title", "Long run", "--prompt", "wait", "--retries", "0"], {
-    env: { ...process.env, OPENAGENT_HOME: path.join(base, "home"), OPENAGENT_SEARCH_PATH: "", OPENAGENT_GROK_BIN: FAKE, FAKE_EXEC_SLEEP_MS: "4000", FAKE_EXEC_WRITE: "late.txt" },
+    env: { ...process.env, LONGKEEP_HOME: path.join(base, "home"), LONGKEEP_SEARCH_PATH: "", LONGKEEP_GROK_BIN: FAKE, FAKE_EXEC_SLEEP_MS: "4000", FAKE_EXEC_WRITE: "late.txt" },
     stdio: ["ignore", "pipe", "pipe"],
   });
   let err = "";

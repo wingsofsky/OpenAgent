@@ -9,7 +9,7 @@ describe("folder task brief defaults", () => {
   });
 
   it("each default starts with the draft marker on its own first line", () => {
-    expect(DRAFT_MARKER).toBe("<!-- openagent:draft — edit this brief, then delete this line -->");
+    expect(DRAFT_MARKER).toBe("<!-- longkeep:draft — edit this brief, then delete this line -->");
     for (const [name, text] of Object.entries(BRIEF_DEFAULTS)) {
       expect(text.split("\n")[0], name).toBe(DRAFT_MARKER);
       expect(text.split(DRAFT_MARKER).length - 1, name).toBe(1);

@@ -3,7 +3,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
-import attacks from "@openagent/protocol/path-attacks.json" with { type: "json" };
+import attacks from "@longkeep/protocol/path-attacks.json" with { type: "json" };
 import {
   atomicWriteFile,
   canonicalRoot,
@@ -14,8 +14,8 @@ import {
   resolveWritePathCreating,
 } from "../src/scoped.ts";
 import encodings from "./fixtures/text-encodings.json" with { type: "json" };
-import { FILE_SYMLINK_SKIP, linkDir, linkFile } from "@openagent/testkit/links";
-import { tempDir } from "@openagent/testkit/paths";
+import { FILE_SYMLINK_SKIP, linkDir, linkFile } from "@longkeep/testkit/links";
+import { tempDir } from "@longkeep/testkit/paths";
 
 const WIN = process.platform === "win32";
 const dirs: string[] = [];
@@ -28,7 +28,7 @@ interface Fixture {
 }
 
 function fixture(): Fixture {
-  const base = tempDir("openagent-paths-");
+  const base = tempDir("longkeep-paths-");
   dirs.push(base);
   const root = path.join(base, "root");
   const outside = path.join(base, "outside");
@@ -107,15 +107,15 @@ describe("roots", () => {
 
   it.runIf(WIN)("Windows: 8.3 short names and case variants resolve to the real name", () => {
     const f = fixture();
-    fs.mkdirSync(path.join(f.root, ".openagent"));
-    expect(path.basename(resolveScoped(f.root, ".OPENAGENT"))).toBe(".openagent");
+    fs.mkdirSync(path.join(f.root, ".longkeep"));
+    expect(path.basename(resolveScoped(f.root, ".LONGKEEP"))).toBe(".longkeep");
     let short: string | null = null;
     try {
       short = resolveScoped(f.root, "OPENAG~1"); // 404 when 8.3 names are disabled on the volume
     } catch {
       /* not available here */
     }
-    if (short !== null) expect(path.basename(short)).toBe(".openagent");
+    if (short !== null) expect(path.basename(short)).toBe(".longkeep");
   });
 });
 

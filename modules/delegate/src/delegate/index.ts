@@ -1,9 +1,9 @@
 /**
- * Delegation runner: a main agent (Claude Code through the MCP server, or a person with `openagent delegate`) hands a
+ * Delegation runner: a main agent (Claude Code through the MCP server, or a person with `longkeep delegate`) hands a
  * subtask to another agent CLI on this machine, which runs headless: codex, agy, grok, cursor, claude, or a custom
  * executor declared in executors.json (executors/registry.ts).
  *
- * Contract (plain text, readable with cat; formats from @openagent/protocol):
+ * Contract (plain text, readable with cat; formats from @longkeep/protocol):
  *  - One delegation = one record folder `<home>/runs/<projectKey(project)>/<task-id>/` (HOME_LAYOUT / RUN_FILES):
  *    task.md (task.ts: executor, status, outcome, acceptance, usage, session, snapshot, writeback), transcript.md,
  *    run.json, output.log, the claim lock `claim.lock`, and `work/` when the task works in scratch. The
@@ -11,7 +11,7 @@
  *    project except by the executor working there or a writeback the request asked for. Every path under the home
  *    folder and the project goes through common/scoped.
  *  - A request names a project folder (common/home resolveProject refuses the filesystem root, the user's home directory
- *    and the OpenAgent home folder). `target` and `writeback` are checked before anything is created: target is
+ *    and the Longkeep home folder). `target` and `writeback` are checked before anything is created: target is
  *    project-relative and must exist; writeback is `handbook` (the effective handbook) or a project-relative document
  *    that exists.
  *  - The working folder (spawn cwd = {cwd} in templates = the folder named in the prompt) is decided once, in the first
@@ -22,7 +22,7 @@
  *    round of run.json and in the task header; without git the round runs without one and the transcript says so.
  *  - Status: in_progress → done (with a completion summary); a failure goes back to pending with an "Execution failed"
  *    section, ready to be delegated again. Follow-up rounds append "## Round N" to the same task and transcript.
- *  - Outcome and acceptance are separate: each round writes `outcome` from facts OpenAgent checks itself (fingerprints of the
+ *  - Outcome and acceptance are separate: each round writes `outcome` from facts Longkeep checks itself (fingerprints of the
  *    working folder before and after differ = changed, equal = no_changes, none = unchecked; failures write their
  *    class). A normal exit only writes `acceptance: pending`; accepted / needs_rework / rejected come from
  *    reviewDelegation. done only means the run ended.

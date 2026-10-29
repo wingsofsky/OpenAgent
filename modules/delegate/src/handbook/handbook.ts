@@ -13,14 +13,14 @@
  */
 import fs from "node:fs";
 import path from "node:path";
-import { detectEol, withEol } from "@openagent/protocol/eol";
-import { countPendingSuggestions, splitSuggestions, type PendingSuggestion } from "@openagent/protocol/executors";
-import { HANDBOOK_SEED } from "@openagent/protocol/handbook";
-import { makeCritic } from "@openagent/protocol/criticmarkup";
-import { HOME_LAYOUT } from "@openagent/protocol/layout";
-import { formatStamp } from "@openagent/protocol/task";
-import { ensureHome, existingHome, homePath } from "@openagent/common/home";
-import { atomicWriteFile, insideVcsMetadata, readTextScoped, resolveContractTarget, resolveScoped, resolveWritePathCreating } from "@openagent/common/scoped";
+import { detectEol, withEol } from "@longkeep/protocol/eol";
+import { countPendingSuggestions, splitSuggestions, type PendingSuggestion } from "@longkeep/protocol/executors";
+import { HANDBOOK_SEED } from "@longkeep/protocol/handbook";
+import { makeCritic } from "@longkeep/protocol/criticmarkup";
+import { HOME_LAYOUT } from "@longkeep/protocol/layout";
+import { formatStamp } from "@longkeep/protocol/task";
+import { ensureHome, existingHome, homePath } from "@longkeep/common/home";
+import { atomicWriteFile, insideVcsMetadata, readTextScoped, resolveContractTarget, resolveScoped, resolveWritePathCreating } from "@longkeep/common/scoped";
 
 /** The reserved writeback target that means "the handbook". */
 export const HANDBOOK_TARGET = "handbook";
@@ -85,7 +85,7 @@ export function resolveWriteback(project: string, target: string, env: NodeJS.Pr
     try {
       resolveScoped(located.root, located.rel);
     } catch {
-      throw new Error('there is no agent handbook yet; create it first with "openagent handbook init" (or the init_handbook tool)');
+      throw new Error('there is no agent handbook yet; create it first with "longkeep handbook init" (or the init_handbook tool)');
     }
     return { root: located.root, rel: located.rel, display: absolute(located) };
   }
@@ -96,7 +96,7 @@ export function resolveWriteback(project: string, target: string, env: NodeJS.Pr
     if ((e as { status?: number }).status === 404) throw new Error(`writeback target ${target} does not exist in the project; create the document first`);
     throw e;
   }
-  if (insideVcsMetadata(project, real)) throw new Error(`writeback target ${target} is inside version-control metadata (.git and the like); OpenAgent never writes there`);
+  if (insideVcsMetadata(project, real)) throw new Error(`writeback target ${target} is inside version-control metadata (.git and the like); Longkeep never writes there`);
   return { root: project, rel: target, display: target };
 }
 

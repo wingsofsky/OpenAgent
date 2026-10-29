@@ -4,25 +4,25 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { afterAll, describe, expect, it, vi } from "vitest";
-import { parseTask } from "@openagent/protocol/task";
+import { parseTask } from "@longkeep/protocol/task";
 import { BUILTIN_EXECUTORS } from "../src/executors/registry.ts";
 import { delegationStatus, listDelegations, prepareDelegation, runDelegation } from "../src/delegate/index.ts";
 import { acquireClaimLock, releaseClaimLock } from "../src/delegate/process.ts";
-import { projectKey } from "@openagent/common/home";
-import { FAKE_EXECUTOR, tempDir } from "@openagent/testkit/paths";
+import { projectKey } from "@longkeep/common/home";
+import { FAKE_EXECUTOR, tempDir } from "@longkeep/testkit/paths";
 
 const FAKE = FAKE_EXECUTOR;
 const dirs: string[] = [];
 afterAll(() => dirs.splice(0).forEach((d) => fs.rmSync(d, { recursive: true, force: true, maxRetries: 5, retryDelay: 50 })));
 
 function setup() {
-  const base = tempDir("openagent-dlg-");
+  const base = tempDir("longkeep-dlg-");
   dirs.push(base);
   const home = path.join(base, "home");
   const project = path.join(base, "project");
   fs.mkdirSync(path.join(project, "docs"), { recursive: true });
   fs.writeFileSync(path.join(project, "docs", "a.md"), "# A\n");
-  const env = { ...process.env, OPENAGENT_HOME: home, OPENAGENT_SEARCH_PATH: "" };
+  const env = { ...process.env, LONGKEEP_HOME: home, LONGKEEP_SEARCH_PATH: "" };
   return { base, home, project, env };
 }
 
@@ -254,7 +254,7 @@ describe("a delegation run against the fake executor", () => {
     const spy = vi.spyOn(os, "homedir").mockReturnValue(base);
     try {
       await expect(
-        runDelegation({ project, executor: "codex", title: "x", prompt: "x", env: { ...env, PATH: "", OPENAGENT_CODEX_BIN: "", LOCALAPPDATA: base, APPDATA: base } }),
+        runDelegation({ project, executor: "codex", title: "x", prompt: "x", env: { ...env, PATH: "", LONGKEEP_CODEX_BIN: "", LOCALAPPDATA: base, APPDATA: base } }),
       ).rejects.toMatchObject({ name: "ExecutorStartupError", message: expect.stringContaining("codex not found") });
     } finally {
       spy.mockRestore();

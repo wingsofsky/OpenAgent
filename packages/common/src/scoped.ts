@@ -1,5 +1,5 @@
 /**
- * Scoped file access: the single gate for every path under a root (the OpenAgent home folder, a project, a record).
+ * Scoped file access: the single gate for every path under a root (the Longkeep home folder, a project, a record).
  *
  * Every caller passes a root (absolute) and a relative path; nothing else may build a path under a root.
  * - Rejected before touching the disk: non-strings, NUL, absolute and drive-relative paths, `..` segments, and on
@@ -171,7 +171,7 @@ function renameRetrying(from: string, to: string): void {
  */
 export function atomicWriteFile(target: string, data: string | Buffer): void {
   const dir = path.dirname(target);
-  const tmp = path.join(dir, `.openagent-tmp-${Date.now()}-${Math.random().toString(36).slice(2)}`);
+  const tmp = path.join(dir, `.longkeep-tmp-${Date.now()}-${Math.random().toString(36).slice(2)}`);
   let fd: number | null = null;
   try {
     fd = fs.openSync(tmp, "w");

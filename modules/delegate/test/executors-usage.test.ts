@@ -4,7 +4,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { validateOverride } from "@openagent/protocol/executors";
+import { validateOverride } from "@longkeep/protocol/executors";
 import { extractJsonUsage } from "../src/executors/parsers.ts";
 import { BUILTIN_EXECUTORS, customExecutor } from "../src/executors/registry.ts";
 

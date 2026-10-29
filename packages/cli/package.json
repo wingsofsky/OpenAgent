@@ -1,9 +1,9 @@
 {
-  "name": "@openagent/cli",
-  "version": "0.3.0",
+  "name": "@longkeep/cli",
+  "version": "0.4.0",
   "private": true,
   "type": "module",
-  "description": "The openagent command: runs the commands of the modules present in this checkout.",
+  "description": "The longkeep command: runs the commands of the modules present in this checkout.",
   "license": "Apache-2.0",
   "engines": {
     "node": ">=22.19.0"

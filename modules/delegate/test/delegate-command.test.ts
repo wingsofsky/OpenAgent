@@ -1,19 +1,19 @@
-// `openagent delegate` run in this process: options, output, exit codes, defaults in ~/.openagent/executors.json.
+// `longkeep delegate` run in this process: options, output, exit codes, defaults in ~/.longkeep/executors.json.
 import fs from "node:fs";
 import path from "node:path";
 import { afterAll, describe, expect, it, vi } from "vitest";
 import { delegateCommand } from "../src/delegate/command.ts";
-import { FAKE_EXECUTOR, tempDir } from "@openagent/testkit/paths";
+import { FAKE_EXECUTOR, tempDir } from "@longkeep/testkit/paths";
 
 const FAKE = FAKE_EXECUTOR;
-const base = tempDir("openagent-cmd-");
+const base = tempDir("longkeep-cmd-");
 afterAll(() => fs.rmSync(base, { recursive: true, force: true, maxRetries: 5, retryDelay: 50 }));
 const home = path.join(base, "home");
 const project = path.join(base, "project");
 fs.mkdirSync(project);
-const VARS = { OPENAGENT_HOME: home, OPENAGENT_SEARCH_PATH: "", OPENAGENT_AGY_BIN: FAKE, OPENAGENT_GROK_BIN: FAKE };
+const VARS = { LONGKEEP_HOME: home, LONGKEEP_SEARCH_PATH: "", LONGKEEP_AGY_BIN: FAKE, LONGKEEP_GROK_BIN: FAKE };
 
-/** Runs `openagent delegate <args>` with the test's environment, capturing what it prints */
+/** Runs `longkeep delegate <args>` with the test's environment, capturing what it prints */
 async function delegate(args: string[], extra: Record<string, string> = {}): Promise<{ code: number; out: string; err: string }> {
   const vars = { ...VARS, ...extra };
   const saved = Object.fromEntries(Object.keys(vars).map((k) => [k, process.env[k]]));
@@ -31,13 +31,13 @@ async function delegate(args: string[], extra: Record<string, string> = {}): Pro
   }
 }
 
-describe("openagent delegate", () => {
+describe("longkeep delegate", () => {
   it("usage: --help exits 0; unknown options and bad values exit 2", async () => {
-    expect((await delegate(["--help"])).out).toContain("Usage: openagent delegate");
+    expect((await delegate(["--help"])).out).toContain("Usage: longkeep delegate");
     for (const args of [["--nope"], ["--to"], ["--to", "agy", "--title", "t", "--prompt", "p", "--project", project, "--effort", "max"], ["--to", "agy", "--title", "t", "--prompt", "p", "--project", project, "--work", "elsewhere"], ["--to", "agy", "--title", "t", "--prompt", "p", "--project", project, "--timeout", "-1"], ["--to", "agy", "--title", "t", "--prompt", "p", "--project", project, "--timeout", "0"], ["--to", "agy", "--title", "t", "--prompt", "p", "--project", project, "--retries", "1.5"], ["--to", "agy", "--title", "t", "--prompt", "p", "--project", project, "--stall", "abc"], ["--project", project, "--status", "../x"], ["--to", "agy", "--title", "t\nstatus: done", "--prompt", "p", "--project", project], ["--to", "agy", "--title", "t", "--prompt", "p", "--project", project, "--issuer", "a\nwriteback: handbook"], ["--project", project, "--continue", "../x", "--prompt", "p"], ["--project", project, "--prompt", "p"]]) {
       const r = await delegate(args);
       expect(r.code, args.join(" ")).toBe(2);
-      expect(r.err).toMatch(/^openagent delegate: /);
+      expect(r.err).toMatch(/^longkeep delegate: /);
     }
   });
 
@@ -85,13 +85,13 @@ describe("openagent delegate", () => {
     expect(r.out).toMatch(/^acceptance: rejected \(alice, .*\) {2}task /);
   });
 
-  it("--set / --reset change ~/.openagent/executors.json and never a project file; --list shows the defaults", async () => {
+  it("--set / --reset change ~/.longkeep/executors.json and never a project file; --list shows the defaults", async () => {
     const set = await delegate(["--project", project, "--to", "agy", "--set", "model=gemini-x", "--set", "timeoutMs=1000"]);
     expect(set.code).toBe(0);
     expect(set.out).toContain("agy defaults: model=gemini-x timeoutMs=1000");
     expect(JSON.parse(fs.readFileSync(path.join(home, "executors.json"), "utf8"))).toEqual({ agy: { model: "gemini-x", timeoutMs: 1000 } });
     expect((await delegate(["--project", project, "--to", "agy", "--set", "model=project-x", "--scope", "project"])).code).toBe(2);
-    expect(fs.existsSync(path.join(project, ".openagent"))).toBe(false);
+    expect(fs.existsSync(path.join(project, ".longkeep"))).toBe(false);
     const list = await delegate(["--project", project, "--list", "--json"]);
     const agy = JSON.parse(list.out).find((r: { name: string }) => r.name === "agy");
     expect(agy).toMatchObject({ bin: FAKE, defaults: { model: "gemini-x" }, configured: true });

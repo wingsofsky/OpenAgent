@@ -6,19 +6,19 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { afterAll, describe, expect, it } from "vitest";
-import { parseRunRecord } from "@openagent/protocol/runs";
-import { parseTask } from "@openagent/protocol/task";
+import { parseRunRecord } from "@longkeep/protocol/runs";
+import { parseTask } from "@longkeep/protocol/task";
 import { BUILTIN_EXECUTORS } from "../src/executors/registry.ts";
 import { delegationStatus, reviewDelegation, runDelegation } from "../src/delegate/index.ts";
 import { acquireLockFile, commandLineProblem, readLock, spawnOnce } from "../src/delegate/process.ts";
-import { FAKE_EXECUTOR, tempDir } from "@openagent/testkit/paths";
+import { FAKE_EXECUTOR, tempDir } from "@longkeep/testkit/paths";
 
 const FAKE = FAKE_EXECUTOR;
-const base = tempDir("openagent-record-");
+const base = tempDir("longkeep-record-");
 afterAll(() => fs.rmSync(base, { recursive: true, force: true, maxRetries: 5, retryDelay: 50 }));
 const project = path.join(base, "project");
 fs.mkdirSync(project);
-const env = { ...process.env, OPENAGENT_HOME: path.join(base, "home"), OPENAGENT_SEARCH_PATH: "" };
+const env = { ...process.env, LONGKEEP_HOME: path.join(base, "home"), LONGKEEP_SEARCH_PATH: "" };
 const runOf = (file: string) => parseRunRecord(fs.readFileSync(file, "utf8"))!;
 
 /** A process id that has already exited */

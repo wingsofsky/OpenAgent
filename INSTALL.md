@@ -1,8 +1,8 @@
-# Installing OpenAgents
+# Installing Longkeep
 
 You (the agent reading this) are the setup wizard. The user handed this to you, often as nothing more than the repository link, because they do not want to read a manual. Ask first, then detect, then act, and explain every step in plain language.
 
-OpenAgents is a set of modules in one repository. The user installs only the ones they want, and only those are downloaded:
+Longkeep is a set of modules in one repository. The user installs only the ones they want, and only those are downloaded:
 
 | Module | What the user gets | Needs |
 |---|---|---|
@@ -27,8 +27,8 @@ Ask these at once:
 
 1. **Which modules?** Explain each in one sentence from the table above. `context` is the usual start; `delegate` is worth it with two or more agent subscriptions, or to have a second session review the first one's work. Modules can be added later.
 2. **For `context`: English or Chinese?** The skill's language is the language the agent tends to answer in.
-3. **Where should the repository go, and which folder is the project?** The project is the folder the user runs the main agent in. Modules with code keep their records and configuration in `~/.openagent`, not in the project. Which OS is this? If they usually start the main agent in their home folder: skills can be installed for every project, but the delegation MCP server refuses the home folder, so delegation tools will not appear in a session started there. Suggest a project folder for delegation.
-4. Only with `delegate`: **which services do they pay for** (Claude, ChatGPT, Google AI Pro or Ultra, SuperGrok, Cursor, or only API keys), and **which window do they usually direct agents from?** That one is the **main agent**. OpenAgents does not start another agent; it plugs into this one.
+3. **Where should the repository go, and which folder is the project?** The project is the folder the user runs the main agent in. Modules with code keep their records and configuration in `~/.longkeep`, not in the project. Which OS is this? If they usually start the main agent in their home folder: skills can be installed for every project, but the delegation MCP server refuses the home folder, so delegation tools will not appear in a session started there. Suggest a project folder for delegation.
+4. Only with `delegate`: **which services do they pay for** (Claude, ChatGPT, Google AI Pro or Ultra, SuperGrok, Cursor, or only API keys), and **which window do they usually direct agents from?** That one is the **main agent**. Longkeep does not start another agent; it plugs into this one.
 
 ## 2. Detect what is on this machine
 
@@ -53,10 +53,10 @@ Repeat what you were told and what you found in one or two sentences: "You want 
 
 ## 3. Download only the chosen modules
 
-OpenAgents is not on npm; it runs from a clone on macOS, Linux and Windows alike. A sparse clone downloads only what the chosen modules need. First the modules' own folders:
+Longkeep is not on npm; it runs from a clone on macOS, Linux and Windows alike. A sparse clone downloads only what the chosen modules need. First the modules' own folders:
 
 ```bash
-git clone --filter=blob:none --sparse https://github.com/wingsofsky/OpenAgents.git <repo>
+git clone --filter=blob:none --sparse https://github.com/wingsofsky/longkeep.git <repo>
 cd <repo>
 git sparse-checkout set modules/<name> [modules/<name> …]
 ```
@@ -74,7 +74,7 @@ pnpm install --prod --frozen-lockfile
 node <repo>/packages/cli/src/cli.ts --help        # lists the commands of the modules present
 ```
 
-`<repo>` is wherever the user wants the clone; use absolute paths from here on. Below, `openagent` means `node <repo>/packages/cli/src/cli.ts`. If the user already has a clone, use it: a full clone has every module; a sparse one gets more with `git sparse-checkout add <paths>` and another `pnpm install --prod --frozen-lockfile`.
+`<repo>` is wherever the user wants the clone; use absolute paths from here on. Below, `longkeep` means `node <repo>/packages/cli/src/cli.ts`. If the user already has a clone, use it: a full clone has every module; a sparse one gets more with `git sparse-checkout add <paths>` and another `pnpm install --prod --frozen-lockfile`.
 
 ## 4. Delegate: executors, MCP, handbook
 
@@ -86,7 +86,7 @@ Skip this section unless the user chose `delegate` (or `folder`, which needs it)
 node <repo>/packages/cli/src/cli.ts doctor
 ```
 
-`doctor` lists the five built-in executors (codex, agy, grok, cursor, claude): where each was found, its version, and whether it is signed in. A CLI missing from PATH may still be found: OpenAgents checks each CLI's usual install folders by itself (the copy the Claude desktop app manages, winget's folders on Windows, `~/.local/bin` and similar).
+`doctor` lists the five built-in executors (codex, agy, grok, cursor, claude): where each was found, its version, and whether it is signed in. A CLI missing from PATH may still be found: Longkeep checks each CLI's usual install folders by itself (the copy the Claude desktop app manages, winget's folders on Windows, `~/.local/bin` and similar).
 
 When `doctor` says "not installed" for a CLI the user says they have, look for it yourself:
 
@@ -94,7 +94,7 @@ When `doctor` says "not installed" for a CLI the user says they have, look for i
 2. Look where installers put it: `~/.local/bin`, `/opt/homebrew/bin`, `%LOCALAPPDATA%\Programs`, `%LOCALAPPDATA%\Microsoft\WinGet\Packages`, the vendor's own folder under `%LOCALAPPDATA%` or `%APPDATA%`.
 3. If the CLI or its desktop app is running, the process list shows the full path (`Get-Process <name> | Select-Object Path` on Windows, `ps -ax -o comm | grep <name>` elsewhere).
 
-Show the user the path you found and run `<path> --version` to prove it works. With their yes, record it in `~/.openagent/executors.json` as `{ "<executor>": { "bin": "<absolute path>" } }`, merged into what is already there, then run `doctor` again. On Windows a `.cmd` or `.bat` shim is refused: point `bin` at the `.exe` or `.js` entry point behind it.
+Show the user the path you found and run `<path> --version` to prove it works. With their yes, record it in `~/.longkeep/executors.json` as `{ "<executor>": { "bin": "<absolute path>" } }`, merged into what is already there, then run `doctor` again. On Windows a `.cmd` or `.bat` shim is refused: point `bin` at the `.exe` or `.js` entry point behind it.
 
 ### 4.2 Install missing CLIs
 
@@ -108,11 +108,11 @@ Compare the subscriptions with what `doctor` found, list "paid for but not insta
 | Antigravity (`agy`) | `curl -fsSL https://antigravity.google/cli/install.sh \| bash` |
 | Cursor Agent | `curl https://cursor.com/install -fsS \| bash` |
 
-On Windows, the install hints `openagent delegate --list` prints for missing CLIs give the PowerShell commands. Each vendor's own site is the authority; if a command fails, show the raw output and don't switch to unofficial sources. A CLI installed into `~/.local/bin` or similar may not be on the current shell's PATH yet: OpenAgents looks there anyway, and a new terminal will find it.
+On Windows, the install hints `longkeep delegate --list` prints for missing CLIs give the PowerShell commands. Each vendor's own site is the authority; if a command fails, show the raw output and don't switch to unofficial sources. A CLI installed into `~/.local/bin` or similar may not be on the current shell's PATH yet: Longkeep looks there anyway, and a new terminal will find it.
 
 ### 4.3 Sign-in (terminal, then browser)
 
-Run `openagent doctor` first. For every CLI of a service the user pays for whose sign-in is not `signed in` (`signed out`, or `unknown`, which agy always shows), offer to open its sign-in window. Do this before going on to 4.4, and before any probe or delegation; don't just report the state and move on.
+Run `longkeep doctor` first. For every CLI of a service the user pays for whose sign-in is not `signed in` (`signed out`, or `unknown`, which agy always shows), offer to open its sign-in window. Do this before going on to 4.4, and before any probe or delegation; don't just report the state and move on.
 
 Signing in needs a TTY, which your shell does not have, so open a visible terminal window for the sign-in command. On macOS:
 
@@ -125,11 +125,11 @@ osascript -e 'tell application "Terminal" to activate' \
 |---|---|---|
 | Claude Code | `claude auth login` | `claude auth status` |
 | Codex | `codex login` | `codex login status` |
-| Grok Build | `grok login` | `openagent doctor` checks that its credentials file exists (don't read it) |
+| Grok Build | `grok login` | `longkeep doctor` checks that its credentials file exists (don't read it) |
 | Antigravity | `agy` (the first interactive run signs in; the user closes the window afterwards) | a one-word probe |
 | Cursor Agent | `cursor-agent login` | `cursor-agent status` |
 
-One vendor at a time: say what will happen, open the window after consent, wait for the user to say it is done, then check. Users with only API keys set them as environment variables themselves, in their own terminal. On other systems, give the user the sign-in commands to run. Afterwards run `openagent doctor --probe`: each signed-in CLI answers one word, which proves the model is actually available (it costs a little quota; ask first).
+One vendor at a time: say what will happen, open the window after consent, wait for the user to say it is done, then check. Users with only API keys set them as environment variables themselves, in their own terminal. On other systems, give the user the sign-in commands to run. Afterwards run `longkeep doctor --probe`: each signed-in CLI answers one word, which proves the model is actually available (it costs a little quota; ask first).
 
 ### 4.4 Register the MCP server
 
@@ -141,14 +141,14 @@ node <repo>/packages/cli/src/cli.ts mcp --project <project>
 
 | Main agent | How to register |
 |---|---|
-| Claude Code | from the project folder: `claude mcp add openagent -- <S>` (local scope, this project only). With `--scope project` it goes into the project's `.mcp.json` instead, which Claude Code loads, after asking for approval, for anyone who opens the project; the paths in it are this machine's |
-| Codex | `codex mcp add openagent -- <S>`; this is global, so use a different name per project, such as `openagent-notes` |
-| Cursor Agent | write `{"mcpServers":{"openagent":{"command":"node","args":["<repo>/packages/cli/src/cli.ts","mcp","--project","<project>"]}}}` into the project's `.cursor/mcp.json`, then `cursor-agent mcp enable openagent` |
+| Claude Code | from the project folder: `claude mcp add longkeep -- <S>` (local scope, this project only). With `--scope project` it goes into the project's `.mcp.json` instead, which Claude Code loads, after asking for approval, for anyone who opens the project; the paths in it are this machine's |
+| Codex | `codex mcp add longkeep -- <S>`; this is global, so use a different name per project, such as `longkeep-notes` |
+| Cursor Agent | write `{"mcpServers":{"longkeep":{"command":"node","args":["<repo>/packages/cli/src/cli.ts","mcp","--project","<project>"]}}}` into the project's `.cursor/mcp.json`, then `cursor-agent mcp enable longkeep` |
 | Grok Build, Antigravity, others | `mcp add` per that CLI's own `--help`: the command is `node`, the arguments are `<repo>/packages/cli/src/cli.ts mcp --project <project>` |
 
-If `claude` is not on PATH (on Windows, the copy the Claude desktop app manages often is not), run `mcp add` with the full path `doctor` printed for claude. If the user set `OPENAGENT_HOME`, pass it when registering too, after the name: `claude mcp add openagent -e OPENAGENT_HOME=<path> -- <S>`, `codex mcp add openagent --env OPENAGENT_HOME=<path> -- <S>`. Otherwise a main agent started without that variable uses `~/.openagent`. Run `claude mcp list` first: if a server of the same name exists in another scope, only one of them is used, so pick another name, such as `openagent-notes`.
+If `claude` is not on PATH (on Windows, the copy the Claude desktop app manages often is not), run `mcp add` with the full path `doctor` printed for claude. If the user set `LONGKEEP_HOME`, pass it when registering too, after the name: `claude mcp add longkeep -e LONGKEEP_HOME=<path> -- <S>`, `codex mcp add longkeep --env LONGKEEP_HOME=<path> -- <S>`. Otherwise a main agent started without that variable uses `~/.longkeep`. Run `claude mcp list` first: if a server of the same name exists in another scope, only one of them is used, so pick another name, such as `longkeep-notes`.
 
-Without `--project`, the server uses the folder it is started in. It refuses the filesystem root, the user's home directory, the OpenAgents home folder and any folder that contains it. Snapshots and folder tasks are commands the main agent runs in its shell; no registration needed.
+Without `--project`, the server uses the folder it is started in. It refuses the filesystem root, the user's home directory, the Longkeep home folder and any folder that contains it. Snapshots and folder tasks are commands the main agent runs in its shell; no registration needed.
 
 ### 4.5 The agent handbook
 
@@ -158,13 +158,13 @@ Create the agent handbook (with consent). It holds what is known about each CLI:
 node <repo>/packages/cli/src/cli.ts handbook init
 ```
 
-It writes `~/.openagent/handbook.md` from the preset in this repository and never overwrites a handbook that already exists. Tell the user it is plain Markdown they can edit, and that suggestions arrive in it tagged with the executor's name, for them to keep or delete.
+It writes `~/.longkeep/handbook.md` from the preset in this repository and never overwrites a handbook that already exists. Tell the user it is plain Markdown they can edit, and that suggestions arrive in it tagged with the executor's name, for them to keep or delete.
 
 ### 4.6 Depending on subscriptions
 
 - **Only one subscription.** Delegation still gives records, snapshots and folder tasks, and the main agent can delegate to the same vendor's CLI with a cheaper model (`delegate_task({ executor: "codex", model: "<cheaper model>", effort: "low" })`). What is missing is other vendors' models.
 - **Two or more.** Pick the one whose judgment they trust most as the main agent; the others are executors. `list_executors` shows who is available; the routing table and quirks are in the handbook.
-- **Only API keys.** OpenAgents does not manage keys. Prefer a CLI that uses the key, since only a CLI has a tool loop and file access; a custom executor in `~/.openagent/executors.json` can wrap any command that prints an answer.
+- **Only API keys.** Longkeep does not manage keys. Prefer a CLI that uses the key, since only a CLI has a tool loop and file access; a custom executor in `~/.longkeep/executors.json` can wrap any command that prints an answer.
 
 Desktop and web apps (Claude desktop, ChatGPT, IDEs) cannot be delegated to: they have no headless entry point. Only command-line agents can.
 
@@ -174,7 +174,7 @@ Go through the executors the user has installed, one at a time:
 
 1. Say in one sentence what it may do by default: with prompts skipped it can read and write anywhere the user's account can and run any command; codex instead runs in its own sandbox (`workspace-write`).
 2. Ask whether to keep that default or limit it.
-3. To limit it, use the table under "Setting permissions yourself" in `modules/delegate/README.md`: draft the change to that CLI's own settings file, allowing what its usual work needs (searching, reading, writing in its working folder), and show it to the user. Write it only after they agree, then turn skipping off: `openagent delegate --to <name> --set autoApprove=false`.
+3. To limit it, use the table under "Setting permissions yourself" in `modules/delegate/README.md`: draft the change to that CLI's own settings file, allowing what its usual work needs (searching, reading, writing in its working folder), and show it to the user. Write it only after they agree, then turn skipping off: `longkeep delegate --to <name> --set autoApprove=false`.
 
 Each limited executor is probed in step 7.
 
@@ -191,9 +191,9 @@ For every project, copy into `~/.claude/skills/` instead (macOS / Linux: `rsync 
 
 With `context`, the skill's `references/` holds the contract and decision log templates. Offer them, but writing `CLAUDE.md` / `AGENTS.md` or `DECISIONS.md` is the user's call (see the ground rules).
 
-## 6. What goes into `~/.openagent`
+## 6. What goes into `~/.longkeep`
 
-Only modules with code write here. All plain text, readable with `cat`. `OPENAGENT_HOME` moves the folder.
+Only modules with code write here. All plain text, readable with `cat`. `LONGKEEP_HOME` moves the folder.
 
 | Path | What it is | Module |
 |---|---|---|
@@ -204,22 +204,22 @@ Only modules with code write here. All plain text, readable with `cat`. `OPENAGE
 | `folder/brief/` | the brief of folder tasks | folder |
 | `sessions/imported/<project>/` | conversation archives, with `index.md` files | sessions |
 
-Nothing in a project configures OpenAgents: a `.openagent/` folder in a project is ignored. Don't put `~/.openagent` into a synced or shared folder without telling the user what it contains.
+Nothing in a project configures Longkeep: a `.longkeep/` folder in a project is ignored. Don't put `~/.longkeep` into a synced or shared folder without telling the user what it contains.
 
 ## 7. Self-test, then hand over
 
 Run the checks for the modules installed, in front of the user:
 
-- **context**: `<project>/.claude/skills/openagent-context/SKILL.md` exists (or the global copy).
-- **sessions**: `openagent import-sessions --list --project <project>` shows which past conversations it can import and writes nothing. The brackets at the end of each line name the folder the archive goes to: the project's name, `_temp` for a session started in a temp folder, `_misc` for one outside any project.
-- **delegate**, before the session restart: `openagent delegate --list` shows the executors the MCP server will see, and `openagent handbook` shows where the handbook is. After restarting the session: `list_executors` (does it match `doctor`? is the handbook there? if not, `init_handbook`), `executor_doctor`, and optionally a one-word probe with `delegate_task` (`retries: 0`, `timeout_seconds: 120`) and `delegation_status` to show where the record is. For each executor limited in step 4.7, run one probe that has to work: `delegate_task` with `retries: 0`, `timeout_seconds: 120` and the prompt "Create a file named probe.txt containing ok in the current folder, run `git --version`, then reply with one word: ok." It passes when the answer is ok and `probe.txt` is in the record's `work/` folder. An empty answer, a refused tool or a timeout means the rules block normal work: tell the user and go back to step 4.7.
-- **folder**: `openagent folder --brief` prints where the brief is and creates the draft; tell the user to read and edit it before the first run.
+- **context**: `<project>/.claude/skills/longkeep-context/SKILL.md` exists (or the global copy).
+- **sessions**: `longkeep import-sessions --list --project <project>` shows which past conversations it can import and writes nothing. The brackets at the end of each line name the folder the archive goes to: the project's name, `_temp` for a session started in a temp folder, `_misc` for one outside any project.
+- **delegate**, before the session restart: `longkeep delegate --list` shows the executors the MCP server will see, and `longkeep handbook` shows where the handbook is. After restarting the session: `list_executors` (does it match `doctor`? is the handbook there? if not, `init_handbook`), `executor_doctor`, and optionally a one-word probe with `delegate_task` (`retries: 0`, `timeout_seconds: 120`) and `delegation_status` to show where the record is. For each executor limited in step 4.7, run one probe that has to work: `delegate_task` with `retries: 0`, `timeout_seconds: 120` and the prompt "Create a file named probe.txt containing ok in the current folder, run `git --version`, then reply with one word: ok." It passes when the answer is ok and `probe.txt` is in the record's `work/` folder. An empty answer, a refused tool or a timeout means the rules block normal work: tell the user and go back to step 4.7.
+- **folder**: `longkeep folder --brief` prints where the brief is and creates the draft; tell the user to read and edit it before the first run.
 
 If everything passes, tell them how to phrase things from now on; they don't need tool names:
 
 - "Write up a plan for …", "where is the report on …": the context skill.
 - "Import this project's past conversations": sessions.
-- "Let grok search …", "have codex compute …": delegation. "What is waiting for me?": `openagent handbook` (pending suggestions) and `openagent delegate --status` (tasks with `acceptance: pending` still need a verdict).
+- "Let grok search …", "have codex compute …": delegation. "What is waiting for me?": `longkeep handbook` (pending suggestions) and `longkeep delegate --status` (tasks with `acceptance: pending` still need a verdict).
 - "Run the folder task on <folder>": a folder task.
 
 If something fails, show the raw error; don't guess.
@@ -228,15 +228,15 @@ If something fails, show the raw error; don't guess.
 
 Offer this once setup has passed; it is optional and runs as its own step:
 
-1. **File documents the OpenAgents way?** From now on the skill files new documents under `docs/` by itself. Ask whether to also move the scattered existing ones there.
-2. **A guided rewrite of `CLAUDE.md` / `AGENTS.md`?** Built from the current contract, the user's past conversations (with `sessions`: `openagent import-sessions --prompts` collects what they keep repeating) and their own experience, which you ask about.
+1. **File documents the Longkeep way?** From now on the skill files new documents under `docs/` by itself. Ask whether to also move the scattered existing ones there.
+2. **A guided rewrite of `CLAUDE.md` / `AGENTS.md`?** Built from the current contract, the user's past conversations (with `sessions`: `longkeep import-sessions --prompts` collects what they keep repeating) and their own experience, which you ask about.
 
 3. **Pin the skill into every session?** A skill loads when its description matches the request, which can be missed. Three lines in the user's global contract make every session use it: `~/.claude/CLAUDE.md` for Claude Code, `~/.codex/AGENTS.md` for Codex (add them to each agent the user works with, in the language they work in). Skip any line their global contract already covers.
 
    ```markdown
    ## Project context
-   - Before writing an explanatory document (plan, report, research, guide, notes), use the openagent-context skill to decide where it goes and to find earlier ones.
-   - When starting substantial work in a project that has no CLAUDE.md or AGENTS.md, ask me whether to set up a contract and a decision log with openagent-context; don't create them before I agree.
+   - Before writing an explanatory document (plan, report, research, guide, notes), use the longkeep-context skill to decide where it goes and to find earlier ones.
+   - When starting substantial work in a project that has no CLAUDE.md or AGENTS.md, ask me whether to set up a contract and a decision log with longkeep-context; don't create them before I agree.
    - When the project settles an architecture-level choice, propose a DECISIONS.md entry that says who decided.
    ```
 

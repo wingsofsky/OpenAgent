@@ -1,22 +1,22 @@
 /**
  * Finding the executable of a local agent CLI: the only interpreter of the discovery rules, PATH lookup and resolution
- * order in `packages/protocol/src/executor-registry.json`. The executor table (registry.ts) and `openagent doctor` both
+ * order in `packages/protocol/src/executor-registry.json`. The executor table (registry.ts) and `longkeep doctor` both
  * use it; `test/fixtures/executor-discovery.json` pins the rules.
  *
- * Resolution order: environment override (bin.env, such as OPENAGENT_CODEX_BIN) > `bin` in executors.json > PATH (plus
+ * Resolution order: environment override (bin.env, such as LONGKEEP_CODEX_BIN) > `bin` in executors.json > PATH (plus
  * the registry's searchPath folders for this platform) > discovery rules. On Windows PATH only counts `.exe`: `.cmd` /
  * `.bat` shims do not count, nor the extension-less sh shim npm puts next to a `.cmd` for Git Bash (spawning it fails
  * with ENOENT); a name that already ends in `.exe` is looked up as is. Override values (environment, executors.json)
  * are used as given, without checking that they exist.
  *
- * OPENAGENT_SEARCH_PATH, when set (even to the empty string), replaces the registry's searchPath: people with CLIs
+ * LONGKEEP_SEARCH_PATH, when set (even to the empty string), replaces the registry's searchPath: people with CLIs
  * installed elsewhere can add folders. Tests set it to "" to keep PATH-like folders out; the discover rules (each CLI's
  * own install folder under the home directory) still apply, so tests that must find nothing also override HOME.
  */
 import nodeFs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import { REGISTRY, ruleApplies, type DiscoverPick, type DiscoverRule, type RegistryEntry } from "@openagent/protocol/executor-registry";
+import { REGISTRY, ruleApplies, type DiscoverPick, type DiscoverRule, type RegistryEntry } from "@longkeep/protocol/executor-registry";
 
 type FsLike = Pick<typeof nodeFs, "readdirSync" | "statSync">;
 
@@ -134,10 +134,10 @@ export function discoverCandidates(rules: DiscoverRule[] = [], ctx: DiscoverCtx 
   return out;
 }
 
-/** PATH folders (PATH / Path / path) plus this platform's searchPath folders (or OPENAGENT_SEARCH_PATH, see above) */
+/** PATH folders (PATH / Path / path) plus this platform's searchPath folders (or LONGKEEP_SEARCH_PATH, see above) */
 function searchDirs(c: Ctx): string[] {
   const raw = c.env.PATH ?? c.env.Path ?? c.env.path ?? "";
-  const custom = c.env.OPENAGENT_SEARCH_PATH;
+  const custom = c.env.LONGKEEP_SEARCH_PATH;
   const extra =
     custom !== undefined
       ? custom.split(path.delimiter).filter(Boolean).map((d) => expandPath(d, c))

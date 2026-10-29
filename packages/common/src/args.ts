@@ -46,6 +46,6 @@ export function projectFrom(p: Parsed): string {
 
 /** Prints a message for a person and returns the exit code for a usage error. */
 export function usageError(command: string, message: string, usage: string): number {
-  console.error(`openagent ${command}: ${message}\n\n${usage}`);
+  console.error(`longkeep ${command}: ${message}\n\n${usage}`);
   return 2;
 }

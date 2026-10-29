@@ -4,12 +4,12 @@ import fs from "node:fs";
 import path from "node:path";
 import { afterEach, expect, it } from "vitest";
 import { blocksProject, ideaPathHash, readIntellijProjects } from "../src/ide.ts";
-import { linkDir } from "@openagent/testkit/links";
-import { tempDir } from "@openagent/testkit/paths";
+import { linkDir } from "@longkeep/testkit/links";
+import { tempDir } from "@longkeep/testkit/paths";
 
 const roots: string[] = [];
 const temp = () => {
-  const r = tempDir("openagent-idea-");
+  const r = tempDir("longkeep-idea-");
   roots.push(r);
   return r;
 };

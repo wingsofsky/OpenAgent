@@ -26,7 +26,7 @@
  *     - checksum: sha256:<16 hex>
  *     - ⚠ possible fork or subset of → <file>, <file> (both are kept; a person decides)   (only when detected)
  *
- *     > Imported by openagent import-sessions. …
+ *     > Imported by longkeep import-sessions. …
  *
  *     ---
  *
@@ -66,7 +66,7 @@
  */
 import crypto from "node:crypto";
 import path from "node:path";
-import { DELEGATION_FOLLOW_UP_HEADING, DELEGATION_PROMPT_FIRST_LINE, DELEGATION_TASK_HEADING } from "@openagent/protocol/delegation-prompt";
+import { DELEGATION_FOLLOW_UP_HEADING, DELEGATION_PROMPT_FIRST_LINE, DELEGATION_TASK_HEADING } from "@longkeep/protocol/delegation-prompt";
 
 /** A parsed transcript record: untyped JSON written by another tool. */
 type Rec = any;
@@ -740,7 +740,7 @@ export function renderMarkdown(s: Session, opts: { importedAt?: string; originPa
     ...(opts.importedAt ? [`- imported: ${opts.importedAt}${opts.originPath ? ` · original transcript: \`${opts.originPath}\`` : ""}`] : []),
     ...(opts.extraHeader ?? []).map((l) => `- ${l}`),
     "",
-    "> Imported by openagent import-sessions. User messages are verbatim; assistant text is kept and tool calls are folded; sub-agent dispatches keep their prompt and reply (truncated); thinking and tool output are not archived.",
+    "> Imported by longkeep import-sessions. User messages are verbatim; assistant text is kept and tool calls are folded; sub-agent dispatches keep their prompt and reply (truncated); thinking and tool output are not archived.",
     "",
     "---",
   ];
@@ -832,7 +832,7 @@ export function sanitizeBucket(name: unknown): string {
   return s;
 }
 
-/** Whether a session is a task delegated through OpenAgent (the runner's prompt in one of the first user messages; codex injects an environment block first). */
+/** Whether a session is a task delegated through Longkeep (the runner's prompt in one of the first user messages; codex injects an environment block first). */
 export function isDelegationSession(s: Pick<Session, "turns"> | null | undefined): boolean {
   const users = (s?.turns ?? []).filter((t) => t.role === "user").slice(0, 3);
   return users.some((t) => isDelegationPrompt(t.text));
@@ -842,7 +842,7 @@ export interface BucketContext {
   /** The user's home directory. */
   home?: string;
   tmpDir?: string;
-  /** The `runs/` folder of the OpenAgent home folder: working folders of records. */
+  /** The `runs/` folder of the Longkeep home folder: working folders of records. */
   runsDir?: string;
   /** Git root above a folder, or null (injected: this module does no IO). */
   gitRoot?: (p: string) => string | null;
@@ -850,7 +850,7 @@ export interface BucketContext {
 
 /**
  * Session cwd → archive folder name. Pure: git root detection is injected (ctx.gitRoot).
- *  - Working folder of a record (under ctx.runsDir, or `…/.openagent/runs/…`) → _delegated;
+ *  - Working folder of a record (under ctx.runsDir, or `…/.longkeep/runs/…`) → _delegated;
  *  - an agent worktree (<repo>/.claude|.codex|.cursor/worktrees/<name>) → back to the main repository;
  *  - temp folders (%TEMP%, /tmp, /var/folders, below ctx.tmpDir) → _temp;
  *  - app data folders, drive roots, the home directory and Desktop / Documents themselves, the Codex desktop app's
@@ -875,7 +875,7 @@ export function projectBucket(cwd: string | null | undefined, ctx: BucketContext
     return c === q || c.startsWith(q + P.sep);
   };
 
-  if (inside(p, ctx.runsDir) || /[\\/]\.openagent[\\/]runs([\\/]|$)/.test(p)) return BUCKET_DELEGATION;
+  if (inside(p, ctx.runsDir) || /[\\/]\.longkeep[\\/]runs([\\/]|$)/.test(p)) return BUCKET_DELEGATION;
   const wt = /^(.+?)[\\/]\.(?:claude|codex|cursor)[\\/]worktrees([\\/]|$)/i.exec(p);
   if (wt) p = wt[1];
   if (

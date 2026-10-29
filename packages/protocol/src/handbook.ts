@@ -1,6 +1,6 @@
 /**
  * The agent handbook preset and the "let grok update it" prompt.
- * The handbook itself is `~/.openagent/handbook.md` in the OpenAgent home folder (HOME_LAYOUT.handbook), one page for
+ * The handbook itself is `~/.longkeep/handbook.md` in the Longkeep home folder (HOME_LAYOUT.handbook), one page for
  * every project (a project cannot bring its own). When the file is missing, the CLI creates it from this preset;
  * from then on the file takes over. It is the shared memory across agents: people and every CLI read the same
  * page, and newer dated evidence wins over it.
@@ -13,11 +13,11 @@
 
 export const HANDBOOK_SEED = `# Agent handbook
 
-> Preset version 2026-10-26 (the preset bundled with OpenAgent)
+> Preset version 2026-10-29 (the preset bundled with Longkeep)
 
 Read this page before delegating. It says which CLI to use for what, each CLI's quirks, and which models and effort levels work. New models, flags and quirks go here too.
 Suggestions an executor added are CriticMarkup insertions tagged with its name, and nobody has reviewed them yet. A person keeps one by deleting its marks, or drops it by deleting the block (or asks the main agent to do either); kept text becomes part of the page.
-Where things live: this page is \`~/.openagent/handbook.md\`, one page for every project. Delegation transcripts are \`~/.openagent/runs/<project-key>/<task-id>/transcript.md\`.
+Where things live: this page is \`~/.longkeep/handbook.md\`, one page for every project. Delegation transcripts are \`~/.longkeep/runs/<project-key>/<task-id>/transcript.md\`.
 Every entry carries the date it was checked. When it conflicts with newer dated evidence (that day's --help, the local model cache, an error in a delegation transcript), the newer evidence wins; then come back and fix this page. Entries marked "unverified" are for reference only.
 This is the general preset: adjust it to the CLIs you have installed and the plans you pay for.
 
@@ -38,7 +38,7 @@ This is the general preset: adjust it to the CLIs you have installed and the pla
 - **agy**: good at explanations, front end and natural prose. Headless mode must run with prompts skipped (the runner passes --dangerously-skip-permissions by default), otherwise even file reads are denied and the answer is empty. Models with a suffix (gemini-3.8-flash-high) carry their own effort; passing a different --effort is a conflict error. --conversation continues sessions natively. Fanning out a batch quickly hits the per-account quota (429), which takes hours to reset: keep batches small.
 - **grok**: search is built in (search_web / search_x). Give it three instructions, "cite sources, give dates, report only what changed relative to now", or the answer is fluff. Keep tasks bounded: one deep search can burn over a million tokens. In json mode it prints only when finished, so do not treat silence as a hang. -s only creates new sessions (resuming with -s fails with "Session ID … is already in use"); the runner resumes with --resume.
 - **cursor**: headless needs -p --force --trust; without --trust it hangs on workspace trust. No write sandbox: check git status when collecting. Always pass a model explicitly: otherwise it uses the default in its config, which may be the most expensive tier; use model ids that carry an effort suffix. Two parallel runs on one account can hit resource_exhausted; on Windows, Git Bash must be on PATH. It builds its project directory name from the full working-folder path, so a deeply nested working folder (over about 250 characters in total) fails with ENAMETOOLONG. Follow-up rounds resume the session with --resume (checked 2026-10-26).
-- **claude**: on Windows the claude.exe managed by the desktop app sits one hash directory deeper; if the registry cannot find it, set OPENAGENT_CLAUDE_BIN. Follow-up rounds resume the session with --resume (checked 2026-10-26). Claude Code's auto-mode safety check has refused the combination "danger-full-access + a prompt asking it to npx-download and run something" (unverified).
+- **claude**: on Windows the claude.exe managed by the desktop app sits one hash directory deeper; if the registry cannot find it, set LONGKEEP_CLAUDE_BIN. Follow-up rounds resume the session with --resume (checked 2026-10-26). Claude Code's auto-mode safety check has refused the combination "danger-full-access + a prompt asking it to npx-download and run something" (unverified).
 
 ## Effort levels (checked 2026-10-16 against each CLI's --help and local model cache)
 
@@ -50,7 +50,7 @@ This is the general preset: adjust it to the CLIs you have installed and the pla
 | claude | low · medium · high · xhigh · max | --effort |
 | cursor | not passed separately: pick a model id with an effort suffix, such as claude-opus-5-5-high, grok-4.7-xhigh-fast | --model |
 
-The OpenAgent runner accepts five levels, minimal…xhigh: for codex / agy / grok / claude, minimal becomes low and xhigh is passed through; cursor gets no effort. For max / ultra, put it in the CLI's own config (for codex, ~/.codex/config.toml) or in a custom executor's arguments.
+The Longkeep runner accepts five levels, minimal…xhigh: for codex / agy / grok / claude, minimal becomes low and xhigh is passed through; cursor gets no effort. For max / ultra, put it in the CLI's own config (for codex, ~/.codex/config.toml) or in a custom executor's arguments.
 
 ## Available models (each CLI's own list is authoritative)
 
@@ -67,7 +67,7 @@ The OpenAgent runner accepts five levels, minimal…xhigh: for codex / agy / gro
 - Explaining / teaching / front end / copy / translation: agy · gemini-3.8-flash-high; deeper → gemini-3.1-pro-high
 - Math / scientific code: codex · whatever the model cache lists · high (probe first)
 
-Two ways to set them, both editing the same file, \`~/.openagent/executors.json\` (shared by every project): tell the main agent "switch grok's default to grok-4.7 high" (set_executor_defaults), or edit the file by hand. \`openagent delegate --list\` shows each executor with its current defaults; \`openagent doctor\` checks that each CLI is installed and signed in.
+Two ways to set them, both editing the same file, \`~/.longkeep/executors.json\` (shared by every project): tell the main agent "switch grok's default to grok-4.7 high" (set_executor_defaults), or edit the file by hand. \`longkeep delegate --list\` shows each executor with its current defaults; \`longkeep doctor\` checks that each CLI is installed and signed in.
 
 ## Reporting back to the human (2026-10-22)
 

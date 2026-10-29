@@ -48,7 +48,7 @@
     "sensitive": false
   },
   {
-    "path": ".openagent/executors.json",
+    "path": ".longkeep/executors.json",
     "sensitive": false
   },
   {
@@ -72,11 +72,11 @@
     "sensitive": false
   },
   {
-    "path": ".openagent/handbook.md",
+    "path": ".longkeep/handbook.md",
     "sensitive": false
   },
   {
-    "path": ".openagent/executors.json",
+    "path": ".longkeep/executors.json",
     "sensitive": false
   }
 ]

@@ -1,4 +1,4 @@
-# OpenAgents 上下文模块
+# Longkeep 上下文模块
 
 本模块把项目的上下文放进每个 agent 会话都会读的文档里。它包含一个 skill 和装这些上下文的文件模板。模块没有代码：下载只要 git，任何会读 skill 的 agent 都能用（Claude Code、Codex 等）。
 
@@ -19,23 +19,23 @@ skill 有英文和中文两版。skill 用什么语言写，agent 往往就用�
 
 | 语言 | skill 文件夹 |
 |---|---|
-| 英文 | [en/openagent-context](en/openagent-context/SKILL.md) |
-| 中文 | [zh-CN/openagent-context](zh-CN/openagent-context/SKILL.md) |
+| 英文 | [en/longkeep-context](en/longkeep-context/SKILL.md) |
+| 中文 | [zh-CN/longkeep-context](zh-CN/longkeep-context/SKILL.md) |
 
-每个文件夹里有 `SKILL.md` 和 `references/`：[契约模板](zh-CN/openagent-context/references/contract-template.md)、[用户级模板](zh-CN/openagent-context/references/user-template.md)、[决策日志模板](zh-CN/openagent-context/references/decision-log-template.md)、[和 AI agent 一起干活](zh-CN/openagent-context/references/working-with-ai-agents.md)。
+每个文件夹里有 `SKILL.md` 和 `references/`：[契约模板](zh-CN/longkeep-context/references/contract-template.md)、[用户级模板](zh-CN/longkeep-context/references/user-template.md)、[决策日志模板](zh-CN/longkeep-context/references/decision-log-template.md)、[和 AI agent 一起干活](zh-CN/longkeep-context/references/working-with-ai-agents.md)。
 
 ## 安装
 
 把这句话发给你的主 agent：
 
 ```text
-Install the context module of OpenAgents from https://github.com/wingsofsky/OpenAgents in Chinese: follow INSTALL.md in that repository
+Install the context module of Longkeep from https://github.com/wingsofsky/longkeep in Chinese: follow INSTALL.md in that repository
 ```
 
 手动安装，只下载这个模块：
 
 ```bash
-git clone --filter=blob:none --sparse https://github.com/wingsofsky/OpenAgents.git <repo>
+git clone --filter=blob:none --sparse https://github.com/wingsofsky/longkeep.git <repo>
 cd <repo> && git sparse-checkout set modules/context
 ```
 
@@ -43,7 +43,7 @@ cd <repo> && git sparse-checkout set modules/context
 
 ```bash
 mkdir -p <project>/.claude/skills
-cp -r <repo>/modules/context/zh-CN/openagent-context <project>/.claude/skills/
+cp -r <repo>/modules/context/zh-CN/longkeep-context <project>/.claude/skills/
 ```
 
 所有项目都用，就复制到 `~/.claude/skills/`。Codex 从 `<project>/.agents/skills/` 读同样的文件夹。复制不会跟着更新：`git pull` 之后再复制一次。装完重启 agent 会话。

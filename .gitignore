@@ -4,8 +4,8 @@ dist
 .DS_Store
 *.tgz
 
-# OpenAgent state of this checkout used as a project
-.openagent/
+# Longkeep state of this checkout used as a project
+.longkeep/
 
 # Maintainer's working notes, kept out of the repository
 /docs/plans/

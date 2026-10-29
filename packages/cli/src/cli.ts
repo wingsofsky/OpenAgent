@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * `openagent` command entry. The commands come from the modules present in this checkout: each `modules/<name>/module.json`
+ * `longkeep` command entry. The commands come from the modules present in this checkout: each `modules/<name>/module.json`
  * lists its commands, and a module left out of a sparse checkout simply has none. A command's module is loaded only
  * when it runs, so `--help` stays fast and one broken module cannot stop the others from starting.
  */
@@ -44,9 +44,9 @@ function usage(commands: Map<string, Command>): string {
   const width = Math.max(0, ...[...commands.keys()].map((n) => n.length));
   const rows = [...commands].map(([name, c]) => `  ${name.padEnd(width)}  ${c.about}`);
   return [
-    `openagent ${version()}`,
+    `longkeep ${version()}`,
     "",
-    "Usage: openagent <command> [options]",
+    "Usage: longkeep <command> [options]",
     "",
     rows.length ? rows.join("\n") : "  (no module with commands in this checkout; INSTALL.md says how to add one)",
   ].join("\n");
@@ -65,7 +65,7 @@ async function main(argv: string[]): Promise<number> {
   }
   const command = commands.get(name);
   if (!command) {
-    console.error(`openagent: unknown command "${name}". "openagent --help" lists the commands of the modules in this checkout; INSTALL.md says how to add a module.`);
+    console.error(`longkeep: unknown command "${name}". "longkeep --help" lists the commands of the modules in this checkout; INSTALL.md says how to add a module.`);
     return 2;
   }
   return command.run(rest);
@@ -76,7 +76,7 @@ main(process.argv.slice(2)).then(
     process.exitCode = code;
   },
   (error: unknown) => {
-    console.error(`openagent: ${error instanceof Error ? error.message : String(error)}`);
+    console.error(`longkeep: ${error instanceof Error ? error.message : String(error)}`);
     process.exitCode = 1;
   },
 );

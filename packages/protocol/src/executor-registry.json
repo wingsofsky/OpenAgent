@@ -14,9 +14,9 @@
       "id": "codex",
       "label": "Codex (GPT)",
       "strengths": "Math reasoning, numerical code, calculations that need to be run to be verified",
-      "installHint": "codex not found: install the ChatGPT desktop app (it bundles codex) or run `npm i -g @openai/codex`, then `codex login`; or set OPENAGENT_CODEX_BIN to the executable",
+      "installHint": "codex not found: install the ChatGPT desktop app (it bundles codex) or run `npm i -g @openai/codex`, then `codex login`; or set LONGKEEP_CODEX_BIN to the executable",
       "bin": {
-        "env": "OPENAGENT_CODEX_BIN",
+        "env": "LONGKEEP_CODEX_BIN",
         "names": ["codex"],
         "discover": [
           { "os": ["win32"], "path": "%LOCALAPPDATA%/OpenAI/Codex/bin", "pick": "newest", "then": "codex.exe" },
@@ -59,9 +59,9 @@
       "id": "agy",
       "label": "Antigravity (Gemini)",
       "strengths": "Explaining, teaching, putting complex things in plain words, summarizing long texts",
-      "installHint": "agy not found: on Windows run `irm https://antigravity.google/cli/install.ps1 | iex`, on macOS/Linux `curl -fsSL https://antigravity.google/cli/install.sh | bash`, then run `agy` once interactively to sign in; or set OPENAGENT_AGY_BIN",
+      "installHint": "agy not found: on Windows run `irm https://antigravity.google/cli/install.ps1 | iex`, on macOS/Linux `curl -fsSL https://antigravity.google/cli/install.sh | bash`, then run `agy` once interactively to sign in; or set LONGKEEP_AGY_BIN",
       "bin": {
-        "env": "OPENAGENT_AGY_BIN",
+        "env": "LONGKEEP_AGY_BIN",
         "names": ["agy"],
         "discover": [
           { "os": ["win32"], "path": "%LOCALAPPDATA%/agy/bin/agy.exe" },
@@ -97,9 +97,9 @@
       "id": "grok",
       "label": "Grok Build (xAI)",
       "strengths": "Web search, real-time information from X, checking time-sensitive facts (built-in search_web / search_x)",
-      "installHint": "grok not found: on Windows run `irm https://x.ai/cli/install.ps1 | iex`, on macOS/Linux `curl -fsSL https://x.ai/cli/install.sh | bash`, then `grok login` (SuperGrok / X Premium+) or set XAI_API_KEY; or set OPENAGENT_GROK_BIN",
+      "installHint": "grok not found: on Windows run `irm https://x.ai/cli/install.ps1 | iex`, on macOS/Linux `curl -fsSL https://x.ai/cli/install.sh | bash`, then `grok login` (SuperGrok / X Premium+) or set XAI_API_KEY; or set LONGKEEP_GROK_BIN",
       "bin": {
-        "env": "OPENAGENT_GROK_BIN",
+        "env": "LONGKEEP_GROK_BIN",
         "names": ["grok"],
         "discover": [
           { "os": ["win32"], "path": "%LOCALAPPDATA%/grok/bin/grok.exe" },
@@ -137,9 +137,9 @@
       "id": "cursor",
       "label": "Cursor Agent",
       "strengths": "Multi-file implementation, refactoring, running tests until they pass (Composer models, on the Cursor subscription quota)",
-      "installHint": "cursor-agent not found: in Windows PowerShell run `irm 'https://cursor.com/install?win32=true' | iex`, on macOS/Linux `curl https://cursor.com/install -fsS | bash`, then `cursor-agent login`; or set OPENAGENT_CURSOR_BIN",
+      "installHint": "cursor-agent not found: in Windows PowerShell run `irm 'https://cursor.com/install?win32=true' | iex`, on macOS/Linux `curl https://cursor.com/install -fsS | bash`, then `cursor-agent login`; or set LONGKEEP_CURSOR_BIN",
       "bin": {
-        "env": "OPENAGENT_CURSOR_BIN",
+        "env": "LONGKEEP_CURSOR_BIN",
         "names": ["cursor-agent"],
         "discover": [
           { "path": "%LOCALAPPDATA%/cursor-agent/versions", "pick": "cursor-version", "then": "index.js" },
@@ -177,9 +177,9 @@
       "id": "claude",
       "label": "Claude Code",
       "strengths": "Local code implementation and verification",
-      "installHint": "Claude Code not found: on Windows run `winget install Anthropic.ClaudeCode`, on macOS/Linux `curl -fsSL https://claude.ai/install.sh | bash`, then `claude auth login`; or set OPENAGENT_CLAUDE_BIN",
+      "installHint": "Claude Code not found: on Windows run `winget install Anthropic.ClaudeCode`, on macOS/Linux `curl -fsSL https://claude.ai/install.sh | bash`, then `claude auth login`; or set LONGKEEP_CLAUDE_BIN",
       "bin": {
-        "env": "OPENAGENT_CLAUDE_BIN",
+        "env": "LONGKEEP_CLAUDE_BIN",
         "names": ["claude"],
         "discover": [
           { "os": ["win32"], "path": "%APPDATA%/Claude/claude-code", "pick": "claude-version", "then": "claude.exe" },

@@ -4,7 +4,7 @@
  * types it, validates it at load time, and renders argument templates.
  *
  * Who reads the JSON: the CLI's executor module (binary resolution, the executor table built from the registry,
- * `openagent doctor`) and the delegation runner. No other list of executors exists.
+ * `longkeep doctor`) and the delegation runner. No other list of executors exists.
  *
  * Every entry is a local CLI; an entry with `args` can be delegated to and is a built-in executor.
  *
@@ -23,7 +23,7 @@
  *     - `newest`: then under every subfolder, newest modification time first (the codex bundled with the ChatGPT
  *       desktop app)
  *   Resolution order: environment override (bin.env) > `bin` in executors.json > PATH (plus the platform folders in
- *   searchPath; on Windows only .exe counts) > discover. Delegation, `openagent delegate --list` and `openagent doctor`
+ *   searchPath; on Windows only .exe counts) > discover. Delegation, `longkeep delegate --list` and `longkeep doctor`
  *   all use this one order.
  *
  * Argument templates (`args.fresh`, optionally `args.resume`; follow-up rounds without resume use fresh, branching with
@@ -44,7 +44,7 @@
  */
 import data from "./executor-registry.json" with { type: "json" };
 
-/** Effort levels OpenAgent accepts, from low to high; each entry's efforts lists the subset it passes on to that CLI */
+/** Effort levels Longkeep accepts, from low to high; each entry's efforts lists the subset it passes on to that CLI */
 export const EFFORTS = ["minimal", "low", "medium", "high", "xhigh"] as const;
 export type Effort = (typeof EFFORTS)[number];
 
@@ -99,7 +99,7 @@ export interface BinSpec {
 export type ProcessNames = Record<Platform, string[]>;
 
 /**
- * Health check (`openagent doctor`): the version arguments and how to tell the sign-in state. What cannot be decided is
+ * Health check (`longkeep doctor`): the version arguments and how to tell the sign-in state. What cannot be decided is
  * "unknown", never a guess:
  *   - `{ file, env? }`: the credentials file (starting with `~/`) exists = signed in (expiry not checked). Missing:
  *     signed out when none of the API key variables in `env` is set, unknown when one is (or when `env` is not given)

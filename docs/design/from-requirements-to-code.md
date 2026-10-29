@@ -1,6 +1,6 @@
 # From requirements to code with AI agents
 
-This is how I take a vague need to working code with several AI agents, and how I handle changes after the first version. The steps are in the order I use them on long projects. Their names come from requirements engineering (elicitation, analysis, specification, validation, change management). The rules behind each step are in [working with AI agents](../../modules/context/en/openagent-context/references/working-with-ai-agents.md) and [delegation practices](../../modules/delegate/skills/openagent-delegate/references/delegation-practices.md). A real example from one feature is at the end, with private details left out.
+This is how I take a vague need to working code with several AI agents, and how I handle changes after the first version. The steps are in the order I use them on long projects. Their names come from requirements engineering (elicitation, analysis, specification, validation, change management). The rules behind each step are in [working with AI agents](../../modules/context/en/longkeep-context/references/working-with-ai-agents.md) and [delegation practices](../../modules/delegate/skills/longkeep-delegate/references/delegation-practices.md). A real example from one feature is at the end, with private details left out.
 
 ## Terms
 

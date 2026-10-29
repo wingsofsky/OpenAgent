@@ -9,7 +9,7 @@
  */
 
 /** First line of every prompt the delegation runner sends. */
-export const DELEGATION_PROMPT_FIRST_LINE = "You are working on a task delegated through OpenAgent.";
+export const DELEGATION_PROMPT_FIRST_LINE = "You are working on a task delegated through Longkeep.";
 
 /** Heading line of the brief in a first-round delegation prompt. */
 export const DELEGATION_TASK_HEADING = "Task:";

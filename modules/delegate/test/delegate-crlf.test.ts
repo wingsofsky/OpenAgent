@@ -3,21 +3,21 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { afterAll, describe, expect, it } from "vitest";
-import { parseTask } from "@openagent/protocol/task";
+import { parseTask } from "@longkeep/protocol/task";
 import { whichExecutable } from "../src/executors/registry.ts";
 import { reviewDelegation, runDelegation } from "../src/delegate/index.ts";
 import { lastRoundOf } from "../src/delegate/records.ts";
-import { DELEGATION_FOLLOW_UP_HEADING, DELEGATION_TASK_HEADING } from "@openagent/protocol/delegation-prompt";
-import { FAKE_EXECUTOR, tempDir } from "@openagent/testkit/paths";
+import { DELEGATION_FOLLOW_UP_HEADING, DELEGATION_TASK_HEADING } from "@longkeep/protocol/delegation-prompt";
+import { FAKE_EXECUTOR, tempDir } from "@longkeep/testkit/paths";
 
 const FAKE = FAKE_EXECUTOR;
 const crlf = (s: string) => s.replace(/\n/g, "\r\n");
 const onlyCrlf = (s: string) => !s.replace(/\r\n/g, "").includes("\n");
-const base = tempDir("openagent-crlf-");
+const base = tempDir("longkeep-crlf-");
 afterAll(() => fs.rmSync(base, { recursive: true, force: true, maxRetries: 5, retryDelay: 50 }));
 const project = path.join(base, "project");
 fs.mkdirSync(path.join(project, "docs"), { recursive: true });
-const env = { ...process.env, OPENAGENT_HOME: path.join(base, "home"), OPENAGENT_SEARCH_PATH: "" };
+const env = { ...process.env, LONGKEEP_HOME: path.join(base, "home"), LONGKEEP_SEARCH_PATH: "" };
 
 describe("CRLF task files and writeback documents", () => {
   it("a task file saved as CRLF by a person: the follow-up round and the review keep it CRLF, with one header line each", async () => {
@@ -74,7 +74,7 @@ describe.runIf(process.platform === "win32")("whichExecutable: Windows only coun
       fs.writeFileSync(path.join(tmp, "gemini"), "#!/bin/sh\n");
       fs.writeFileSync(path.join(tmp, "gemini.cmd"), "@echo off\n");
       fs.writeFileSync(path.join(tmp, "codex.exe"), "");
-      const e = { PATH: tmp, OPENAGENT_SEARCH_PATH: "" };
+      const e = { PATH: tmp, LONGKEEP_SEARCH_PATH: "" };
       expect(whichExecutable("gemini", e)).toBeNull();
       expect(whichExecutable("codex", e)).toBe(path.join(tmp, "codex.exe"));
       expect(whichExecutable("codex.exe", e)).toBe(path.join(tmp, "codex.exe"));

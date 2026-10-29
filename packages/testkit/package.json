@@ -1,6 +1,6 @@
 {
-  "name": "@openagent/testkit",
-  "version": "0.3.0",
+  "name": "@longkeep/testkit",
+  "version": "0.4.0",
   "private": true,
   "type": "module",
   "license": "Apache-2.0",

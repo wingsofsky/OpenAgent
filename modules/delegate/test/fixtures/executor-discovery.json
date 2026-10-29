@@ -91,7 +91,7 @@
       "env": {
         "LOCALAPPDATA": "AppData/Local",
         "APPDATA": "AppData/Roaming",
-        "OPENAGENT_GROK_BIN": "custom/grok.exe"
+        "LONGKEEP_GROK_BIN": "custom/grok.exe"
       },
       "path": [
         "bin"

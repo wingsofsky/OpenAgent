@@ -13,9 +13,9 @@
 import { spawn, spawnSync, type ChildProcess } from "node:child_process";
 import fs from "node:fs";
 import os from "node:os";
-import { formatStamp } from "@openagent/protocol/task";
+import { formatStamp } from "@longkeep/protocol/task";
 import { stopTree } from "../lib/stop-tree.ts";
-import { resolveWritePathCreating } from "@openagent/common/scoped";
+import { resolveWritePathCreating } from "@longkeep/common/scoped";
 import { STARTUP_CODES } from "./launch-fallback.ts";
 import { LOCK_FILE } from "./types.ts";
 
@@ -28,9 +28,9 @@ const STDERR_HEAD_KEEP = 4 * 1024;
 /** How long close may lag behind the executor's exit (or its stop) before the pipes are dropped */
 const CLOSE_GRACE_MS = 3000;
 
-/** With OPENAGENT_DELEGATE_DEBUG=1 every step of the runner goes to stderr (for executors that hang or die) */
+/** With LONGKEEP_DELEGATE_DEBUG=1 every step of the runner goes to stderr (for executors that hang or die) */
 export const dbg = (msg: string): void => {
-  if (process.env.OPENAGENT_DELEGATE_DEBUG) console.error(`[delegate] ${msg}`);
+  if (process.env.LONGKEEP_DELEGATE_DEBUG) console.error(`[delegate] ${msg}`);
 };
 
 export function killTree(child: ChildProcess): void {

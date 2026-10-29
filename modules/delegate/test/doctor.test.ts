@@ -1,5 +1,5 @@
 /**
- * `openagent doctor`: all five executors point at one fake CLI (.cjs, launched with the current Node like in
+ * `longkeep doctor`: all five executors point at one fake CLI (.cjs, launched with the current Node like in
  * delegation). Pins where the binary was found, the version, the sign-in rules (status command / credentials file /
  * API key variable / unrecognised = unknown) and the parsing of the minimal probe. Never touches installed CLIs.
  */
@@ -22,7 +22,7 @@ if (has("--print-timeout")) { console.error("ERROR: model not entitled"); proces
 console.log(JSON.stringify({ result: "ok", session_id: "s1" }));
 `;
 
-describe("openagent doctor", () => {
+describe("longkeep doctor", () => {
   let base: string;
   let fake: string;
   let home: string;
@@ -30,7 +30,7 @@ describe("openagent doctor", () => {
     base = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), "of-doctor-")));
     fake = path.join(base, "fake-cli.cjs");
     fs.writeFileSync(fake, FAKE);
-    home = path.join(base, "openagent-home");
+    home = path.join(base, "longkeep-home");
     fs.mkdirSync(home, { recursive: true });
     fs.writeFileSync(path.join(home, "executors.json"), JSON.stringify({ cursor: { bin: fake } }));
     vi.spyOn(os, "homedir").mockReturnValue(base);
@@ -45,14 +45,14 @@ describe("openagent doctor", () => {
   const env = () => ({
     ...process.env,
     PATH: "",
-    OPENAGENT_SEARCH_PATH: "",
+    LONGKEEP_SEARCH_PATH: "",
     LOCALAPPDATA: base,
     APPDATA: base,
-    OPENAGENT_HOME: home,
-    OPENAGENT_CODEX_BIN: fake,
-    OPENAGENT_AGY_BIN: fake,
-    OPENAGENT_GROK_BIN: fake,
-    OPENAGENT_CLAUDE_BIN: fake,
+    LONGKEEP_HOME: home,
+    LONGKEEP_CODEX_BIN: fake,
+    LONGKEEP_AGY_BIN: fake,
+    LONGKEEP_GROK_BIN: fake,
+    LONGKEEP_CLAUDE_BIN: fake,
   });
 
   it("binary source, version and sign-in: a recognised status command says yes / no; a missing credentials file says no, or unknown while an API key is set; no rule says unknown", async () => {
@@ -76,7 +76,7 @@ describe("openagent doctor", () => {
   it("the home folder's executors.json bin applies, and a broken file does not stop the check", async () => {
     const config = path.join(home, "executors.json");
     fs.writeFileSync(config, JSON.stringify({ cursor: { bin: fake }, claude: { bin: "/home-config/claude" } }));
-    const e = { ...env(), OPENAGENT_CLAUDE_BIN: "" };
+    const e = { ...env(), LONGKEEP_CLAUDE_BIN: "" };
     expect((await runDoctor({ env: e, quickTimeoutMs: 2000 })).executors.find((x) => x.id === "claude")).toMatchObject({ bin: "/home-config/claude", binSource: "config" });
     fs.writeFileSync(config, "{ broken");
     const r = await runDoctor({ env: env() });
@@ -86,7 +86,7 @@ describe("openagent doctor", () => {
   });
 
   it("not installed: install hint, no version or sign-in run", async () => {
-    const r = await runDoctor({ env: { PATH: "", OPENAGENT_SEARCH_PATH: "", OPENAGENT_HOME: path.join(base, "empty-home"), LOCALAPPDATA: base, APPDATA: base } });
+    const r = await runDoctor({ env: { PATH: "", LONGKEEP_SEARCH_PATH: "", LONGKEEP_HOME: path.join(base, "empty-home"), LOCALAPPDATA: base, APPDATA: base } });
     for (const x of r.executors) expect(x).toMatchObject({ bin: null, binSource: null, version: null });
     expect(r.executors[0].installHint).toMatch(/codex not found/);
     expect(formatDoctor(r)).toMatch(/codex\s+not installed/);
@@ -108,7 +108,7 @@ describe("openagent doctor", () => {
       expect(await doctorCommand(["--nope"])).toBe(2);
       expect(err.mock.calls.flat().join("\n")).toMatch(/unknown option --nope/);
       expect(await doctorCommand(["--help"])).toBe(0);
-      expect(log.mock.calls.flat().join("\n")).toMatch(/Usage: openagent doctor/);
+      expect(log.mock.calls.flat().join("\n")).toMatch(/Usage: longkeep doctor/);
     } finally {
       err.mockRestore();
       log.mockRestore();

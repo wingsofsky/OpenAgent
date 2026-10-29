@@ -18,7 +18,7 @@ import { execFile } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import { promisify } from "node:util";
-import { resolveScoped } from "@openagent/common/scoped";
+import { resolveScoped } from "@longkeep/common/scoped";
 
 const exec = promisify(execFile);
 

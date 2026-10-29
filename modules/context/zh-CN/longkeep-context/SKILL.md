@@ -1,5 +1,5 @@
 ---
-name: openagent-context
+name: longkeep-context
 description: 把项目的上下文放进每个 agent 会话都会读的文档里。要写说明性文档（计划、报告、调研、指南、审阅、笔记）或要找以前的文档时使用：它规定文档放在 docs/ 下哪里、怎么找。也用于给项目的文档做体检，搭建或整理项目契约（CLAUDE.md / AGENTS.md）、决策日志（DECISIONS.md）和 agent 的记忆索引（MEMORY.md），以及用户问长项目怎么和 AI agent 一起做不走样（审查、上下文隔离、并行子 agent、思考强度、个人习惯放哪）。用户说「写个计划」「X 的报告放哪了」「Y 当时怎么定的」「给这个项目建 CLAUDE.md」「开个决策日志」「给项目的文档做个体检」时使用。Keep project context in documents; where docs go under docs/ and how to find them; CLAUDE.md, DECISIONS.md, MEMORY.md; project checkup.
 ---
 
@@ -64,7 +64,7 @@ description: 把项目的上下文放进每个 agent 会话都会读的文档里
 3. **整理文档。** 逐个列出文件、它在 `docs/` 下的目标位置和以日期开头的新名字；契约里已有的约定优先。用户同意后用 `git mv` 移动，并修好指向它们的链接。
 4. **重写契约。** 先收集素材：
    - 现有契约，每一行对照仓库核一遍；
-   - 用户反复说过的话：装了 OpenAgents 的 sessions 模块的话，导入时加 `--prompts` 会在档案的 `_prompts/` 下写出 `USER_PROMPTS.md` 和 `USER_RULES.md`。一条规则要有两处以上用户说过的原话，按原样引用；
+   - 用户反复说过的话：装了 Longkeep 的 sessions 模块的话，导入时加 `--prompts` 会在档案的 `_prompts/` 下写出 `USER_PROMPTS.md` 和 `USER_RULES.md`。一条规则要有两处以上用户说过的原话，按原样引用；
    - 用户自己的经验：问他们经常纠正什么、以前出过什么问题；
    - 第 1 步查到的提交规范。
 

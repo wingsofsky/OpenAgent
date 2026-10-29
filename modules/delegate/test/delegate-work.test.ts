@@ -5,27 +5,27 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { afterAll, describe, expect, it } from "vitest";
-import { acceptanceState, parseTask } from "@openagent/protocol/task";
+import { acceptanceState, parseTask } from "@longkeep/protocol/task";
 import { BUILTIN_EXECUTORS } from "../src/executors/registry.ts";
 import { prepareDelegation, reviewDelegation, runDelegation } from "../src/delegate/index.ts";
 import { acquireClaimLock, releaseClaimLock } from "../src/delegate/process.ts";
 import { lastRoundOf } from "../src/delegate/records.ts";
 import { checkWorkRoot, rootFingerprint } from "../src/delegate/work-root.ts";
-import { projectKey } from "@openagent/common/home";
-import { linkDir } from "@openagent/testkit/links";
-import { FAKE_EXECUTOR, tempDir } from "@openagent/testkit/paths";
+import { projectKey } from "@longkeep/common/home";
+import { linkDir } from "@longkeep/testkit/links";
+import { FAKE_EXECUTOR, tempDir } from "@longkeep/testkit/paths";
 
 const FAKE = FAKE_EXECUTOR;
 const dirs: string[] = [];
 afterAll(() => dirs.splice(0).forEach((d) => fs.rmSync(d, { recursive: true, force: true, maxRetries: 5, retryDelay: 50 })));
 
 function setup() {
-  const base = tempDir("openagent-work-");
+  const base = tempDir("longkeep-work-");
   dirs.push(base);
   const home = path.join(base, "home");
   const project = path.join(base, "project");
   fs.mkdirSync(project);
-  const env = { ...process.env, OPENAGENT_HOME: home, OPENAGENT_SEARCH_PATH: "" };
+  const env = { ...process.env, LONGKEEP_HOME: home, LONGKEEP_SEARCH_PATH: "" };
   const folder = (name: string) => {
     const d = path.join(base, name);
     fs.mkdirSync(d, { recursive: true });
@@ -113,7 +113,7 @@ describe("working folders", () => {
       [path.join(base, "f.txt"), /not a folder/],
       [home, /home folder cannot be a project/],
       [inside, /home folder cannot be a project/],
-      [base, /cannot contain the OpenAgent home folder/],
+      [base, /cannot contain the Longkeep home folder/],
     ] as const) {
       writeExecutors({ codex: { workRoot } });
       await expect(runDelegation({ project, executor: "codex", title: "x", prompt: "x", bin: FAKE, env }), workRoot).rejects.toThrow(why);
@@ -177,8 +177,8 @@ describe("working folders", () => {
   it("without git the round runs without a snapshot and the transcript says so", async () => {
     const { project, env } = setup();
     fs.writeFileSync(path.join(project, "a.txt"), "x");
-    const saved = process.env.OPENAGENT_GIT;
-    process.env.OPENAGENT_GIT = path.join(project, "no-such-git");
+    const saved = process.env.LONGKEEP_GIT;
+    process.env.LONGKEEP_GIT = path.join(project, "no-such-git");
     try {
       const r = await runDelegation({ project, executor: "agy", title: "No git", prompt: "x", work: "project", bin: FAKE, env });
       expect(r.ok).toBe(true);
@@ -187,8 +187,8 @@ describe("working folders", () => {
       expect(fs.readFileSync(r.transcript, "utf8")).toContain("snapshot: none (git is not installed; continued without a snapshot)");
       expect(JSON.parse(fs.readFileSync(r.runFile, "utf8")).rounds[0].snapshot).toBeNull();
     } finally {
-      if (saved === undefined) delete process.env.OPENAGENT_GIT;
-      else process.env.OPENAGENT_GIT = saved;
+      if (saved === undefined) delete process.env.LONGKEEP_GIT;
+      else process.env.LONGKEEP_GIT = saved;
     }
   });
 });
@@ -301,10 +301,10 @@ describe("writeback", () => {
     expect(hb).toContain("{++@grok: \n## New model (");
     expect(hb).toContain("fake answer: what is new\n++}");
     // A project cannot bring its own handbook: writeback still goes to the home folder's
-    fs.mkdirSync(path.join(project, ".openagent"));
-    fs.writeFileSync(path.join(project, ".openagent", "handbook.md"), "# Project handbook\n");
+    fs.mkdirSync(path.join(project, ".longkeep"));
+    fs.writeFileSync(path.join(project, ".longkeep", "handbook.md"), "# Project handbook\n");
     await runDelegation({ project, executor: "agy", title: "Project note", prompt: "note this", writeback: "handbook", bin: FAKE, env });
-    expect(fs.readFileSync(path.join(project, ".openagent", "handbook.md"), "utf8")).toBe("# Project handbook\n");
+    expect(fs.readFileSync(path.join(project, ".longkeep", "handbook.md"), "utf8")).toBe("# Project handbook\n");
     expect(fs.readFileSync(path.join(home, "handbook.md"), "utf8")).toContain("{++@agy: \n## Project note (");
   });
 

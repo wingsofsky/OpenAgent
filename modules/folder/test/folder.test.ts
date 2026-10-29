@@ -5,22 +5,22 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
-import { DRAFT_MARKER } from "@openagent/protocol/folder-brief";
+import { DRAFT_MARKER } from "@longkeep/protocol/folder-brief";
 import { ensureBrief, pendingProjects, runFolderTask } from "../src/folder.ts";
-import { projectKey } from "@openagent/common/home";
-import { openSnapshots } from "@openagent/delegate/snapshots";
-import { FAKE_EXECUTOR, tempDir } from "@openagent/testkit/paths";
+import { projectKey } from "@longkeep/common/home";
+import { openSnapshots } from "@longkeep/delegate/snapshots";
+import { FAKE_EXECUTOR, tempDir } from "@longkeep/testkit/paths";
 
 const FAKE = FAKE_EXECUTOR;
 const dirs: string[] = [];
 afterEach(() => dirs.splice(0).forEach((d) => fs.rmSync(d, { recursive: true, force: true, maxRetries: 5, retryDelay: 100 })));
 
 function setup() {
-  const base = tempDir("openagent-folder-");
+  const base = tempDir("longkeep-folder-");
   dirs.push(base);
   const folder = path.join(base, "work");
   fs.mkdirSync(folder);
-  const env = { ...process.env, OPENAGENT_HOME: path.join(base, "home"), OPENAGENT_SEARCH_PATH: "", OPENAGENT_GROK_BIN: FAKE };
+  const env = { ...process.env, LONGKEEP_HOME: path.join(base, "home"), LONGKEEP_SEARCH_PATH: "", LONGKEEP_GROK_BIN: FAKE };
   return { base, folder, env };
 }
 
@@ -37,7 +37,7 @@ describe("folder tasks", () => {
   it("refuse to run a draft brief, and create the draft on first use", async () => {
     const { folder, env } = setup();
     await expect(runFolderTask({ folder, executor: "grok", env })).rejects.toThrow(/default draft/);
-    expect(fs.readFileSync(path.join(env.OPENAGENT_HOME, "folder", "brief", "task.md"), "utf8").startsWith(DRAFT_MARKER)).toBe(true);
+    expect(fs.readFileSync(path.join(env.LONGKEEP_HOME, "folder", "brief", "task.md"), "utf8").startsWith(DRAFT_MARKER)).toBe(true);
     expect(fs.readdirSync(folder)).toEqual([]);
   });
 
@@ -58,7 +58,7 @@ describe("folder tasks", () => {
     const r = result!.runs[0].result!;
     expect(r.outcome).toBe("changed");
     expect(fs.readdirSync(folder).sort()).toEqual(["existing.md", "made-by-agent.txt"]);
-    expect(r.recordDir.startsWith(fs.realpathSync(path.join(env.OPENAGENT_HOME, "runs")))).toBe(true);
+    expect(r.recordDir.startsWith(fs.realpathSync(path.join(env.LONGKEEP_HOME, "runs")))).toBe(true);
     const snaps = await (await openSnapshots(fs.realpathSync(folder), env)).list();
     expect(snaps.length).toBeGreaterThan(0);
     const run = JSON.parse(fs.readFileSync(r.runFile, "utf8"));
@@ -80,7 +80,7 @@ describe("folder tasks", () => {
     expect(first?.ok).toBe(true);
     expect(first!.runs.map((r) => r.project)).toEqual(["alpha", "beta"]);
     const real = fs.realpathSync(folder);
-    const runsDir = fs.realpathSync(path.join(env.OPENAGENT_HOME, "runs", projectKey(real)));
+    const runsDir = fs.realpathSync(path.join(env.LONGKEEP_HOME, "runs", projectKey(real)));
     for (const [i, name] of ["alpha", "beta"].entries()) {
       const r = first!.runs[i].result!;
       expect(r.workRoot).toBe(path.join(real, name));
@@ -97,7 +97,7 @@ describe("folder tasks", () => {
   it("an executor that cannot start fails over to the configured fallback", async () => {
     const { folder, env } = setup();
     editBrief(env);
-    fs.writeFileSync(path.join(env.OPENAGENT_HOME, "executors.json"), JSON.stringify({ cursor: { bin: path.join(folder, "missing-cli"), fallback: [{ executor: "grok" }] } }));
+    fs.writeFileSync(path.join(env.LONGKEEP_HOME, "executors.json"), JSON.stringify({ cursor: { bin: path.join(folder, "missing-cli"), fallback: [{ executor: "grok" }] } }));
     const states: string[] = [];
     const result = await runFolderTask({ folder, executor: "cursor", env, fallbackDelayMs: 0, onState: (m) => states.push(m) });
     expect(result?.ok).toBe(true);
@@ -109,7 +109,7 @@ describe("folder tasks", () => {
     const { folder, env } = setup();
     editBrief(env);
     const slow = runFolderTask({ folder, executor: "grok", env: { ...env, FAKE_EXEC_SLEEP_MS: "1500" } });
-    const lock = path.join(env.OPENAGENT_HOME, "runs", projectKey(fs.realpathSync(folder)), "folder.lock");
+    const lock = path.join(env.LONGKEEP_HOME, "runs", projectKey(fs.realpathSync(folder)), "folder.lock");
     for (let i = 0; i < 100 && !fs.existsSync(lock); i++) await new Promise((r) => setTimeout(r, 20));
     await expect(runFolderTask({ folder, executor: "grok", env })).rejects.toThrow(/already running on this folder/);
     expect((await slow)?.ok).toBe(true);
@@ -127,7 +127,7 @@ describe("folder tasks", () => {
       execFileSync("git", ["init", "-q", path.join(folder, name)]);
       fs.writeFileSync(path.join(folder, name, "code.txt"), "old\n");
     }
-    fs.writeFileSync(path.join(env.OPENAGENT_HOME, "executors.json"), JSON.stringify({ grok: { yieldToIde: true } }));
+    fs.writeFileSync(path.join(env.LONGKEEP_HOME, "executors.json"), JSON.stringify({ grok: { yieldToIde: true } }));
     const real = fs.realpathSync(folder);
     const alpha = path.join(real, "alpha");
     let open = false;
@@ -160,7 +160,7 @@ describe("folder tasks", () => {
     expect(resumed).toContain("## A new run after yielding to the IDE");
     expect(resumed).toMatch(/Transcript before the pause \(reference only, not the current state\): ".+transcript\.md"/);
     expect(resumed).toContain("check the git status first");
-    const records = fs.readdirSync(path.join(env.OPENAGENT_HOME, "runs", projectKey(real)), { withFileTypes: true }).filter((d) => d.isDirectory());
+    const records = fs.readdirSync(path.join(env.LONGKEEP_HOME, "runs", projectKey(real)), { withFileTypes: true }).filter((d) => d.isDirectory());
     expect(records).toHaveLength(3);
     expect(pendingProjects(real, env)).toEqual([]);
   }, 30_000);
@@ -195,7 +195,7 @@ describe("folder tasks", () => {
   it("yieldToIde says once when the folder is too large to look through completely for open projects", async () => {
     const { folder, env } = setup();
     editBrief(env);
-    fs.writeFileSync(path.join(env.OPENAGENT_HOME, "executors.json"), JSON.stringify({ grok: { yieldToIde: true } }));
+    fs.writeFileSync(path.join(env.LONGKEEP_HOME, "executors.json"), JSON.stringify({ grok: { yieldToIde: true } }));
     const states: string[] = [];
     const result = await runFolderTask({
       folder,
@@ -221,13 +221,13 @@ describe("folder tasks", () => {
     }
     const real = fs.realpathSync(folder);
     // An executor that cannot start, with no fallback: every repository is tried and reported, none is marked done
-    fs.writeFileSync(path.join(env.OPENAGENT_HOME, "executors.json"), JSON.stringify({ cursor: { bin: path.join(real, "missing-cli") } }));
+    fs.writeFileSync(path.join(env.LONGKEEP_HOME, "executors.json"), JSON.stringify({ cursor: { bin: path.join(real, "missing-cli") } }));
     const cannotStart = await runFolderTask({ folder, executor: "cursor", newProjects: true, env, fallbackDelayMs: 0 });
     expect(cannotStart!.runs.map((r) => [r.project, r.ok])).toEqual([["alpha", false], ["beta", false]]);
     expect(cannotStart!.runs.every((r) => /could start/.test(r.error ?? ""))).toBe(true);
     expect(pendingProjects(real, env).map((p) => p.rel)).toEqual(["alpha", "beta"]);
     // A file where alpha's snapshot repository belongs: its snapshot fails, beta still runs
-    const shadow = path.join(env.OPENAGENT_HOME, "snapshots", projectKey(path.join(real, "alpha")));
+    const shadow = path.join(env.LONGKEEP_HOME, "snapshots", projectKey(path.join(real, "alpha")));
     fs.rmSync(shadow, { recursive: true, force: true });
     fs.writeFileSync(shadow, "");
     const snapshotFails = await runFolderTask({ folder, executor: "grok", newProjects: true, env });
@@ -239,9 +239,9 @@ describe("folder tasks", () => {
   it("refuses a fallback that names an executor that does not exist, before anything starts", async () => {
     const { folder, env } = setup();
     editBrief(env);
-    fs.writeFileSync(path.join(env.OPENAGENT_HOME, "executors.json"), JSON.stringify({ grok: { fallback: [{ executor: "nobody" }] } }));
+    fs.writeFileSync(path.join(env.LONGKEEP_HOME, "executors.json"), JSON.stringify({ grok: { fallback: [{ executor: "nobody" }] } }));
     await expect(runFolderTask({ folder, executor: "grok", env })).rejects.toThrow(/fallback of grok .* do not exist: nobody/);
-    expect(fs.existsSync(path.join(env.OPENAGENT_HOME, "runs"))).toBe(false);
+    expect(fs.existsSync(path.join(env.LONGKEEP_HOME, "runs"))).toBe(false);
   });
 
   it("a run that yields while waiting for its fallback resumes with the fallback, which gets its effort", async () => {
@@ -253,7 +253,7 @@ describe("folder tasks", () => {
       fs.writeFileSync(path.join(folder, name, "README.md"), `# ${name}\n`);
     }
     fs.writeFileSync(
-      path.join(env.OPENAGENT_HOME, "executors.json"),
+      path.join(env.LONGKEEP_HOME, "executors.json"),
       JSON.stringify({ cursor: { bin: path.join(folder, "missing-cli"), yieldToIde: true, fallback: [{ executor: "grok", effort: "high" }] } }),
     );
     const alpha = path.join(fs.realpathSync(folder), "alpha");
@@ -270,7 +270,7 @@ describe("folder tasks", () => {
       observeIde: async () => ({ state: "ready", projects: open ? [alpha] : [] }),
       onState: (m) => {
         states.push(m);
-        // alpha's cursor never starts; while OpenAgent waits to switch to grok, the person opens alpha
+        // alpha's cursor never starts; while Longkeep waits to switch to grok, the person opens alpha
         if (m.includes("could not create a process") && !opened) open = opened = true;
         if (m === "Working on: beta") open = false;
       },

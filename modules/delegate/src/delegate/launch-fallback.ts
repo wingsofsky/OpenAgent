@@ -10,7 +10,7 @@
  * - A result that also reports an unconfirmed stop (`stopError`) ends the chain: a process may still be running.
  */
 import { setTimeout as sleep } from "node:timers/promises";
-import type { Effort } from "@openagent/protocol/executors";
+import type { Effort } from "@longkeep/protocol/executors";
 
 export const LAUNCH_CHECK_MS = 5 * 60_000;
 export const STARTUP_CODES: ReadonlySet<string> = new Set(["ENOENT", "EACCES", "EPERM", "ENOEXEC", "ENOTDIR"]);

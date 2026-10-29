@@ -10,9 +10,9 @@
   ],
   "commands": {},
   "skills": {
-    "openagent-context": {
-      "en": "en/openagent-context",
-      "zh-CN": "zh-CN/openagent-context"
+    "longkeep-context": {
+      "en": "en/longkeep-context",
+      "zh-CN": "zh-CN/longkeep-context"
     }
   }
 }

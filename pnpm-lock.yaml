@@ -26,49 +26,49 @@ importers:
 
   modules/delegate:
     dependencies:
+      '@longkeep/common':
+        specifier: workspace:*
+        version: link:../../packages/common
+      '@longkeep/protocol':
+        specifier: workspace:*
+        version: link:../../packages/protocol
       '@modelcontextprotocol/sdk':
         specifier: ^1.32.2
         version: 1.32.2(zod@4.6.7)
-      '@openagent/common':
-        specifier: workspace:*
-        version: link:../../packages/common
-      '@openagent/protocol':
-        specifier: workspace:*
-        version: link:../../packages/protocol
       zod:
         specifier: ^4.6.7
         version: 4.6.7
     devDependencies:
-      '@openagent/testkit':
+      '@longkeep/testkit':
         specifier: workspace:*
         version: link:../../packages/testkit
 
   modules/folder:
     dependencies:
-      '@openagent/common':
+      '@longkeep/common':
         specifier: workspace:*
         version: link:../../packages/common
-      '@openagent/delegate':
+      '@longkeep/delegate':
         specifier: workspace:*
         version: link:../delegate
-      '@openagent/protocol':
+      '@longkeep/protocol':
         specifier: workspace:*
         version: link:../../packages/protocol
     devDependencies:
-      '@openagent/testkit':
+      '@longkeep/testkit':
         specifier: workspace:*
         version: link:../../packages/testkit
 
   modules/sessions:
     dependencies:
-      '@openagent/common':
+      '@longkeep/common':
         specifier: workspace:*
         version: link:../../packages/common
-      '@openagent/protocol':
+      '@longkeep/protocol':
         specifier: workspace:*
         version: link:../../packages/protocol
     devDependencies:
-      '@openagent/testkit':
+      '@longkeep/testkit':
         specifier: workspace:*
         version: link:../../packages/testkit
 
@@ -76,14 +76,14 @@ importers:
 
   packages/common:
     dependencies:
-      '@openagent/protocol':
+      '@longkeep/protocol':
         specifier: workspace:*
         version: link:../protocol
       chardetng-wasm:
         specifier: 1.0.2
         version: 1.0.2
     devDependencies:
-      '@openagent/testkit':
+      '@longkeep/testkit':
         specifier: workspace:*
         version: link:../testkit
 

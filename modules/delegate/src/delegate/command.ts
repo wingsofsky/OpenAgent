@@ -1,27 +1,27 @@
 /**
- * `openagent delegate`. It returns an exit code and prints its own output.
+ * `longkeep delegate`. It returns an exit code and prints its own output.
  *
- *   openagent delegate --to <executor> --title <title> --prompt <text> [--project <dir>] [--prompt-file <file>]
+ *   longkeep delegate --to <executor> --title <title> --prompt <text> [--project <dir>] [--prompt-file <file>]
  *        [--target <path>] [--writeback handbook|<path>] [--work scratch|project] [--model <m>]
  *        [--effort minimal|low|medium|high|xhigh] [--sandbox read-only|workspace-write|danger-full-access]
  *        [--timeout <s>] [--stall <s>] [--retries <n>] [--issuer <name>] [--no-approve] [--json]
- *   openagent delegate --continue <task-id> --prompt <text>                       follow-up round
- *   openagent delegate --status [<task-id>]                                      one task, or the project's recent tasks
- *   openagent delegate --wait <task-id>                                          block until its round ends, then print it
- *   openagent delegate --review <task-id> --verdict accepted|needs_rework|rejected [--note <text>] [--issuer <name>]
- *   openagent delegate --list                                                    executors on this machine and their defaults
- *   openagent delegate --to <executor> --set model=… --set effort=…              change defaults in ~/.openagent/executors.json ("key=" removes)
- *   openagent delegate --to <executor> --reset                                   remove the whole entry
+ *   longkeep delegate --continue <task-id> --prompt <text>                       follow-up round
+ *   longkeep delegate --status [<task-id>]                                      one task, or the project's recent tasks
+ *   longkeep delegate --wait <task-id>                                          block until its round ends, then print it
+ *   longkeep delegate --review <task-id> --verdict accepted|needs_rework|rejected [--note <text>] [--issuer <name>]
+ *   longkeep delegate --list                                                    executors on this machine and their defaults
+ *   longkeep delegate --to <executor> --set model=… --set effort=…              change defaults in ~/.longkeep/executors.json ("key=" removes)
+ *   longkeep delegate --to <executor> --reset                                   remove the whole entry
  *
  * The project defaults to the current folder. A run prints the answer on stdout (or the full result with --json) and
  * everything else on stderr. Exit codes: 0 done, 1 the delegation or the command failed, 2 bad usage.
  */
 import fs from "node:fs";
-import { DEFAULT_LIMITS, EFFORTS, RUN_LIMITS, SANDBOXES, SETTABLE_KEYS, type Effort, type Sandbox } from "@openagent/protocol/executors";
-import { AUTHOR_RE, isOneLine } from "@openagent/protocol/task";
-import { parseWhole } from "@openagent/common/args";
+import { DEFAULT_LIMITS, EFFORTS, RUN_LIMITS, SANDBOXES, SETTABLE_KEYS, type Effort, type Sandbox } from "@longkeep/protocol/executors";
+import { AUTHOR_RE, isOneLine } from "@longkeep/protocol/task";
+import { parseWhole } from "@longkeep/common/args";
 import { listExecutors, updateExecutorDefaults } from "../executors/registry.ts";
-import { resolveProject } from "@openagent/common/home";
+import { resolveProject } from "@longkeep/common/home";
 import { lastRoundOf } from "./records.ts";
 import { delegationStatus, listDelegations, reviewDelegation, VERDICTS } from "./review.ts";
 import { runDelegation } from "./prepare.ts";
@@ -30,15 +30,15 @@ import { checkTaskId } from "./types.ts";
 class UsageError extends Error {}
 
 const USAGE = [
-  "Usage: openagent delegate --to <executor> --title <title> --prompt <text> [--project <dir>] [--prompt-file <file>] [--target <path>]",
+  "Usage: longkeep delegate --to <executor> --title <title> --prompt <text> [--project <dir>] [--prompt-file <file>] [--target <path>]",
   "                         [--writeback handbook|<path>] [--work scratch|project] [--model <m>] [--effort <level>] [--sandbox <s>]",
   "                         [--timeout <s>] [--stall <s>] [--retries <n>] [--issuer <name>] [--no-approve] [--json]",
-  "       openagent delegate --continue <task-id> --prompt <text>",
-  "       openagent delegate --status [<task-id>]",
-  "       openagent delegate --wait <task-id> [--json]",
-  "       openagent delegate --review <task-id> --verdict accepted|needs_rework|rejected [--note <text>] [--issuer <name>]",
-  "       openagent delegate --list",
-  "       openagent delegate --to <executor> --set key=value … | --reset",
+  "       longkeep delegate --continue <task-id> --prompt <text>",
+  "       longkeep delegate --status [<task-id>]",
+  "       longkeep delegate --wait <task-id> [--json]",
+  "       longkeep delegate --review <task-id> --verdict accepted|needs_rework|rejected [--note <text>] [--issuer <name>]",
+  "       longkeep delegate --list",
+  "       longkeep delegate --to <executor> --set key=value … | --reset",
 ].join("\n");
 
 interface Args {
@@ -260,7 +260,7 @@ async function delegate(a: Args): Promise<number> {
     }
     const row = listExecutors().find((r) => r.name === a.to);
     if (a.json) console.log(JSON.stringify(row ?? null, null, 1));
-    else console.log(`${a.to} defaults: ${fmtDefaults((row?.defaults ?? {}) as Record<string, unknown>)}  (~/.openagent/executors.json)`);
+    else console.log(`${a.to} defaults: ${fmtDefaults((row?.defaults ?? {}) as Record<string, unknown>)}  (~/.longkeep/executors.json)`);
     return 0;
   }
 
@@ -283,7 +283,7 @@ async function delegate(a: Args): Promise<number> {
   const retries = optionalWhole(a.retries, "--retries", RUN_LIMITS.retries);
 
   // Ctrl+C or a kill stops the executor with its whole process tree and finishes the record as stopped. Without this,
-  // on macOS and Linux the executor (its own process group) would keep running after OpenAgent exits.
+  // on macOS and Linux the executor (its own process group) would keep running after Longkeep exits.
   const abort = new AbortController();
   const stop = () => abort.abort();
   process.on("SIGINT", stop);
@@ -320,12 +320,12 @@ async function delegate(a: Args): Promise<number> {
   return r.ok ? 0 : 1;
 }
 
-/** `openagent delegate` */
+/** `longkeep delegate` */
 export async function delegateCommand(argv: string[]): Promise<number> {
   try {
     return await delegate(parseArgs(argv));
   } catch (e) {
-    console.error(`openagent delegate: ${e instanceof Error ? e.message : String(e)}`);
+    console.error(`longkeep delegate: ${e instanceof Error ? e.message : String(e)}`);
     return e instanceof UsageError ? 2 : 1;
   }
 }

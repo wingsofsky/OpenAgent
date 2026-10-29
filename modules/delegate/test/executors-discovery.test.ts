@@ -4,7 +4,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { REGISTRY } from "@openagent/protocol/executor-registry";
+import { REGISTRY } from "@longkeep/protocol/executor-registry";
 import { discoverCandidates, expandPath, explainEntryBin, whichOnPath } from "../src/executors/discovery.ts";
 import fixture from "./fixtures/executor-discovery.json" with { type: "json" };
 
@@ -43,7 +43,7 @@ describe("executable discovery: the shared folder-tree fixture", () => {
           PATH: c.path.map(abs).join(path.delimiter),
           // Absolute registry folders (/opt/homebrew/bin …) would find CLIs installed on this machine: keep only the
           // ones under the home directory, so the fixture is the whole truth
-          OPENAGENT_SEARCH_PATH: REGISTRY.searchPath
+          LONGKEEP_SEARCH_PATH: REGISTRY.searchPath
             .filter((r) => r.path.startsWith("~") && (!r.os || (r.os as string[]).includes(c.platform)))
             .map((r) => r.path)
             .join(path.delimiter),
@@ -79,10 +79,10 @@ describe("executable discovery: path expansion and PATH rules", () => {
     const dir = fs.mkdtempSync(path.join(os.tmpdir(), "of-which-"));
     try {
       for (const n of ["gemini", "gemini.cmd", "codex.exe"]) fs.writeFileSync(path.join(dir, n), "");
-      expect(whichOnPath("gemini", { PATH: dir, OPENAGENT_SEARCH_PATH: "" }, "win32")).toBeNull();
-      expect(whichOnPath("codex", { Path: dir, OPENAGENT_SEARCH_PATH: "" }, "win32")).toBe(path.join(dir, "codex.exe"));
-      expect(whichOnPath("codex.exe", { PATH: dir, OPENAGENT_SEARCH_PATH: "" }, "win32")).toBe(path.join(dir, "codex.exe"));
-      expect(whichOnPath("gemini", { PATH: dir, OPENAGENT_SEARCH_PATH: "" }, "darwin", { home: dir })).toBe(path.join(dir, "gemini"));
+      expect(whichOnPath("gemini", { PATH: dir, LONGKEEP_SEARCH_PATH: "" }, "win32")).toBeNull();
+      expect(whichOnPath("codex", { Path: dir, LONGKEEP_SEARCH_PATH: "" }, "win32")).toBe(path.join(dir, "codex.exe"));
+      expect(whichOnPath("codex.exe", { PATH: dir, LONGKEEP_SEARCH_PATH: "" }, "win32")).toBe(path.join(dir, "codex.exe"));
+      expect(whichOnPath("gemini", { PATH: dir, LONGKEEP_SEARCH_PATH: "" }, "darwin", { home: dir })).toBe(path.join(dir, "gemini"));
     } finally {
       fs.rmSync(dir, { recursive: true, force: true });
     }

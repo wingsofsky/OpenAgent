@@ -5,7 +5,7 @@ import { describe, expect, it } from "vitest";
 const CLI = "packages/cli/src/cli.ts";
 const run = (...args: string[]) => spawnSync(process.execPath, [CLI, ...args], { encoding: "utf8" });
 
-describe("openagent entry", () => {
+describe("longkeep entry", () => {
   it("prints the package version", () => {
     const version = JSON.parse(fs.readFileSync("packages/cli/package.json", "utf8")).version;
     const r = run("--version");
@@ -16,7 +16,7 @@ describe("openagent entry", () => {
   it("prints usage with no arguments", () => {
     const r = run();
     expect(r.status).toBe(0);
-    expect(r.stdout).toContain("Usage: openagent <command>");
+    expect(r.stdout).toContain("Usage: longkeep <command>");
   });
 
   it("rejects an unknown command with exit code 2", () => {

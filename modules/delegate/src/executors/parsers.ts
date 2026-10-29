@@ -4,7 +4,7 @@
  * Parsers are tolerant: CLIs change their output, so each one falls back to something sensible and never throws.
  */
 import fs from "node:fs";
-import type { AnswerParser, SessionParser, UsageParser } from "@openagent/protocol/executor-registry";
+import type { AnswerParser, SessionParser, UsageParser } from "@longkeep/protocol/executor-registry";
 import type { Invocation } from "./registry.ts";
 
 function isFile(p: string): boolean {

@@ -1,6 +1,6 @@
-# OpenAgents conversations
+# Longkeep conversations
 
-This module turns the local transcripts of Claude Code, Codex, Gemini CLI, Grok Build, Antigravity and Cursor Agent into Markdown archives with an index, kept in `~/.openagent` rather than in your project, so a later session can search them for what was decided and why. Its command is `openagent import-sessions`; it runs no model and needs no network.
+This module turns the local transcripts of Claude Code, Codex, Gemini CLI, Grok Build, Antigravity and Cursor Agent into Markdown archives with an index, kept in `~/.longkeep` rather than in your project, so a later session can search them for what was decided and why. Its command is `longkeep import-sessions`; it runs no model and needs no network.
 
 ![Transcripts from six agent CLIs imported as searchable Markdown](diagram.svg)
 
@@ -9,29 +9,29 @@ This module turns the local transcripts of Claude Code, Codex, Gemini CLI, Grok 
 Send this to your main agent:
 
 ```text
-Install the sessions module of OpenAgents from https://github.com/wingsofsky/OpenAgents: follow INSTALL.md in that repository
+Install the sessions module of Longkeep from https://github.com/wingsofsky/longkeep: follow INSTALL.md in that repository
 ```
 
 By hand. Requires Node 22.19 or later, pnpm and git. Download only this module:
 
 ```bash
-git clone --filter=blob:none --sparse https://github.com/wingsofsky/OpenAgents.git <repo>
+git clone --filter=blob:none --sparse https://github.com/wingsofsky/longkeep.git <repo>
 cd <repo>
 git sparse-checkout set modules/sessions packages/protocol packages/common packages/cli
 pnpm install --prod --frozen-lockfile
 node <repo>/packages/cli/src/cli.ts import-sessions --list
 ```
 
-Copy the [openagent-sessions](skills/openagent-sessions/SKILL.md) skill where your agent reads skills (`<project>/.claude/skills/` or `~/.claude/skills/`; Codex: `.agents/skills/`) so it can import and search for you. Below, `openagent` means `node <repo>/packages/cli/src/cli.ts`.
+Copy the [longkeep-sessions](skills/longkeep-sessions/SKILL.md) skill where your agent reads skills (`<project>/.claude/skills/` or `~/.claude/skills/`; Codex: `.agents/skills/`) so it can import and search for you. Below, `longkeep` means `node <repo>/packages/cli/src/cli.ts`.
 
-## openagent import-sessions
+## longkeep import-sessions
 
 ```
-openagent import-sessions [--project <dir>] [--all-projects] [--source <s>] [--file <path>] [--list] [--index] [--reorganize]
+longkeep import-sessions [--project <dir>] [--all-projects] [--source <s>] [--file <path>] [--list] [--index] [--reorganize]
                          [--limit <N>] [--force] [--sidechains] [--prompts] [--no-redact]
 ```
 
-Archives go to `~/.openagent/sessions/imported/<project>/`, with an `index.md` for all of them and one per project folder. `OPENAGENT_HOME` moves `~/.openagent`.
+Archives go to `~/.longkeep/sessions/imported/<project>/`, with an `index.md` for all of them and one per project folder. `LONGKEEP_HOME` moves `~/.longkeep`.
 
 | Option | Meaning |
 |---|---|
@@ -49,16 +49,16 @@ Archives go to `~/.openagent/sessions/imported/<project>/`, with an `index.md` f
 | `--no-redact` | turn redaction off |
 
 ```bash
-openagent import-sessions --project <project> --list    # preview
-openagent import-sessions --project <project>           # import
+longkeep import-sessions --project <project> --list    # preview
+longkeep import-sessions --project <project>           # import
 ```
 
-Re-running is safe: an archive is matched to its transcript, a session that continued is refreshed in place, and an archive a person edited is left alone and listed. A session that an agent CLI ran for a task delegated through OpenAgents is filed under `_delegated`, titled by its brief. Run `openagent import-sessions --help` for where each CLI keeps its transcripts and how archives are filed. Exit codes: 0 fine, 1 the work failed, 2 bad usage.
+Re-running is safe: an archive is matched to its transcript, a session that continued is refreshed in place, and an archive a person edited is left alone and listed. A session that an agent CLI ran for a task delegated through Longkeep is filed under `_delegated`, titled by its brief. Run `longkeep import-sessions --help` for where each CLI keeps its transcripts and how archives are filed. Exit codes: 0 fine, 1 the work failed, 2 bad usage.
 
 ## Privacy
 
 - Redaction of keys and tokens is on by default and best effort; it does not remove personal information. Review the suspects it lists before sharing an archive, and rotate any key that slipped through.
-- Archives live in the home folder, which every project's main agent can read. That is why `--all-projects` should be your decision, and why `~/.openagent` belongs out of public sync. Details: [SECURITY.md](../../SECURITY.md).
+- Archives live in the home folder, which every project's main agent can read. That is why `--all-projects` should be your decision, and why `~/.longkeep` belongs out of public sync. Details: [SECURITY.md](../../SECURITY.md).
 
 ## License
 

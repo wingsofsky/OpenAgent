@@ -8,8 +8,8 @@ export default defineConfig({
     environment: "node",
     // Windows CI runners are slow to start processes and git; a short timeout there produces cascades of false failures.
     testTimeout: process.platform === "win32" ? 30_000 : 5_000,
-    // Tests and every process they start must never read or write the real ~/.openagent.
-    env: { OPENAGENT_HOME: path.join(os.tmpdir(), `openagent-test-home-${process.pid}`) },
+    // Tests and every process they start must never read or write the real ~/.longkeep.
+    env: { LONGKEEP_HOME: path.join(os.tmpdir(), `longkeep-test-home-${process.pid}`) },
     setupFiles: ["packages/testkit/src/hermetic.ts"],
   },
 });

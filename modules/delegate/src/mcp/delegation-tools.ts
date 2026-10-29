@@ -7,9 +7,9 @@
  * when it exits. wait: true blocks the tool call until the round ends instead.
  */
 import { z } from "zod";
-import { DEFAULT_LIMITS, EFFORTS, RUN_LIMITS, SANDBOXES } from "@openagent/protocol/executors";
-import { HOME_ENV } from "@openagent/protocol/layout";
-import { AUTHOR_RE } from "@openagent/protocol/task";
+import { DEFAULT_LIMITS, EFFORTS, RUN_LIMITS, SANDBOXES } from "@longkeep/protocol/executors";
+import { HOME_ENV } from "@longkeep/protocol/layout";
+import { AUTHOR_RE } from "@longkeep/protocol/task";
 import { delegationStatus, listDelegations, listExecutors, prepareDelegation, reviewDelegation, updateExecutorDefaults, VERDICTS } from "../delegate/index.ts";
 import { runDoctor } from "../executors/doctor.ts";
 import { initHandbook, readHandbook } from "../handbook/handbook.ts";
@@ -37,7 +37,7 @@ export function registerDelegationTools({ register, project, env, signal, runnin
     {
       title: "List executors and the handbook",
       description:
-        "Agent CLIs on this machine you can delegate to (built-in codex, agy, grok, cursor, claude, plus entries of ~/.openagent/executors.json): strengths, installed or not, follow-up support, current defaults, how to install. Also the agent handbook (its text without undecided suggestions, and those suggestions apart), and recent delegations of this project.",
+        "Agent CLIs on this machine you can delegate to (built-in codex, agy, grok, cursor, claude, plus entries of ~/.longkeep/executors.json): strengths, installed or not, follow-up support, current defaults, how to install. Also the agent handbook (its text without undecided suggestions, and those suggestions apart), and recent delegations of this project.",
       inputSchema: {},
     },
     guard(async () => {
@@ -66,7 +66,7 @@ export function registerDelegationTools({ register, project, env, signal, runnin
     {
       title: "Delegate a task to another agent CLI",
       description:
-        "Runs one agent CLI headless on a subtask and records the task in ~/.openagent/runs. Route by the handbook: grok for search and fresh facts, agy for explanations, cursor for multi-file code, codex for math (probe first). The result's outcome (changed / no_changes / a failure class) is set by OpenAgent, not a verdict: check it, then call review_task. A follow-up round of the same task: continue_task with its task id.",
+        "Runs one agent CLI headless on a subtask and records the task in ~/.longkeep/runs. Route by the handbook: grok for search and fresh facts, agy for explanations, cursor for multi-file code, codex for math (probe first). The result's outcome (changed / no_changes / a failure class) is set by Longkeep, not a verdict: check it, then call review_task. A follow-up round of the same task: continue_task with its task id.",
       inputSchema: {
         executor: z.string().min(1).max(32).describe("Executor name from list_executors"),
         prompt: z.string().min(1).max(50_000).describe("The complete brief for the executor"),
@@ -110,7 +110,7 @@ export function registerDelegationTools({ register, project, env, signal, runnin
         signal,
       });
       if (!a.wait) {
-        void track(prepared.run()).catch((e) => console.error(`[openagent mcp] delegation ${prepared.taskId} failed: ${e instanceof Error ? e.message : String(e)}`));
+        void track(prepared.run()).catch((e) => console.error(`[longkeep mcp] delegation ${prepared.taskId} failed: ${e instanceof Error ? e.message : String(e)}`));
         return ok({
           started: true,
           task_id: prepared.taskId,
@@ -151,7 +151,7 @@ export function registerDelegationTools({ register, project, env, signal, runnin
     "set_executor_defaults",
     {
       title: "Set executor defaults",
-      description: "Default model, effort, sandbox, timeouts, retries or whether prompts are skipped (autoApprove) for one executor, written to ~/.openagent/executors.json (shared by every project). A key set to null goes back to the CLI's own default; reset removes the whole entry.",
+      description: "Default model, effort, sandbox, timeouts, retries or whether prompts are skipped (autoApprove) for one executor, written to ~/.longkeep/executors.json (shared by every project). A key set to null goes back to the CLI's own default; reset removes the whole entry.",
       inputSchema: {
         executor: z.string().min(1).max(32),
         model: z.string().max(120).nullable().optional(),
@@ -174,7 +174,7 @@ export function registerDelegationTools({ register, project, env, signal, runnin
     "init_handbook",
     {
       title: "Create the agent handbook",
-      description: "Creates the agent handbook ~/.openagent/handbook.md, shared by every project, from the preset bundled with OpenAgent (routing, each CLI's quirks, models and effort levels). Never overwrites an existing handbook.",
+      description: "Creates the agent handbook ~/.longkeep/handbook.md, shared by every project, from the preset bundled with Longkeep (routing, each CLI's quirks, models and effort levels). Never overwrites an existing handbook.",
       inputSchema: {},
     },
     guard(async () => ok(initHandbook(env))),

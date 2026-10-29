@@ -1,4 +1,4 @@
-# OpenAgents context
+# Longkeep context
 
 This module keeps a project's context in documents that every agent session reads. It contains one skill and templates for the files that hold that context. It has no code: downloading it needs only git, and any agent that reads skills can use it (Claude Code, Codex and others).
 
@@ -19,23 +19,23 @@ The skill comes in English and Chinese. The language of the skill is the languag
 
 | Language | Skill folder |
 |---|---|
-| English | [en/openagent-context](en/openagent-context/SKILL.md) |
-| Chinese | [zh-CN/openagent-context](zh-CN/openagent-context/SKILL.md) |
+| English | [en/longkeep-context](en/longkeep-context/SKILL.md) |
+| Chinese | [zh-CN/longkeep-context](zh-CN/longkeep-context/SKILL.md) |
 
-Each folder holds `SKILL.md` and `references/`: [contract template](en/openagent-context/references/contract-template.md), [user-level template](en/openagent-context/references/user-template.md), [decision log template](en/openagent-context/references/decision-log-template.md), [working with AI agents](en/openagent-context/references/working-with-ai-agents.md).
+Each folder holds `SKILL.md` and `references/`: [contract template](en/longkeep-context/references/contract-template.md), [user-level template](en/longkeep-context/references/user-template.md), [decision log template](en/longkeep-context/references/decision-log-template.md), [working with AI agents](en/longkeep-context/references/working-with-ai-agents.md).
 
 ## Install
 
 Send this to your main agent:
 
 ```text
-Install the context module of OpenAgents from https://github.com/wingsofsky/OpenAgents: follow INSTALL.md in that repository
+Install the context module of Longkeep from https://github.com/wingsofsky/longkeep: follow INSTALL.md in that repository
 ```
 
 By hand, download only this module:
 
 ```bash
-git clone --filter=blob:none --sparse https://github.com/wingsofsky/OpenAgents.git <repo>
+git clone --filter=blob:none --sparse https://github.com/wingsofsky/longkeep.git <repo>
 cd <repo> && git sparse-checkout set modules/context
 ```
 
@@ -43,7 +43,7 @@ Then copy the skill of your language (`en` or `zh-CN`) where your agent reads sk
 
 ```bash
 mkdir -p <project>/.claude/skills
-cp -r <repo>/modules/context/en/openagent-context <project>/.claude/skills/
+cp -r <repo>/modules/context/en/longkeep-context <project>/.claude/skills/
 ```
 
 For every project, copy it to `~/.claude/skills/` instead. Codex reads the same folder from `<project>/.agents/skills/`. Copying does not follow updates: after `git pull`, copy again. Restart the agent session afterwards.

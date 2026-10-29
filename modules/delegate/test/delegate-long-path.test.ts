@@ -4,11 +4,11 @@ import { spawnSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import { afterAll, expect, it } from "vitest";
-import { CLI_ENTRY, FAKE_EXECUTOR, tempDir } from "@openagent/testkit/paths";
+import { CLI_ENTRY, FAKE_EXECUTOR, tempDir } from "@longkeep/testkit/paths";
 
 const CLI = CLI_ENTRY;
 const FAKE = FAKE_EXECUTOR;
-const base = tempDir("openagent-long-");
+const base = tempDir("longkeep-long-");
 afterAll(() => fs.rmSync(base, { recursive: true, force: true, maxRetries: 5, retryDelay: 50 }));
 
 it.skipIf(process.platform !== "win32")("a scratch folder past the path length limit is recorded as spawn_failed", () => {
@@ -17,7 +17,7 @@ it.skipIf(process.platform !== "win32")("a scratch folder past the path length l
   const project = path.join(base, "project");
   fs.mkdirSync(project);
   const r = spawnSync(process.execPath, [CLI, "delegate", "--to", "grok", "--project", project, "--title", "Long path", "--prompt", "hi", "--retries", "0"], {
-    env: { ...process.env, OPENAGENT_HOME: home, OPENAGENT_SEARCH_PATH: "", OPENAGENT_GROK_BIN: FAKE },
+    env: { ...process.env, LONGKEEP_HOME: home, LONGKEEP_SEARCH_PATH: "", LONGKEEP_GROK_BIN: FAKE },
     encoding: "utf8",
   });
   expect(r.stderr).not.toMatch(/ENOTCONN/);

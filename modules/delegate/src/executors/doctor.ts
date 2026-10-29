@@ -1,5 +1,5 @@
 /**
- * Executor health check: `openagent doctor [--probe] [--json]`.
+ * Executor health check: `longkeep doctor [--probe] [--json]`.
  *
  * For each built-in executor (the registry's delegatable entries) it reports:
  *   - the executable and where it was found, in the same resolution order as delegation (discovery.ts; `bin` overrides
@@ -20,7 +20,7 @@ import { randomUUID } from "node:crypto";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import { REGISTRY, type RegistryEntry } from "@openagent/protocol/executor-registry";
+import { REGISTRY, type RegistryEntry } from "@longkeep/protocol/executor-registry";
 import { killTree, spawnOnce } from "../delegate/process.ts";
 import { expandPath, explainEntryBin, type BinSource } from "./discovery.ts";
 import { BUILTIN_EXECUTORS, readBinOverrides } from "./registry.ts";
@@ -165,7 +165,7 @@ async function checkLogin(entry: RegistryEntry, bin: string, opt: { quickTimeout
 
 async function probe(id: string, bin: string, opt: { probeTimeoutMs: number; env: NodeJS.ProcessEnv }): Promise<NonNullable<DoctorRow["probe"]>> {
   const spec = BUILTIN_EXECUTORS[id];
-  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "openagent-doctor-"));
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "longkeep-doctor-"));
   try {
     const outFile = spec.needsOutFile ? path.join(dir, "answer.txt") : null;
     const args = spec.buildArgs({
@@ -248,9 +248,9 @@ export function formatDoctor(r: DoctorReport): string {
   return out.join("\n");
 }
 
-const USAGE = "Usage: openagent doctor [--probe] [--json]";
+const USAGE = "Usage: longkeep doctor [--probe] [--json]";
 
-/** `openagent doctor` */
+/** `longkeep doctor` */
 export async function doctorCommand(argv: string[]): Promise<number> {
   try {
     let probeAll = false;
@@ -270,7 +270,7 @@ export async function doctorCommand(argv: string[]): Promise<number> {
     console.log(json ? JSON.stringify(report, null, 2) : formatDoctor(report));
     return report.executors.some((x) => x.probe && !x.probe.ok) ? 1 : 0;
   } catch (e) {
-    console.error(`openagent doctor: ${e instanceof Error ? e.message : String(e)}`);
+    console.error(`longkeep doctor: ${e instanceof Error ? e.message : String(e)}`);
     return 2;
   }
 }

@@ -6,14 +6,14 @@ import { afterEach, describe, expect, it } from "vitest";
 import { initShadow, openSnapshots, Snapshots } from "../src/snapshots/shadow.ts";
 import { assertSafeRestore, isSensitivePath } from "../src/snapshots/sensitive-paths.ts";
 import cases from "./fixtures/sensitive-paths.json" with { type: "json" };
-import { FILE_SYMLINK_SKIP, linkDir, linkFile } from "@openagent/testkit/links";
-import { tempDir } from "@openagent/testkit/paths";
+import { FILE_SYMLINK_SKIP, linkDir, linkFile } from "@longkeep/testkit/links";
+import { tempDir } from "@longkeep/testkit/paths";
 
 const dirs: string[] = [];
 afterEach(() => dirs.splice(0).forEach((d) => fs.rmSync(d, { recursive: true, force: true, maxRetries: 5, retryDelay: 100 })));
 
 function setup() {
-  const base = tempDir("openagent-snap-");
+  const base = tempDir("longkeep-snap-");
   dirs.push(base);
   const project = path.join(base, "project");
   const gitDir = path.join(base, "shadow");
@@ -56,7 +56,7 @@ describe("sensitive paths", () => {
 describe("snapshots", () => {
   it("live in the home folder under the project key; snapshot, list, changes, diff", async () => {
     const { base, project } = setup();
-    const env = { ...process.env, OPENAGENT_HOME: path.join(base, "home") };
+    const env = { ...process.env, LONGKEEP_HOME: path.join(base, "home") };
     fs.writeFileSync(path.join(project, "a.md"), "one\n");
     const snaps = await openSnapshots(project, env);
     expect(path.relative(path.join(base, "home"), snaps.gitDir).split(path.sep)[0]).toBe("snapshots");
@@ -216,7 +216,7 @@ describe("snapshots", () => {
 });
 
 it("a first snapshot of a folder holding only empty nested repositories is simply nothing to commit", async () => {
-  const base = tempDir("openagent-snap-empty-");
+  const base = tempDir("longkeep-snap-empty-");
   dirs.push(base);
   const project = path.join(base, "project");
   fs.mkdirSync(path.join(project, "nested"), { recursive: true });

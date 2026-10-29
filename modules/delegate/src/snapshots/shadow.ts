@@ -15,10 +15,10 @@ import { execFile } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import { promisify } from "node:util";
-import { HOME_LAYOUT } from "@openagent/protocol/layout";
-import { ensureHome, projectKey } from "@openagent/common/home";
+import { HOME_LAYOUT } from "@longkeep/protocol/layout";
+import { ensureHome, projectKey } from "@longkeep/common/home";
 import { gitBinary } from "../lib/git.ts";
-import { atomicWriteFile, resolveScoped, resolveWritePathCreating } from "@openagent/common/scoped";
+import { atomicWriteFile, resolveScoped, resolveWritePathCreating } from "@longkeep/common/scoped";
 import { SENSITIVE_PATH_PATTERNS, assertSafeRestore, isSensitivePath } from "./sensitive-paths.ts";
 
 const execFileP = promisify(execFile);
@@ -198,7 +198,7 @@ export class Snapshots {
       // deliberately not staged (nested repositories with no files yet) and lead to an empty commit that git refuses.
       if (!(await this.g("ls-files", "--cached", "-z")).length) return null;
     }
-    await this.g("-c", "user.name=OpenAgent", "-c", "user.email=openagent@localhost", "commit", "-m", label || "snapshot");
+    await this.g("-c", "user.name=Longkeep", "-c", "user.email=longkeep@localhost", "commit", "-m", label || "snapshot");
     return (await this.list(1))[0] ?? null;
   }
 

@@ -1,11 +1,11 @@
 /**
- * `openagent import-sessions`: turns the local chat transcripts of agent CLIs into readable Markdown archives in the
- * OpenAgent home folder, `<home>/sessions/imported/<project>/` (layout: HOME_LAYOUT.importedSessions; archive format:
+ * `longkeep import-sessions`: turns the local chat transcripts of agent CLIs into readable Markdown archives in the
+ * Longkeep home folder, `<home>/sessions/imported/<project>/` (layout: HOME_LAYOUT.importedSessions; archive format:
  * convert.ts). Usage, options and the filing rules are in USAGE below (`--help` prints it).
  *
  * Contract:
  * - Transcripts are read from the CLIs' own folders under the user's home directory (os.homedir(), so HOME /
- *   USERPROFILE move it); every read and write under the OpenAgent home folder goes through common/scoped.
+ *   USERPROFILE move it); every read and write under the Longkeep home folder goes through common/scoped.
  * - By default only sessions whose working folder is the project are imported; an unknown working folder never counts
  *   as consent to mix projects. `--file` and `--all-projects` are the user's deliberate choice.
  * - Idempotent: an archive is matched to its transcript by the original transcript path, then by session id.
@@ -18,10 +18,10 @@ import fs from "node:fs";
 import { createRequire } from "node:module";
 import os from "node:os";
 import path from "node:path";
-import { HOME_LAYOUT } from "@openagent/protocol/layout";
-import { parseWhole } from "@openagent/common/args";
-import { ensureHome, existingHome, homePath } from "@openagent/common/home";
-import { atomicWriteFile, resolveScoped, resolveWritePathCreating } from "@openagent/common/scoped";
+import { HOME_LAYOUT } from "@longkeep/protocol/layout";
+import { parseWhole } from "@longkeep/common/args";
+import { ensureHome, existingHome, homePath } from "@longkeep/common/home";
+import { atomicWriteFile, resolveScoped, resolveWritePathCreating } from "@longkeep/common/scoped";
 import {
   archiveUntouched,
   BUCKET_DELEGATION,
@@ -39,7 +39,7 @@ import {
   suggestFileName,
   withChecksum,
 } from "./convert.ts";
-import { DELEGATION_PROMPT_FIRST_LINE } from "@openagent/protocol/delegation-prompt";
+import { DELEGATION_PROMPT_FIRST_LINE } from "@longkeep/protocol/delegation-prompt";
 
 const MAX_RAW = 256 * 1024 * 1024; // larger transcripts are skipped with a note
 const OUT = HOME_LAYOUT.importedSessions;
@@ -628,7 +628,7 @@ function buildSessionIndex(root: string, outRel: string): { path: string; count:
   const md = [
     "# Session index",
     "",
-    `Conversations with every agent CLI, archived (${rows.length} archives, ${named.length} project folders; rebuilt by openagent import-sessions, do not edit). To find what was said when: scan this page or a project folder's ${INDEX}, then search the archives for a keyword and open the hit. "Main-agent tokens" is what the main agent itself newly processed (input + output + cache creation, without the cache reads counted again every turn); "Sub-agent dispatches" is the models it handed work to.`,
+    `Conversations with every agent CLI, archived (${rows.length} archives, ${named.length} project folders; rebuilt by longkeep import-sessions, do not edit). To find what was said when: scan this page or a project folder's ${INDEX}, then search the archives for a keyword and open the hit. "Main-agent tokens" is what the main agent itself newly processed (input + output + cache creation, without the cache reads counted again every turn); "Sub-agent dispatches" is the models it handed work to.`,
     "",
     "## By project",
     "",
@@ -637,7 +637,7 @@ function buildSessionIndex(root: string, outRel: string): { path: string; count:
     ...named.map(([b, list]) => `| [${b}](${b}/${INDEX}) | ${list.length} | ${list[0].time} | ${sourcesOf(list)} |`),
     ...(unfiled ? [`| (not filed; run --reorganize) | ${unfiled.length} | ${unfiled[0].time} | ${sourcesOf(unfiled)} |`] : []),
     "",
-    `Special folders: \`${BUCKET_DELEGATION}\` = tasks delegated through OpenAgent (their records are in the OpenAgent home folder's ${HOME_LAYOUT.runs}/); \`_temp\` = sessions started in a temp folder; \`_misc\` = not in a project (drive root, home directory, app data); \`_unknown\` = the transcript has no working folder.`,
+    `Special folders: \`${BUCKET_DELEGATION}\` = tasks delegated through Longkeep (their records are in the Longkeep home folder's ${HOME_LAYOUT.runs}/); \`_temp\` = sessions started in a temp folder; \`_misc\` = not in a project (drive root, home directory, app data); \`_unknown\` = the transcript has no working folder.`,
     "",
     "## All (newest first)",
     "",
@@ -651,7 +651,7 @@ function buildSessionIndex(root: string, outRel: string): { path: string; count:
     const sub = [
       `# Session index · ${b}`,
       "",
-      `${list.length} archives, newest first; rebuilt by openagent import-sessions, do not edit. [← all projects](../${INDEX})`,
+      `${list.length} archives, newest first; rebuilt by longkeep import-sessions, do not edit. [← all projects](../${INDEX})`,
       "",
       "| Time | Source | Title | Turns | Main-agent tokens | Sub-agent dispatches | First message |",
       "|---|---|---|---|---|---|---|",
@@ -793,10 +793,10 @@ function reorganize(root: string, a: Args, ctx: BucketContext): void {
   if (r) console.log(`Rebuilt ${r.path} (${r.count} archives, ${r.groups} project folders)`);
 }
 
-const USAGE = `openagent import-sessions: turns the local chat transcripts of agent CLIs into readable Markdown archives
-in the OpenAgent home folder (~/.openagent, or OPENAGENT_HOME): ${OUT}/<project>/.
+const USAGE = `longkeep import-sessions: turns the local chat transcripts of agent CLIs into readable Markdown archives
+in the Longkeep home folder (~/.longkeep, or LONGKEEP_HOME): ${OUT}/<project>/.
 
-  openagent import-sessions [--project <dir>] [--source auto] [--list]
+  longkeep import-sessions [--project <dir>] [--source auto] [--list]
 
 Options:
   --project <dir>   import only sessions that worked in this folder (default: the current folder; sessions with an
@@ -824,7 +824,7 @@ Options:
                     list of suspects)
 
 Filing: archives go to ${OUT}/<project>/ (the git root's folder name, or the project-level folder; worktrees go
-  back to their main repository; tasks delegated through OpenAgent → ${BUCKET_DELEGATION}, temp folders → _temp, drive root /
+  back to their main repository; tasks delegated through Longkeep → ${BUCKET_DELEGATION}, temp folders → _temp, drive root /
   home directory / app data → _misc, no working folder → _unknown).
 Idempotent: an archive is matched by its original transcript path (forked threads with the same session id are
   separate archives), and by session id when the archive has no path.
@@ -846,7 +846,7 @@ export async function importSessions(argv: string[]): Promise<number> {
   if (a.indexOnly) {
     const existing = existingHome();
     const r = existing ? buildSessionIndex(existing, OUT) : null;
-    console.log(r ? `Rebuilt ${r.path} (${r.count} archives, ${r.groups} project folders)` : `No ${OUT}/ folder in the OpenAgent home folder.`);
+    console.log(r ? `Rebuilt ${r.path} (${r.count} archives, ${r.groups} project folders)` : `No ${OUT}/ folder in the Longkeep home folder.`);
     return 0;
   }
   if (a.reorganize) {
@@ -858,7 +858,7 @@ export async function importSessions(argv: string[]): Promise<number> {
       /* no archive folder */
     }
     if (!existing || !present) {
-      console.log(`No ${OUT}/ folder in the OpenAgent home folder.`);
+      console.log(`No ${OUT}/ folder in the Longkeep home folder.`);
       return 0;
     }
     reorganize(existing, a, ctx);

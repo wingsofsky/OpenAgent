@@ -1,7 +1,7 @@
 {
-  "name": "openagent-workspace",
+  "name": "longkeep-workspace",
   "private": true,
-  "version": "0.3.0",
+  "version": "0.4.0",
   "packageManager": "pnpm@10.33.0",
   "type": "module",
   "engines": {
@@ -12,7 +12,7 @@
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
     "lint:deps": "knip --no-progress && dpdm --no-warning --no-tree -T --skip-dynamic-imports circular --exit-code circular:1 packages/cli/src/cli.ts \"modules/*/src/**/*.ts\"",
-    "openagent": "node packages/cli/src/cli.ts"
+    "longkeep": "node packages/cli/src/cli.ts"
   },
   "devDependencies": {
     "@types/node": "^26.2.0",

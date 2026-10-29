@@ -2,10 +2,10 @@
  * Commands a person uses to check and undo what agents did: `handbook` and `snapshot`.
  * Each is a thin layer over its module; output is plain text unless --json.
  */
-import { formatStamp } from "@openagent/protocol/task";
+import { formatStamp } from "@longkeep/protocol/task";
 import { initHandbook, readHandbook } from "../handbook/handbook.ts";
 import { openSnapshots } from "../snapshots/shadow.ts";
-import { flag, parseArgs, parseWhole, projectFrom, usageError } from "@openagent/common/args";
+import { flag, parseArgs, parseWhole, projectFrom, usageError } from "@longkeep/common/args";
 
 /** True (after printing the usage) when the command was asked for help. */
 function help(p: ReturnType<typeof parseArgs>, usage: string): boolean {
@@ -14,9 +14,9 @@ function help(p: ReturnType<typeof parseArgs>, usage: string): boolean {
   return true;
 }
 
-const HANDBOOK_USAGE = `openagent handbook          where the agent handbook is, and how many suggestions wait for you
-openagent handbook --json   also its text without undecided suggestions, and those suggestions apart
-openagent handbook init     create ~/.openagent/handbook.md from the bundled preset (never overwrites)`;
+const HANDBOOK_USAGE = `longkeep handbook          where the agent handbook is, and how many suggestions wait for you
+longkeep handbook --json   also its text without undecided suggestions, and those suggestions apart
+longkeep handbook init     create ~/.longkeep/handbook.md from the bundled preset (never overwrites)`;
 
 export async function handbookCommand(argv: string[]): Promise<number> {
   const p = parseArgs(argv.map((a) => (a === "-h" ? "--help" : a)), ["json", "help"]);
@@ -30,7 +30,7 @@ export async function handbookCommand(argv: string[]): Promise<number> {
   if (action !== undefined) return usageError("handbook", `unknown action ${action}`, HANDBOOK_USAGE);
   const state = await readHandbook();
   if (p.flags.has("json")) console.log(JSON.stringify({ ...state, content: undefined }, null, 2));
-  else if (!state.exists) console.log(`No handbook yet. Create one with "openagent handbook init" (it would be ${state.path}).`);
+  else if (!state.exists) console.log(`No handbook yet. Create one with "longkeep handbook init" (it would be ${state.path}).`);
   else {
     console.log(`${state.path} (updated ${state.updated})`);
     if (state.pendingSuggestions) console.log(`${state.pendingSuggestions} suggestion(s) waiting in it: keep one by deleting its {++ ++} marks, delete it by deleting the block, or ask your main agent to.`);
@@ -38,11 +38,11 @@ export async function handbookCommand(argv: string[]): Promise<number> {
   return 0;
 }
 
-const SNAPSHOT_USAGE = `openagent snapshot list [--limit n]
-openagent snapshot take [label]
-openagent snapshot changes <id> [--from <id>]
-openagent snapshot diff <id> [path]
-openagent snapshot restore <id> [path]     the whole project, or one file; a safety snapshot is taken first
+const SNAPSHOT_USAGE = `longkeep snapshot list [--limit n]
+longkeep snapshot take [label]
+longkeep snapshot changes <id> [--from <id>]
+longkeep snapshot diff <id> [path]
+longkeep snapshot restore <id> [path]     the whole project, or one file; a safety snapshot is taken first
 Options: --project <dir> (default: the current folder).`;
 
 export async function snapshotCommand(argv: string[]): Promise<number> {

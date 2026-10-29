@@ -18,7 +18,7 @@ export function tempDir(prefix: string): string {
   return canonical(fs.mkdtempSync(path.join(os.tmpdir(), prefix)));
 }
 
-/** The `openagent` command entry, run from source. */
+/** The `longkeep` command entry, run from source. */
 export const CLI_ENTRY = path.join(import.meta.dirname, "..", "..", "cli", "src", "cli.ts");
 
 /** A stand-in agent CLI for delegation tests (behaviour in its header comment). */

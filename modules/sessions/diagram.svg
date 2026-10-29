@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 400" width="880" height="400" role="img" aria-label="Transcripts from six agent CLIs are imported into Markdown archives with indexes in ~/.openagent, which a later session searches">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 400" width="880" height="400" role="img" aria-label="Transcripts from six agent CLIs are imported into Markdown archives with indexes in ~/.longkeep, which a later session searches">
   <style>
     .panel { fill: #f6f8fa; stroke: #d1d9e0; } .chip { fill: #ffffff; stroke: #d1d9e0; }
     .ink { fill: #1f2328; } .muted { fill: #59636e; } .accent { fill: #bc4c00; }
@@ -33,7 +33,7 @@
   <rect class="panel" x="349" y="1" width="530" height="398" rx="10"/>
   <text class="ink sans" x="370" y="36" font-size="16" font-weight="600">Searchable Markdown, outside your project</text>
   <g class="mono" font-size="13.5">
-    <text class="ink" x="370" y="76">~/.openagent/sessions/imported/</text>
+    <text class="ink" x="370" y="76">~/.longkeep/sessions/imported/</text>
     <text class="accent" x="370" y="100">├── index.md</text>
     <text class="ink" x="370" y="124">├── my-app/</text>
     <text class="accent" x="370" y="148">│   ├── index.md</text>

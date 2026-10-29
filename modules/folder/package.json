@@ -1,6 +1,6 @@
 {
-  "name": "@openagent/folder",
-  "version": "0.3.0",
+  "name": "@longkeep/folder",
+  "version": "0.4.0",
   "private": true,
   "type": "module",
   "license": "Apache-2.0",
@@ -9,11 +9,11 @@
     "node": ">=22.19.0"
   },
   "dependencies": {
-    "@openagent/common": "workspace:*",
-    "@openagent/delegate": "workspace:*",
-    "@openagent/protocol": "workspace:*"
+    "@longkeep/common": "workspace:*",
+    "@longkeep/delegate": "workspace:*",
+    "@longkeep/protocol": "workspace:*"
   },
   "devDependencies": {
-    "@openagent/testkit": "workspace:*"
+    "@longkeep/testkit": "workspace:*"
   }
 }

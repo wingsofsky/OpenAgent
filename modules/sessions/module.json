@@ -17,10 +17,10 @@
     "import-sessions": {
       "entry": "src/import.ts",
       "export": "importSessions",
-      "about": "import local agent CLI conversations as Markdown into ~/.openagent/sessions/imported (--help for options)"
+      "about": "import local agent CLI conversations as Markdown into ~/.longkeep/sessions/imported (--help for options)"
     }
   },
   "skills": {
-    "openagent-sessions": "skills/openagent-sessions"
+    "longkeep-sessions": "skills/longkeep-sessions"
   }
 }

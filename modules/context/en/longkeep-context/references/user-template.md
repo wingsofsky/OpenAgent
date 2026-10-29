@@ -60,7 +60,7 @@ Implementation details within the technical scope are yours to decide; mention t
 - UI text, test fixtures, screenshots, commit messages and public documents never contain <private paths such as your user folder or private data folders>, private project or work names, chat transcripts, or <anything else you keep private>.
 
 ## Project context
-- Before writing an explanatory document (plan, report, research, guide, notes), decide where it goes and look for earlier ones with the openagent-context skill.
+- Before writing an explanatory document (plan, report, research, guide, notes), decide where it goes and look for earlier ones with the longkeep-context skill.
 - In a project that has no CLAUDE.md / AGENTS.md yet, ask me before setting up a contract and a decision log.
 
 ## Tools

@@ -2,11 +2,11 @@
  * Delegation types, the record-folder names that are not part of RUN_FILES, and where a project's records live.
  * Contract: the header of index.ts.
  */
-import { HOME_LAYOUT } from "@openagent/protocol/layout";
-import type { TaskOutcome } from "@openagent/protocol/task";
-import type { ResumeMode } from "@openagent/protocol/runs";
+import { HOME_LAYOUT } from "@longkeep/protocol/layout";
+import type { TaskOutcome } from "@longkeep/protocol/task";
+import type { ResumeMode } from "@longkeep/protocol/runs";
 import type { Effort, ExecutorSpec, Sandbox } from "../executors/registry.ts";
-import { projectKey } from "@openagent/common/home";
+import { projectKey } from "@longkeep/common/home";
 
 /** `runs/<project-key>`, relative to the home folder (project: canonical path) */
 export const runsRelOf = (project: string): string => `${HOME_LAYOUT.runs}/${projectKey(project)}`;

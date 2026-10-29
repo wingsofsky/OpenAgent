@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { BRIEF_FILES, HOME_ENV, HOME_LAYOUT, OPENAGENT_DIR, RUN_FILES } from "./layout.ts";
+import { BRIEF_FILES, HOME_ENV, HOME_LAYOUT, LONGKEEP_DIR, RUN_FILES } from "./layout.ts";
 
 const all = [HOME_LAYOUT, RUN_FILES, BRIEF_FILES].flatMap((t) => Object.values(t) as string[]);
 
@@ -18,7 +18,7 @@ describe("layout", () => {
   });
 
   it("names the home folder and its environment variable", () => {
-    expect(OPENAGENT_DIR).toBe(".openagent");
-    expect(HOME_ENV).toBe("OPENAGENT_HOME");
+    expect(LONGKEEP_DIR).toBe(".longkeep");
+    expect(HOME_ENV).toBe("LONGKEEP_HOME");
   });
 });

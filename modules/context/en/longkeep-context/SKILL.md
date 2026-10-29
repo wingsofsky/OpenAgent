@@ -1,5 +1,5 @@
 ---
-name: openagent-context
+name: longkeep-context
 description: Keep a project's context in documents that every agent session reads. Use whenever you are about to write an explanatory document (plan, report, research, guide, review, notes) or need an earlier one, since it says where documents go under docs/ and how to find them. Also when checking up a project's documents, and when setting up or tidying a project's contract (CLAUDE.md / AGENTS.md), its decision log (DECISIONS.md) or the agent's memory index (MEMORY.md), and when the user asks how to keep a long project on track with AI agents (review, context isolation, parallel subagents, reasoning effort, where personal habits go). Use when the user says "write up a plan", "where did we put the report on X", "what did we decide about Y", "set up CLAUDE.md for this project", "start a decision log", "check up this project's documents".
 ---
 
@@ -62,7 +62,7 @@ When the user asks for a checkup of the project's documents, or agrees to the on
 3. **Moving documents.** List each file with its target under `docs/` and its new date-first name; existing conventions in the contract win. After approval, move them with `git mv` and fix the links that pointed at them.
 4. **Rewriting the contract.** Gather material:
    - the current contract, each line checked against the repository;
-   - what the user keeps repeating: if the OpenAgents sessions module is installed, importing with `--prompts` writes `USER_PROMPTS.md` and `USER_RULES.md` under `_prompts/` in the archive. A rule needs two or more places where the user said it, quoted as written;
+   - what the user keeps repeating: if the Longkeep sessions module is installed, importing with `--prompts` writes `USER_PROMPTS.md` and `USER_RULES.md` under `_prompts/` in the archive. A rule needs two or more places where the user said it, quoted as written;
    - the user's own experience: ask what they keep correcting and what went wrong before;
    - the commit conventions found in step 1.
 

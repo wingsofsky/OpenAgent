@@ -1,12 +1,12 @@
 /**
- * The executor table: what OpenAgent can delegate to and how to launch it.
+ * The executor table: what Longkeep can delegate to and how to launch it.
  *
- * - Built-in executors come from the registry (`@openagent/protocol/executor-registry`, entries with an argument
+ * - Built-in executors come from the registry (`@longkeep/protocol/executor-registry`, entries with an argument
  *   template, in registry order): arguments, parsers, usage scope and defaults all come from that table.
  * - On top: `<home>/executors.json` (layout.ts), the only configuration file. An entry for a built-in without
  *   `command` / `extends` only overrides defaults; any other entry is a custom executor (format and validation:
- *   `@openagent/protocol/executors`). A missing file is an empty table; a broken file throws, never silently ignored.
- * - A project cannot add or change executors: OpenAgent reads no configuration from a project folder, so a
+ *   `@longkeep/protocol/executors`). A missing file is an empty table; a broken file throws, never silently ignored.
+ * - A project cannot add or change executors: Longkeep reads no configuration from a project folder, so a
  *   cloned repository cannot decide which command a delegation runs.
  * - `updateExecutorDefaults` changes one entry with an atomic write through the scoped path module.
  * - Binary resolution (discovery.ts): environment override > `bin` in executors.json > PATH (+ searchPath) > discovery
@@ -25,15 +25,15 @@ import {
   type ExecutorOverrides,
   type FallbackStep,
   type Sandbox,
-} from "@openagent/protocol/executors";
-import { LOCAL_EXECUTOR_IDS, REGISTRY, registryEntry, renderArgs, type ArgTemplate, type DiscoverRule, type RegistryEntry } from "@openagent/protocol/executor-registry";
-import { HOME_LAYOUT } from "@openagent/protocol/layout";
-import { ensureHome, existingHome } from "@openagent/common/home";
-import { atomicWriteFile, resolveScoped, resolveWritePathCreating } from "@openagent/common/scoped";
+} from "@longkeep/protocol/executors";
+import { LOCAL_EXECUTOR_IDS, REGISTRY, registryEntry, renderArgs, type ArgTemplate, type DiscoverRule, type RegistryEntry } from "@longkeep/protocol/executor-registry";
+import { HOME_LAYOUT } from "@longkeep/protocol/layout";
+import { ensureHome, existingHome } from "@longkeep/common/home";
+import { atomicWriteFile, resolveScoped, resolveWritePathCreating } from "@longkeep/common/scoped";
 import { discoverCandidates, explainBin, whichOnPath, type BinSource } from "./discovery.ts";
 import { ANSWER_PARSER, SESSION_PARSER, USAGE_PARSER } from "./parsers.ts";
 
-export type { Effort, Sandbox } from "@openagent/protocol/executors";
+export type { Effort, Sandbox } from "@longkeep/protocol/executors";
 
 /** Built-in executor names: the registry's delegatable entries, in registry order */
 export const BUILTIN_NAMES: readonly string[] = LOCAL_EXECUTOR_IDS;
@@ -349,7 +349,7 @@ export function resolveExecutorBin(spec: ExecutorSpec, env: NodeJS.ProcessEnv = 
 }
 
 const ROOT_FLAGS = new Set(["-C", "--cd", "--cwd", "--workspace"]);
-const CWD_PROBE = "<openagent-cwd>";
+const CWD_PROBE = "<longkeep-cwd>";
 
 /** The folder in -C <dir> / --cd / --cwd / --workspace, or --flag=<dir> */
 function rootFromArgs(args: string[]): string | null {

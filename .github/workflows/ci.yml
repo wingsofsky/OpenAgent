@@ -32,7 +32,7 @@ jobs:
       - run: pnpm lint:deps
       - run: pnpm test
       - name: CLI starts from source
-        run: pnpm openagent --version
+        run: pnpm longkeep --version
       # Each module installed alone from a sparse clone, its commands run for real
       - name: Modules install on their own
         run: node scripts/check-module-install.mjs

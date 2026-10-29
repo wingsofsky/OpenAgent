@@ -1,9 +1,9 @@
 // The executor table: built-in arguments and parsers from the registry, custom executors and extends, binary
-// resolution, and the home folder's executors.json (a project's own .openagent/ is never read).
+// resolution, and the home folder's executors.json (a project's own .longkeep/ is never read).
 import fs from "node:fs";
 import path from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
-import { effortFor } from "@openagent/protocol/executors";
+import { effortFor } from "@longkeep/protocol/executors";
 import { codexSession, codexUsage, extractJsonAnswer, extractJsonSession, extractJsonUsage, extractStreamAnswer, extractStreamUsage } from "../src/executors/parsers.ts";
 import {
   BUILTIN_EXECUTORS,
@@ -18,7 +18,7 @@ import {
   whichExecutable,
   type Invocation,
 } from "../src/executors/registry.ts";
-import { tempDir } from "@openagent/testkit/paths";
+import { tempDir } from "@longkeep/testkit/paths";
 
 const CODEX = BUILTIN_EXECUTORS.codex;
 const AGY = BUILTIN_EXECUTORS.agy;
@@ -28,19 +28,19 @@ const dirs: string[] = [];
 afterEach(() => dirs.splice(0).forEach((d) => fs.rmSync(d, { recursive: true, force: true, maxRetries: 5, retryDelay: 50 })));
 
 function setup() {
-  const base = tempDir("openagent-exec-");
+  const base = tempDir("longkeep-exec-");
   dirs.push(base);
   const home = path.join(base, "home");
   const project = path.join(base, "project");
   fs.mkdirSync(project);
-  const env = { ...process.env, OPENAGENT_HOME: home, OPENAGENT_SEARCH_PATH: "" };
+  const env = { ...process.env, LONGKEEP_HOME: home, LONGKEEP_SEARCH_PATH: "" };
   const writeHome = (o: unknown) => {
     fs.mkdirSync(home, { recursive: true });
     fs.writeFileSync(path.join(home, "executors.json"), typeof o === "string" ? o : JSON.stringify(o));
   };
   const writeProject = (o: unknown) => {
-    fs.mkdirSync(path.join(project, ".openagent"), { recursive: true });
-    fs.writeFileSync(path.join(project, ".openagent", "executors.json"), typeof o === "string" ? o : JSON.stringify(o));
+    fs.mkdirSync(path.join(project, ".longkeep"), { recursive: true });
+    fs.writeFileSync(path.join(project, ".longkeep", "executors.json"), typeof o === "string" ? o : JSON.stringify(o));
   };
   return { base, home, project, env, writeHome, writeProject };
 }
@@ -190,7 +190,7 @@ describe("custom executors and extends", () => {
     expect(spec.buildArgs(invOf({ resumeSession: "S" }))).toEqual(base.buildArgs(invOf({ resumeSession: "S" })));
     expect(spec.canResume).toBe(true);
     expect(spec.needsOutFile).toBe(true);
-    expect(spec.binEnv).toBe("OPENAGENT_CODEX_BIN");
+    expect(spec.binEnv).toBe("LONGKEEP_CODEX_BIN");
     expect(spec.binNames).toEqual(["codex"]);
     expect(spec.extractSession("session id: 01234567-89ab-cdef-0123-456789abcdef\n", invOf())).toBe("01234567-89ab-cdef-0123-456789abcdef");
     expect(spec.usageScope).toBe("cumulative");
@@ -248,7 +248,7 @@ describe("binaries", () => {
     const bin = path.join(base, process.platform === "win32" ? "codex.exe" : "codex");
     fs.writeFileSync(bin, "");
     fs.writeFileSync(path.join(base, "agy.cmd"), "");
-    const e = { ...env, PATH: base, OPENAGENT_GROK_BIN: "/custom/grok" };
+    const e = { ...env, PATH: base, LONGKEEP_GROK_BIN: "/custom/grok" };
     expect(resolveExecutorBin(CODEX, e)).toBe(bin);
     expect(whichExecutable("agy", e)).toBeNull();
     expect(resolveExecutorBin(GROK, e)).toBe("/custom/grok");
@@ -273,13 +273,13 @@ describe("executors.json in the home folder", () => {
     expect(t.codex.defaults).toMatchObject({ model: "gpt-9", sandbox: "danger-full-access", retries: 0, stallMs: 1000 });
     expect(t["my-agent"].label).toBe("My agent");
     expect(t["codex-hi"].defaults.effort).toBe("high");
-    expect(t["codex-hi"].binEnv).toBe("OPENAGENT_CODEX_BIN");
+    expect(t["codex-hi"].binEnv).toBe("LONGKEEP_CODEX_BIN");
     const codex = listExecutors(env).find((r) => r.name === "codex")!;
     expect(codex.defaults).toMatchObject({ model: "gpt-9", sandbox: "danger-full-access" });
     expect(codex.configured).toBe(true);
     expect(listExecutors(env).find((r) => r.name === "agy")?.configured).toBe(false);
     expect(listExecutors(env).find((r) => r.name === "my-agent")?.builtin).toBe(false);
-    const row = listExecutors({ ...env, PATH: "", OPENAGENT_CODEX_BIN: "/x/codex" }).find((r) => r.name === "codex-hi");
+    const row = listExecutors({ ...env, PATH: "", LONGKEEP_CODEX_BIN: "/x/codex" }).find((r) => r.name === "codex-hi");
     expect(row).toMatchObject({ builtin: false, configured: true, bin: "/x/codex", canResume: true });
     writeHome("{ broken");
     expect(() => loadExecutors(env)).toThrow(/not valid JSON/);
@@ -287,7 +287,7 @@ describe("executors.json in the home folder", () => {
     expect(() => loadExecutors(env)).toThrow(/invalid executor name/);
   });
 
-  it("a project cannot change what runs: its .openagent/executors.json is never read", () => {
+  it("a project cannot change what runs: its .longkeep/executors.json is never read", () => {
     const { env, writeHome, writeProject } = setup();
     writeHome({ codex: { model: "home-model" } });
     writeProject({
@@ -310,7 +310,7 @@ describe("executors.json in the home folder", () => {
     const { home, project, env } = setup();
     updateExecutorDefaults("agy", { effort: "low", model: "gemini-3" }, { env });
     expect(listExecutors(env).find((r) => r.name === "agy")?.defaults).toMatchObject({ effort: "low", model: "gemini-3", stallMs: 0 });
-    expect(fs.existsSync(path.join(project, ".openagent"))).toBe(false);
+    expect(fs.existsSync(path.join(project, ".longkeep"))).toBe(false);
     updateExecutorDefaults("agy", { model: null }, { env });
     expect(listExecutors(env).find((r) => r.name === "agy")?.defaults.model).toBeUndefined();
     expect(() => updateExecutorDefaults("agy", { effort: "max" }, { env })).toThrow(/effort/);

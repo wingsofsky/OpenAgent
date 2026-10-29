@@ -3,18 +3,18 @@
  *
  * - The first line is always DELEGATION_PROMPT_FIRST_LINE, and the brief sits under DELEGATION_TASK_HEADING (first
  *   round) or DELEGATION_FOLLOW_UP_HEADING (later rounds): the session importer recognises delegated sessions by them
- *   (@openagent/protocol/delegation-prompt).
+ *   (@longkeep/protocol/delegation-prompt).
  * - The working folder is the executor's actual cwd / -C, decided once by prepare.ts. In the scratch folder the agent
  *   may only change that folder. When the working folder is the project or a declared folder, it changes code, builds
- *   and tests there, and the record folder (in the OpenAgent home folder) gets the transcript and any separate report;
+ *   and tests there, and the record folder (in the Longkeep home folder) gets the transcript and any separate report;
  *   nothing of the record goes into the working folder. Folder tasks use stricter wording: every record and build
  *   product goes to the record folder, never into a sub-project.
  * - From round 2 on, every round carries the original brief and the rulings of the earlier rounds (from run.json, never
  *   scraped from the transcript); when the session cannot be resumed natively, the previous answer is replayed too.
  */
-import type { ResumeMode } from "@openagent/protocol/runs";
+import type { ResumeMode } from "@longkeep/protocol/runs";
 import type { ExecutorSpec } from "../executors/registry.ts";
-import { DELEGATION_FOLLOW_UP_HEADING, DELEGATION_PROMPT_FIRST_LINE, DELEGATION_TASK_HEADING } from "@openagent/protocol/delegation-prompt";
+import { DELEGATION_FOLLOW_UP_HEADING, DELEGATION_PROMPT_FIRST_LINE, DELEGATION_TASK_HEADING } from "@longkeep/protocol/delegation-prompt";
 
 export const RESUME_LABEL: Record<ResumeMode, string> = { fresh: "first round", native: "native resume", replay: "replay of the previous answer" };
 
@@ -48,7 +48,7 @@ export function composePrompt(x: {
       `Record and build output folder for this run: ${x.recordDir}. Every development record, test report, temporary build product and project cache must go to this folder, never into a sub-project. Do not change project configuration to redirect these paths; use the build tools' command-line options or a temporary configuration kept in this record folder.`,
     );
   else if (x.recordDir)
-    lines.push(`Record folder for this run: ${x.recordDir}. OpenAgent writes the transcript and output log there; a report you want to keep separately goes there too, not into the working folder.`);
+    lines.push(`Record folder for this run: ${x.recordDir}. Longkeep writes the transcript and output log there; a report you want to keep separately goes there too, not into the working folder.`);
   lines.push("When you are done, give your final answer in the language of the task; if you cite sources, include links or references.");
   const round = x.round ?? 1;
   if (round <= 1) {

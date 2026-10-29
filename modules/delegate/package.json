@@ -1,6 +1,6 @@
 {
-  "name": "@openagent/delegate",
-  "version": "0.3.0",
+  "name": "@longkeep/delegate",
+  "version": "0.4.0",
   "private": true,
   "type": "module",
   "license": "Apache-2.0",
@@ -16,11 +16,11 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.32.2",
-    "@openagent/common": "workspace:*",
-    "@openagent/protocol": "workspace:*",
+    "@longkeep/common": "workspace:*",
+    "@longkeep/protocol": "workspace:*",
     "zod": "^4.6.7"
   },
   "devDependencies": {
-    "@openagent/testkit": "workspace:*"
+    "@longkeep/testkit": "workspace:*"
   }
 }

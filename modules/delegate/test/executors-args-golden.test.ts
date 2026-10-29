@@ -6,7 +6,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { effortFor, type Effort, type ExecutorOverride } from "@openagent/protocol/executors";
+import { effortFor, type Effort, type ExecutorOverride } from "@longkeep/protocol/executors";
 import { BUILTIN_EXECUTORS, customExecutor, type Invocation } from "../src/executors/registry.ts";
 import { composePrompt } from "../src/delegate/prompt.ts";
 

@@ -19,8 +19,8 @@ import {
   type Turn,
   withChecksum,
 } from "../src/convert.ts";
-import { DELEGATION_FOLLOW_UP_HEADING, DELEGATION_PROMPT_FIRST_LINE, DELEGATION_TASK_HEADING } from "@openagent/protocol/delegation-prompt";
-import { FAKE_KEY, FAKE_PEM, FAKE_S2_KEY, FAKE_SHORT_KEY, FAKE_TOKEN } from "@openagent/testkit/fake-secrets";
+import { DELEGATION_FOLLOW_UP_HEADING, DELEGATION_PROMPT_FIRST_LINE, DELEGATION_TASK_HEADING } from "@longkeep/protocol/delegation-prompt";
+import { FAKE_KEY, FAKE_PEM, FAKE_S2_KEY, FAKE_SHORT_KEY, FAKE_TOKEN } from "@longkeep/testkit/fake-secrets";
 
 const ccLine = (o: Record<string, unknown>) => JSON.stringify(o);
 /** Non-Latin text for fixtures is built at runtime: the repository itself stays English. */
@@ -490,7 +490,7 @@ describe("project folders (sessions/imported/<project>/)", () => {
     expect(projectBucket("C:\\Users\\me\\Desktop\\notes-app\\tmp", win)).toBe("notes-app");
     expect(projectBucket("C:\\Users\\me\\OneDrive\\Desktop\\Reports", win)).toBe("Reports");
     expect(projectBucket(`C:\\Users\\me\\${cjk(0x684c, 0x9762)}\\drafts`, win)).toBe("drafts"); // Desktop in Chinese
-    expect(projectBucket("/Users/me/code/openagent/src", mac)).toBe("openagent");
+    expect(projectBucket("/Users/me/code/longkeep/src", mac)).toBe("longkeep");
     expect(projectBucket("/Volumes/Ext/proj/a", mac)).toBe("proj");
     expect(projectBucket("D:\\steam\\steamapps\\common\\Some Game\\SomeGame_Data", win)).toBe("Some-Game");
   });
@@ -504,8 +504,8 @@ describe("project folders (sessions/imported/<project>/)", () => {
   });
 
   it("special folders: delegation working folders, temp folders, drive roots / home / app data, no cwd", () => {
-    expect(projectBucket("C:\\Users\\me\\.openagent\\runs\\proj-1a2b3c4d\\20261001-085130-demo\\work", win)).toBe(BUCKET_DELEGATION);
-    expect(projectBucket("/Users/me/.openagent/runs/proj-1a2b3c4d/20261001-085130-demo/work", mac)).toBe(BUCKET_DELEGATION);
+    expect(projectBucket("C:\\Users\\me\\.longkeep\\runs\\proj-1a2b3c4d\\20261001-085130-demo\\work", win)).toBe(BUCKET_DELEGATION);
+    expect(projectBucket("/Users/me/.longkeep/runs/proj-1a2b3c4d/20261001-085130-demo/work", mac)).toBe(BUCKET_DELEGATION);
     expect(projectBucket("/data/of-home/runs/proj-1a2b3c4d/job/work", { ...mac, runsDir: "/data/of-home/runs" })).toBe(BUCKET_DELEGATION);
     expect(projectBucket("C:\\Users\\me\\AppData\\Local\\Temp\\claude\\D--x\\s\\scratchpad", win)).toBe(BUCKET_TEMP);
     expect(projectBucket("/var/folders/xy/T/run", mac)).toBe(BUCKET_TEMP);
@@ -552,7 +552,7 @@ describe("project folders (sessions/imported/<project>/)", () => {
     expect(parseSession(codex([prompt]), "codex").title).toBe("Count the words in the readme");
     const followUp = `${DELEGATION_PROMPT_FIRST_LINE}\n\n${DELEGATION_FOLLOW_UP_HEADING}\nNow also print them`;
     expect(parseSession(codex([followUp]), "codex").title).toBe("Now also print them");
-    expect(parseSession(codex([prompt], "/Users/me/.openagent/runs/w-1a2b3c4d/20260101-000000-demo/work"), "codex").title).toBe("demo");
+    expect(parseSession(codex([prompt], "/Users/me/.longkeep/runs/w-1a2b3c4d/20260101-000000-demo/work"), "codex").title).toBe("demo");
     expect(parseSession(codex([], "/w"), "codex").title).toBe("Untitled session");
   });
 

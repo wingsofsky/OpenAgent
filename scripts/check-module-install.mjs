@@ -29,7 +29,7 @@ function pnpm(cwd, ...a) {
   return r.stdout;
 }
 
-const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "openagent-install-"));
+const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "longkeep-install-"));
 
 // The tracked files of the working tree as a commit, built in a temporary index (the refs, index and files of this
 // checkout are left alone), pushed to a scratch bare repository that the clones come from.
@@ -81,21 +81,21 @@ function sandbox(name) {
   git(project, "init", "-q");
   git(project, "-c", "user.name=t", "-c", "user.email=t@example.invalid", "add", "README.md");
   git(project, "-c", "user.name=t", "-c", "user.email=t@example.invalid", "commit", "-q", "-m", "init");
-  const env = { ...process.env, HOME: home, USERPROFILE: home, OPENAGENT_HOME: path.join(base, "openagent-home") };
-  for (const k of Object.keys(env)) if (k.startsWith("OPENAGENT_") && k !== "OPENAGENT_HOME") delete env[k];
-  return { home, project, env, openagentHome: env.OPENAGENT_HOME };
+  const env = { ...process.env, HOME: home, USERPROFILE: home, LONGKEEP_HOME: path.join(base, "longkeep-home") };
+  for (const k of Object.keys(env)) if (k.startsWith("LONGKEEP_") && k !== "LONGKEEP_HOME") delete env[k];
+  return { home, project, env, longkeepHome: env.LONGKEEP_HOME };
 }
 
 /** An executor that answers "pong" without being an agent, declared in the home folder like any custom executor. */
-function echoExecutor(openagentHome) {
-  fs.mkdirSync(openagentHome, { recursive: true });
+function echoExecutor(longkeepHome) {
+  fs.mkdirSync(longkeepHome, { recursive: true });
   const executors = { echo: { label: "Echo", command: process.execPath, args: ["-e", "process.stdout.write('pong')"], answer: "stdout" } };
-  fs.writeFileSync(path.join(openagentHome, "executors.json"), JSON.stringify(executors, null, 2));
+  fs.writeFileSync(path.join(longkeepHome, "executors.json"), JSON.stringify(executors, null, 2));
 }
 
 const SMOKE = {
   context(dir) {
-    for (const lang of ["en", "zh-CN"]) check(fs.existsSync(path.join(dir, "modules/context", lang, "openagent-context/SKILL.md")), `${lang} skill missing`);
+    for (const lang of ["en", "zh-CN"]) check(fs.existsSync(path.join(dir, "modules/context", lang, "longkeep-context/SKILL.md")), `${lang} skill missing`);
     check(!fs.existsSync(path.join(dir, "packages")), "a module without code downloaded packages/");
   },
   sessions(dir) {
@@ -109,24 +109,24 @@ const SMOKE = {
     ];
     fs.writeFileSync(path.join(sessions, "rollout-demo.jsonl"), recs.map((r) => JSON.stringify(r)).join("\n"));
     expectOk(cli(dir, s.env, "import-sessions", "--project", s.project), "import-sessions");
-    const archived = fs.readdirSync(path.join(s.openagentHome, "sessions", "imported"), { recursive: true }).map(String);
+    const archived = fs.readdirSync(path.join(s.longkeepHome, "sessions", "imported"), { recursive: true }).map(String);
     check(archived.some((f) => f.endsWith(".md") && !f.endsWith("index.md")), `no archive written: ${archived.join(", ")}`);
   },
   delegate(dir) {
     const s = sandbox("delegate");
-    echoExecutor(s.openagentHome);
+    echoExecutor(s.longkeepHome);
     expectOk(cli(dir, s.env, "delegate", "--list"), "delegate --list");
     expectOk(cli(dir, s.env, "handbook", "init"), "handbook init");
-    check(fs.existsSync(path.join(s.openagentHome, "handbook.md")), "handbook not created");
+    check(fs.existsSync(path.join(s.longkeepHome, "handbook.md")), "handbook not created");
     const r = expectOk(cli(dir, s.env, "delegate", "--to", "echo", "--title", "Install check", "--prompt", "Say pong", "--project", s.project), "delegate");
     check(r.out.includes("pong"), `delegate answered: ${r.out}`);
     expectOk(cli(dir, s.env, "snapshot", "take", "check", "--project", s.project), "snapshot take");
   },
   folder(dir) {
     const s = sandbox("folder");
-    echoExecutor(s.openagentHome);
+    echoExecutor(s.longkeepHome);
     expectOk(cli(dir, s.env, "folder", "--brief"), "folder --brief");
-    const brief = path.join(s.openagentHome, "folder", "brief");
+    const brief = path.join(s.longkeepHome, "folder", "brief");
     for (const f of ["task.md", "rules.md"]) {
       const file = path.join(brief, f);
       fs.writeFileSync(file, fs.readFileSync(file, "utf8").split("\n").slice(1).join("\n"));

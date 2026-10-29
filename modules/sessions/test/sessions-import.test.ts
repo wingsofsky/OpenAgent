@@ -1,14 +1,14 @@
 // The importer reads the CLIs' transcript folders under the user's home directory, so every run here is a child
-// process with HOME / USERPROFILE pointing at a fixture folder and OPENAGENT_HOME at a temporary home folder: no test
-// reads real transcripts or touches the real ~/.openagent.
+// process with HOME / USERPROFILE pointing at a fixture folder and LONGKEEP_HOME at a temporary home folder: no test
+// reads real transcripts or touches the real ~/.longkeep.
 import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import { DELEGATION_PROMPT_FIRST_LINE, DELEGATION_TASK_HEADING } from "@openagent/protocol/delegation-prompt";
-import { FAKE_SECRET, FAKE_SHORT_KEY } from "@openagent/testkit/fake-secrets";
-import { tempDir } from "@openagent/testkit/paths";
+import { DELEGATION_PROMPT_FIRST_LINE, DELEGATION_TASK_HEADING } from "@longkeep/protocol/delegation-prompt";
+import { FAKE_SECRET, FAKE_SHORT_KEY } from "@longkeep/testkit/fake-secrets";
+import { tempDir } from "@longkeep/testkit/paths";
 
 const MODULE = pathToFileURL(path.resolve(import.meta.dirname, "../src/import.ts")).href;
 const RUNNER = "const m = await import(process.argv[1]); process.exitCode = await m.importSessions(process.argv.slice(2));";
@@ -34,7 +34,7 @@ const writeCodex = (name: string, id: string, cwd: string | undefined, msgs: [st
 };
 const runRaw = (...args: string[]) =>
   execFileSync(process.execPath, ["--input-type=module", "-e", RUNNER, MODULE, ...args], {
-    env: { ...process.env, HOME: home, USERPROFILE: home, OPENAGENT_HOME: ofHome },
+    env: { ...process.env, HOME: home, USERPROFILE: home, LONGKEEP_HOME: ofHome },
     encoding: "utf8",
     stdio: ["ignore", "pipe", "pipe"],
   });
@@ -53,9 +53,9 @@ const indexRows = (md: string) =>
     .filter((l) => l.startsWith("| ") && !l.startsWith("| Time "));
 
 beforeEach(() => {
-  tmp = tempDir("openagent-sessions-");
+  tmp = tempDir("longkeep-sessions-");
   home = path.join(tmp, "home");
-  ofHome = path.join(tmp, "openagent-home");
+  ofHome = path.join(tmp, "longkeep-home");
   sessions = path.join(home, ".codex", "sessions");
   fs.mkdirSync(sessions, { recursive: true });
 });

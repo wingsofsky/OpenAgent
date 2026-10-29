@@ -4,10 +4,10 @@
  * prompt, the answer, raw stdout (capped at 64 KB), the stderr tail and, for git working folders, the uncommitted
  * changes. lastRoundOf reads the previous round back for replay; CRLF transcripts are read the same way.
  */
-import { OUTCOME_LABEL, type TaskOutcome } from "@openagent/protocol/task";
-import type { ResumeMode } from "@openagent/protocol/runs";
+import { OUTCOME_LABEL, type TaskOutcome } from "@longkeep/protocol/task";
+import type { ResumeMode } from "@longkeep/protocol/runs";
 import type { ExecutorSpec } from "../executors/registry.ts";
-import { DELEGATION_FOLLOW_UP_HEADING, DELEGATION_TASK_HEADING } from "@openagent/protocol/delegation-prompt";
+import { DELEGATION_FOLLOW_UP_HEADING, DELEGATION_TASK_HEADING } from "@longkeep/protocol/delegation-prompt";
 import { TRANSCRIPT_CAP, fence } from "./process.ts";
 import { RESUME_LABEL } from "./prompt.ts";
 import type { RootState } from "./work-root.ts";

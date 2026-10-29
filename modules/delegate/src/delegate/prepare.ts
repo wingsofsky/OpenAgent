@@ -14,8 +14,8 @@
 import { createHash, randomUUID } from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
-import { effortFor } from "@openagent/protocol/executors";
-import { RUN_FILES } from "@openagent/protocol/layout";
+import { effortFor } from "@longkeep/protocol/executors";
+import { RUN_FILES } from "@longkeep/protocol/layout";
 import {
   lastRawTokens,
   normalizeArgs,
@@ -29,12 +29,12 @@ import {
   type ResumeMode,
   type Round,
   type RunRecord,
-} from "@openagent/protocol/runs";
-import { formatStamp, isOneLine, parseTask, serializeTask, taskId as makeTaskId, type TaskDoc, type TaskOutcome } from "@openagent/protocol/task";
+} from "@longkeep/protocol/runs";
+import { formatStamp, isOneLine, parseTask, serializeTask, taskId as makeTaskId, type TaskDoc, type TaskOutcome } from "@longkeep/protocol/task";
 import { declaredWorkRoot, loadExecutors, resolveExecutorBin, type ExecutorSpec, type Invocation, type Sandbox } from "../executors/registry.ts";
 import { appendSuggestion, resolveWriteback } from "../handbook/handbook.ts";
-import { ensureHome, resolveProject } from "@openagent/common/home";
-import { atomicWriteFile, insideVcsMetadata, resolveScoped, resolveWritePathCreating } from "@openagent/common/scoped";
+import { ensureHome, resolveProject } from "@longkeep/common/home";
+import { atomicWriteFile, insideVcsMetadata, resolveScoped, resolveWritePathCreating } from "@longkeep/common/scoped";
 import { hasGit, openSnapshots } from "../snapshots/shadow.ts";
 import { ExecutorStartupError } from "./launch-fallback.ts";
 import { acquireClaimLock, commandLineProblem, dbg, releaseClaimLock, spawnOnce, type SpawnOutcome } from "./process.ts";
@@ -72,7 +72,7 @@ const within = (base: string, p: string): boolean => p === base || p.startsWith(
 
 /** Creates (if needed) a folder under the home folder through the path gate and returns its path */
 function ensureDir(home: string, rel: string): string {
-  return path.dirname(resolveWritePathCreating(home, `${rel}/.openagent-dir`));
+  return path.dirname(resolveWritePathCreating(home, `${rel}/.longkeep-dir`));
 }
 
 /** A path under the home folder that is appended to: the leaf must not be a link (appendFileSync would follow it) */
@@ -291,7 +291,7 @@ function exitClassOf(o: SpawnOutcome, error: string | undefined, signal?: AbortS
   return error ? "error" : "ok";
 }
 
-/** How the round ended, for the task header: set by OpenAgent, never a verdict */
+/** How the round ended, for the task header: set by Longkeep, never a verdict */
 function roundOutcome(ok: boolean, changed: boolean | null, o: SpawnOutcome, signal?: AbortSignal): TaskOutcome {
   if (ok) return changed === true ? "changed" : changed === false ? "no_changes" : "unchecked";
   if (o.startupFailure) return "spawn_failed";

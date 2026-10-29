@@ -3,11 +3,11 @@
  * index.ts. Read-only calls never create the home folder.
  */
 import fs from "node:fs";
-import { RUN_FILES } from "@openagent/protocol/layout";
-import { parseRunRecord, serializeRunRecord } from "@openagent/protocol/runs";
-import { ACCEPTANCES, ACCEPTANCE_LABEL, AUTHOR_RE, acceptanceValue, formatStamp, normalizeAcceptance, parseTask, serializeTask, type TaskDoc } from "@openagent/protocol/task";
-import { existingHome, resolveProject } from "@openagent/common/home";
-import { atomicWriteFile, resolveScoped } from "@openagent/common/scoped";
+import { RUN_FILES } from "@longkeep/protocol/layout";
+import { parseRunRecord, serializeRunRecord } from "@longkeep/protocol/runs";
+import { ACCEPTANCES, ACCEPTANCE_LABEL, AUTHOR_RE, acceptanceValue, formatStamp, normalizeAcceptance, parseTask, serializeTask, type TaskDoc } from "@longkeep/protocol/task";
+import { existingHome, resolveProject } from "@longkeep/common/home";
+import { atomicWriteFile, resolveScoped } from "@longkeep/common/scoped";
 import { recordPaths } from "./prepare.ts";
 import { acquireClaimLock, readLock, releaseClaimLock } from "./process.ts";
 import { LOCK_FILE, checkTaskId, runsRelOf, type RecordPaths } from "./types.ts";
