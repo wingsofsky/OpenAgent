@@ -7,7 +7,7 @@
  *
  * ```json
  * {
- *   "codex": { "model": "gpt-6-luna", "effort": "high" },
+ *   "codex": { "model": "<newest GPT model in ~/.codex/models_cache.json>", "effort": "high" },
  *   "agy":   { "effort": "low" },
  *   "my-agent": { "label": "My agent", "command": "my-agent-cli", "args": ["run", "{prompt}"], "answer": "stdout" },
  *   "cursor-wt": { "command": "cursor-agent", "args": ["-p", "{prompt}", "--output-format", "json", "--trust"], "workRoot": "D:\\work\\app" }

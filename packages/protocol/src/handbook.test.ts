@@ -4,7 +4,7 @@ import { HANDBOOK_SEED, HANDBOOK_UPDATE_PROMPT } from "./handbook.ts";
 
 describe("handbook preset", () => {
   it("carries the current preset version", () => {
-    expect(HANDBOOK_SEED).toMatch(/^# Agent handbook\n\n> Preset version 2026-10-29 /);
+    expect(HANDBOOK_SEED).toMatch(/^# Agent handbook\n\n> Preset version 2026-10-30 /);
   });
 
   it("points at the home-folder layout and the CLI commands", () => {
